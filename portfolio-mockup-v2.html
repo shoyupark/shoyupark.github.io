@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Shoyu Park — Portfolio</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white:  #FFFFFF;
+  --black:  #0D0D0D;
+  --amber:  #E8A030;
+  --gray:   #6B6B6B;
+  --light:  #F0EEEA;
+  --border: #E0DDD8;
+  --font:   'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── PAGE LOAD ANIMATION ─── */
+/* Elements start invisible and slide up, staggered */
+.anim { opacity: 0; transform: translateY(20px); }
+
+/* ─── NAV ─── */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 60px;
+  height: 72px;
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  z-index: 50;
+}
+
+/* ─── LOGO ─── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.logo-box {
+  width: 36px;
+  height: 36px;
+  background: var(--black);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.logo-box:hover { background: var(--amber); }
+.logo-box span {
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: 0.5px;
+}
+.logo-box:hover span { color: var(--black); }
+
+/* Typewriter logo text */
+.logo-type {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--black);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  min-width: 120px;
+}
+.logo-type .highlight {
+  background: var(--amber);
+  color: var(--white);
+  border-radius: 2px;
+  padding: 0 1px;
+}
+.logo-type .cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--black);
+  margin-left: 1px;
+  vertical-align: middle;
+  animation: blink 0.85s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ─── NAV LINKS ─── */
+.nav-right { display: flex; gap: 36px; align-items: center; }
+.nav-link {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray);
+  text-decoration: none;
+  letter-spacing: 0.2px;
+  transition: color 0.18s, opacity 0.18s;
+}
+.nav-link:hover { color: var(--amber); opacity: 0.85; }
+
+/* ─── HERO ─── */
+.hero {
+  min-height: calc(100vh - 72px);
+  padding: 64px 60px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 20px;
+  font-family: var(--font);
+}
+.hero-title {
+  font-family: var(--font);
+  font-size: clamp(64px, 8vw, 108px);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -4px;
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+/* Smaller circle, same arrow size */
+.arrow-circle {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--black);
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.22s, border-color 0.22s, transform 0.6s;
+  cursor: default;
+}
+.arrow-circle svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.hero-title:hover .arrow-circle {
+  background: var(--amber);
+  border-color: var(--amber);
+  transform: rotate(360deg);
+}
+.hero-title:hover .arrow-circle svg path { stroke: var(--white); }
+
+/* ─── FILTERS ─── */
+.filters {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.pill {
+  padding: 8px 20px;
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--gray);
+  letter-spacing: 0.2px;
+  transition: all 0.18s ease;
+  font-family: var(--font);
+}
+.pill:hover { border-color: var(--black); color: var(--black); }
+.pill.on { background: var(--black); border-color: var(--black); color: #fff; }
+
+/* ─── GRID ─── */
+.grid {
+  padding: 8px 60px 120px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ─── CARD ─── */
+.card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.card.hidden { opacity: 0; pointer-events: none; transform: translateY(8px); }
+
+/* Thumbnail */
+.thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--light);
+}
+
+/* Project color palettes */
+.thumb.hikari      { background: linear-gradient(140deg,#0B1738 0%,#1A3070 55%,#B8860B 100%); }
+.thumb.mediakit    { background: linear-gradient(140deg,#1A1A1A 0%,#3D2B1F 55%,#C0392B 100%); }
+.thumb.filthy      { background: linear-gradient(140deg,#1A3A5C 0%,#2E6A9E 55%,#D4A017 100%); }
+.thumb.dust        { background: linear-gradient(140deg,#B71C1C 0%,#E53935 55%,#F57F17 100%); }
+.thumb.rogue       { background: linear-gradient(140deg,#111 0%,#2B0000 55%,#8B0000 100%); }
+.thumb.bancard     { background: linear-gradient(140deg,#0D2137 0%,#1A4B7A 55%,#2E86C1 100%); }
+.thumb.kimbap      { background: linear-gradient(140deg,#2E7D32 0%,#4CAF50 55%,#FDD835 100%); }
+.thumb.dazey       { background: linear-gradient(140deg,#006064 0%,#00ACC1 55%,#F06292 100%); }
+.thumb.mupy        { background: linear-gradient(140deg,#C4622D 0%,#E8851A 55%,#4EA7C4 100%); }
+.thumb.midway      { background: linear-gradient(140deg,#1A0A00 0%,#3D1F00 55%,#8B6914 100%); }
+.thumb.yomochi     { background: linear-gradient(140deg,#C2185B 0%,#F48FB1 55%,#FCE4EC 100%); }
+.thumb.hiddenhills { background: linear-gradient(140deg,#1B3A2D 0%,#2E7D52 55%,#B8C9A3 100%); }
+.thumb.hamihabi    { background: linear-gradient(140deg,#F57F17 0%,#FFB300 55%,#FF7043 100%); }
+
+/* Placeholder text */
+.thumb-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.12);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 24px;
+  pointer-events: none;
+}
+
+/* Video layer for Hikari */
+.card-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+}
+
+/* Zoom on hover — image only, no overlay */
+.thumb-inner {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  z-index: 0;
+}
+.card:hover .thumb-inner { transform: scale(1.05); }
+
+/* ─── CARD META ─── */
+.meta {
+  padding: 22px 2px 0;
+}
+.meta-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+}
+/* Animated arrow — slides in on hover */
+.meta-arrow {
+  display: inline-block;
+  font-size: 16px;
+  color: var(--amber);
+  font-weight: 700;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 0.28s ease, opacity 0.22s ease, margin-right 0.28s ease;
+  margin-right: 0;
+  line-height: 1;
+}
+.card:hover .meta-arrow {
+  max-width: 28px;
+  opacity: 1;
+  margin-right: 6px;
+}
+.meta-title {
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--black);
+  margin-bottom: 4px;
+  transition: color 0.2s;
+  line-height: 1.2;
+}
+.card:hover .meta-title { color: var(--black); }
+
+.meta-desc {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--gray);
+  line-height: 1.5;
+  font-family: var(--font);
+}
+.meta-tags {
+  margin-top: 8px;
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+}
+.tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--gray);
+  opacity: 0.6;
+  font-family: var(--font);
+}
+.tag + .tag::before { content: ' · '; margin: 0 4px; }
+
+/* ─── SCROLL TO TOP ─── */
+.scroll-top {
+  position: fixed;
+  bottom: 36px;
+  right: 44px;
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--black);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--white);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, background 0.2s, border-color 0.2s, transform 0.6s;
+  z-index: 99;
+}
+.scroll-top.visible { opacity: 1; pointer-events: auto; }
+.scroll-top:hover {
+  background: var(--amber);
+  border-color: var(--amber);
+  transform: rotate(360deg);
+}
+.scroll-top:hover svg path { stroke: var(--white); }
+.scroll-top svg { width: 18px; height: 18px; display: block; }
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 60px;
+}
+footer p {
+  font-size: 12px;
+  color: var(--gray);
+  letter-spacing: 0.3px;
+  font-family: var(--font);
+}
+
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav class="anim" id="nav">
+  <a class="logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+    <div class="logo-box"><span>SP</span></div>
+    <span class="logo-type" id="logoType"></span>
+  </a>
+  <div class="nav-right">
+    <a href="#" class="nav-link">About me</a>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="anim" id="hero-top" style="transition-delay:0.08s">
+    <p class="hero-eyebrow">Brand Designer &amp; Illustrator</p>
+    <h1 class="hero-title">
+      MY WORK
+      <span class="arrow-circle">
+        <!-- Down arrow SVG — centered -->
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 3.5V14.5M9 14.5L4.5 10M9 14.5L13.5 10" stroke="#0D0D0D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </h1>
+  </div>
+
+  <div class="anim" id="filters-wrap" style="transition-delay:0.16s">
+    <div class="filters">
+      <button class="pill on"  onclick="filter('all',this)">All work</button>
+      <button class="pill"     onclick="filter('brand',this)">Brand &amp; Identity</button>
+      <button class="pill"     onclick="filter('marketing',this)">Marketing &amp; Social</button>
+      <button class="pill"     onclick="filter('packaging',this)">Packaging</button>
+      <button class="pill"     onclick="filter('illustration',this)">Illustration</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── GRID ─── -->
+<div class="grid anim" id="grid" style="transition-delay:0.24s">
+
+  <!-- 1 Hikari -->
+  <a class="card" href="#" data-cat="brand marketing"
+     onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
+    <div class="thumb hikari">
+      <video class="card-video" src="hikari-preview.mp4" muted playsinline loop preload="none"></video>
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Hikari</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Hikari</span>
+      </div>
+      <div class="meta-desc">Motion design, product photography &amp; marketing</div>
+      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Motion</span><span class="tag">Photography</span></div>
+    </div>
+  </a>
+
+  <!-- 2 Influencer Media Kit -->
+  <a class="card" href="#" data-cat="brand marketing">
+    <div class="thumb mediakit">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Media Kit</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Influencer Media Kit</span>
+      </div>
+      <div class="meta-desc">Brand identity &amp; media kit for Helena Jang</div>
+      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Social Media</span><span class="tag">Marketing</span></div>
+    </div>
+  </a>
+
+  <!-- 3 Filthy Gorgeous -->
+  <a class="card" href="#" data-cat="brand">
+    <div class="thumb filthy">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Filthy Gorgeous</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Filthy Gorgeous</span>
+      </div>
+      <div class="meta-desc">Streetwear banner design for jewelry brand</div>
+      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Banner Design</span></div>
+    </div>
+  </a>
+
+  <!-- 4 Korean Magic Dust -->
+  <a class="card" href="#" data-cat="brand marketing">
+    <div class="thumb dust">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Korean Magic Dust</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Korean Magic Dust</span>
+      </div>
+      <div class="meta-desc">Product photography &amp; social content</div>
+      <div class="meta-tags"><span class="tag">Photography</span><span class="tag">Social Media</span></div>
+    </div>
+  </a>
+
+  <!-- 5 Rogue Defense -->
+  <a class="card" href="#" data-cat="brand illustration">
+    <div class="thumb rogue">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Rogue Defense</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Rogue Defense</span>
+      </div>
+      <div class="meta-desc">Apparel graphic &amp; t-shirt design</div>
+      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Apparel</span></div>
+    </div>
+  </a>
+
+  <!-- 6 Beyond Bancard -->
+  <a class="card" href="#" data-cat="brand">
+    <div class="thumb bancard">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Beyond Bancard</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Beyond Bancard</span>
+      </div>
+      <div class="meta-desc">Brand &amp; visual identity</div>
+      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Identity</span></div>
+    </div>
+  </a>
+
+  <!-- 7 K_bapp -->
+  <a class="card" href="#" data-cat="brand illustration">
+    <div class="thumb kimbap">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">K_bapp</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Korean Kimbap Home-Ma</span>
+      </div>
+      <div class="meta-desc">Character logo &amp; brand identity</div>
+      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Logo</span><span class="tag">Illustration</span></div>
+    </div>
+  </a>
+
+  <!-- 8 Dazey Shades -->
+  <a class="card" href="#" data-cat="packaging">
+    <div class="thumb dazey">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Dazey Shades</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Dazey Shades</span>
+      </div>
+      <div class="meta-desc">Packaging design for children's sunglasses</div>
+      <div class="meta-tags"><span class="tag">Packaging</span><span class="tag">Print</span></div>
+    </div>
+  </a>
+
+  <!-- 9 Mupy -->
+  <a class="card" href="#" data-cat="brand illustration packaging">
+    <div class="thumb mupy">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Mupy</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Mupy</span>
+      </div>
+      <div class="meta-desc">Illustrated brand identity &amp; packaging</div>
+      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Illustration</span><span class="tag">Packaging</span></div>
+    </div>
+  </a>
+
+  <!-- 10 Midway Crusade -->
+  <a class="card" href="#" data-cat="illustration">
+    <div class="thumb midway">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Midway Crusade</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Midway Crusade</span>
+      </div>
+      <div class="meta-desc">Illustration &amp; visual development</div>
+      <div class="meta-tags"><span class="tag">Illustration</span><span class="tag">Concept Art</span></div>
+    </div>
+  </a>
+
+  <!-- 11 Yo Mochi -->
+  <a class="card" href="#" data-cat="brand illustration">
+    <div class="thumb yomochi">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Yo Mochi</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Yo Mochi</span>
+      </div>
+      <div class="meta-desc">Brand &amp; illustrated identity</div>
+      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Illustration</span></div>
+    </div>
+  </a>
+
+  <!-- 12 Hidden Hills -->
+  <a class="card" href="#" data-cat="brand">
+    <div class="thumb hiddenhills">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Hidden Hills</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Hidden Hills</span>
+      </div>
+      <div class="meta-desc">Brand &amp; visual identity</div>
+      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Identity</span></div>
+    </div>
+  </a>
+
+  <!-- 13 Hami & Habi -->
+  <a class="card" href="#" data-cat="brand illustration">
+    <div class="thumb hamihabi">
+      <div class="thumb-inner"></div>
+      <div class="thumb-label">Hami &amp; Habi</div>
+    </div>
+    <div class="meta">
+      <div class="meta-title-row">
+        <span class="meta-arrow">→</span>
+        <span class="meta-title">Hami &amp; Habi</span>
+      </div>
+      <div class="meta-desc">Character brand &amp; illustrated identity</div>
+      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Illustration</span></div>
+    </div>
+  </a>
+
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p>© 2026 Shoyu Park</p>
+</footer>
+
+<!-- ─── SCROLL TO TOP ─── -->
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 14.5V3.5M9 3.5L4.5 8M9 3.5L13.5 8" stroke="#0D0D0D" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<script>
+/* ─── PAGE LOAD ANIMATION ─── */
+window.addEventListener('load', () => {
+  const els = document.querySelectorAll('.anim');
+  els.forEach((el, i) => {
+    const delay = parseFloat(el.style.transitionDelay || '0') * 1000;
+    setTimeout(() => {
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    }, 80 + delay);
+  });
+});
+
+/* ─── LOGO TYPEWRITER ─── */
+// SHOYU✦PARK — ✦ is the star instead of period
+const FULL_TEXT  = 'SHOYU\u2726PARK'; // ✦
+const STAR       = '\u2726';
+const logoEl     = document.getElementById('logoType');
+
+function renderLogo(visibleText, highlightRange, showCursor) {
+  // visibleText: string currently shown
+  // highlightRange: [start, end] indices to highlight (or null)
+  // showCursor: bool
+  let html = '';
+  for (let i = 0; i < visibleText.length; i++) {
+    const ch = visibleText[i] === STAR
+      ? `<span style="font-size:9px;vertical-align:middle;line-height:1;">${STAR}</span>`
+      : visibleText[i];
+    if (highlightRange && i >= highlightRange[0] && i < highlightRange[1]) {
+      html += `<span class="highlight">${ch}</span>`;
+    } else {
+      html += ch;
+    }
+  }
+  if (showCursor) html += '<span class="cursor"></span>';
+  logoEl.innerHTML = html;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function logoLoop() {
+  while (true) {
+    // Phase 1: type out SHOYU✦PARK
+    for (let i = 1; i <= FULL_TEXT.length; i++) {
+      renderLogo(FULL_TEXT.slice(0, i), null, true);
+      await sleep(85);
+    }
+    await sleep(520);
+
+    // Phase 2: highlight HOYU (indices 1–5 in SHOYU✦PARK)
+    renderLogo(FULL_TEXT, [1, 5], true);
+    await sleep(500);
+
+    // Phase 3: delete HOYU — replace with nothing, keep S✦PARK
+    // SHOYU✦PARK → S✦PARK (remove chars 1,2,3,4 = HOYU)
+    const afterDelete = FULL_TEXT[0] + FULL_TEXT.slice(5); // S✦PARK
+    renderLogo(afterDelete, null, true);
+    await sleep(1600);
+
+    // Phase 4: delete remaining chars one by one
+    let remaining = afterDelete;
+    while (remaining.length > 0) {
+      remaining = remaining.slice(0, -1);
+      renderLogo(remaining, null, true);
+      await sleep(70);
+    }
+
+    // Phase 5: just cursor
+    renderLogo('', null, true);
+    await sleep(700);
+  }
+}
+logoLoop();
+
+/* ─── FILTER ─── */
+function filter(cat, btn) {
+  document.querySelectorAll('.pill').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.card').forEach(card => {
+    const cats = card.dataset.cat || '';
+    if (cat === 'all' || cats.includes(cat)) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+
+/* ─── VIDEO HOVER (Hikari) ─── */
+function playVid(card) {
+  const vid = card.querySelector('.card-video');
+  if (!vid) return;
+  vid.play().then(() => { vid.style.opacity = '1'; }).catch(() => {});
+}
+function pauseVid(card) {
+  const vid = card.querySelector('.card-video');
+  if (!vid) return;
+  vid.style.opacity = '0';
+  setTimeout(() => { vid.pause(); vid.currentTime = 0; }, 400);
+}
+
+/* ─── SCROLL TO TOP BUTTON ─── */
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  if (window.scrollY > 300) {
+    btn.classList.add('visible');
+  } else {
+    btn.classList.remove('visible');
+  }
+}, { passive: true });
+</script>
+
+</body>
+</html>
