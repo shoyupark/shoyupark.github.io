@@ -366,8 +366,8 @@ footer p {
 
 <script>
 /* ─── NAV LOGO TYPEWRITER ─── */
-const FULL_TEXT = 'SHOYU✦PARK';
-const STAR      = '✦';
+const FULL_TEXT = 'SHOYU✶PARK';
+const STAR      = '✶';
 const logoEl    = document.getElementById('logoType');
 
 function renderLogo(txt, hlRange, cur) {
@@ -406,13 +406,13 @@ async function logoLoop() {
 logoLoop();
 
 /* ─── HELLO TYPEWRITER ─── */
-const HELLO = "Hello! I’m Isabel✦";
+const HELLO = "Hello! I'm Isabel✶";
 const helloEl = document.getElementById('helloLine');
 
 function buildHelloHTML(chars, selecting) {
   let h = '';
   for (const ch of chars) {
-    if (ch === '✦') {
+    if (ch === '✶') {
       h += `<span class="hl-star">${ch}</span>`;
     } else {
       h += `<span class="hl-char">${ch === ' ' ? '&nbsp;' : ch}</span>`;
@@ -438,7 +438,7 @@ async function helloLoop() {
     helloEl.classList.add('selecting');
     await sleep(600);
 
-    // Phase 3: delete all at once
+    // Phase 3: delete all at once (like hitting backspace after selecting)
     helloEl.classList.remove('selecting');
     helloEl.innerHTML = '<span class="tw-cursor"></span>';
 
