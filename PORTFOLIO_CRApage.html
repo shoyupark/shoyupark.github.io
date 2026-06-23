@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cambridge Redevelopment Authority — Shoyu Park</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --white: #FFFFFF;
+  --black: #0D0D0D;
+  --amber: #E8A030;
+  --gray: #6B6B6B;
+  --light: #F0EEEA;
+  --border: #E0DDD8;
+  --font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--black);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ─── NAV ─── */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 60px;
+  height: 72px;
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  z-index: 50;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.logo-type {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--black);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  min-width: 120px;
+  transition: opacity 0.18s;
+}
+.logo:hover .logo-type { opacity: 0.65; }
+.logo-type .highlight {
+  background: var(--amber);
+  color: var(--white);
+  border-radius: 2px;
+  padding: 0 1px;
+}
+.logo-type .cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--black);
+  margin-left: 1px;
+  vertical-align: middle;
+  animation: blink 0.85s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.nav-right { display: flex; gap: 36px; align-items: center; }
+.nav-link {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray);
+  text-decoration: none;
+  letter-spacing: 0.2px;
+  transition: color 0.18s;
+}
+.nav-link:hover { color: var(--amber); }
+
+/* ─── BACK LINK ─── */
+.back-wrap {
+  padding: 32px 60px 0;
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray);
+  text-decoration: none;
+  letter-spacing: 0.2px;
+  transition: color 0.18s, gap 0.2s;
+}
+.back-link:hover { color: var(--black); gap: 12px; }
+.back-link svg { flex-shrink: 0; }
+
+/* ─── HERO ─── */
+.hero {
+  padding: 48px 60px 56px;
+  border-bottom: 1px solid var(--border);
+}
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 16px;
+}
+.hero-title {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -2px;
+  color: var(--black);
+  margin-bottom: 20px;
+  max-width: 800px;
+}
+.hero-desc {
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--gray);
+  line-height: 1.6;
+  max-width: 640px;
+}
+
+/* ─── META STRIP ─── */
+.meta-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+.meta-cell {
+  padding: 28px 60px 28px 0;
+  margin-left: 60px;
+  border-right: 1px solid var(--border);
+}
+.meta-cell:first-child { margin-left: 60px; }
+.meta-cell:last-child { border-right: none; }
+.meta-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray);
+  opacity: 0.6;
+  margin-bottom: 8px;
+}
+.meta-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--black);
+  line-height: 1.5;
+}
+
+/* ─── CONTENT AREA ─── */
+.content {
+  padding: 0 60px 120px;
+}
+
+/* ─── OVERVIEW ─── */
+.overview {
+  padding: 64px 0 56px;
+  max-width: 720px;
+  border-bottom: 1px solid var(--border);
+}
+.overview p {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--black);
+}
+.overview p + p {
+  margin-top: 20px;
+}
+
+/* ─── SECTION ─── */
+.section {
+  padding: 64px 0 0;
+}
+.section + .section {
+  border-top: 1px solid var(--border);
+  margin-top: 64px;
+}
+
+.section-header {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+  align-items: start;
+}
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--amber);
+  padding-top: 4px;
+}
+.section-body {}
+.section-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--black);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.section-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--gray);
+  max-width: 560px;
+}
+.section-desc a {
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.section-desc a:hover { color: var(--amber); }
+
+/* ─── IMAGE PLACEHOLDERS ─── */
+.img-grid-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+.img-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.img-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.img-placeholder {
+  background: var(--light);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  text-align: center;
+}
+.img-placeholder.ratio-16-9 { aspect-ratio: 16/9; }
+.img-placeholder.ratio-4-3 { aspect-ratio: 4/3; }
+.img-placeholder.ratio-1-1 { aspect-ratio: 1/1; }
+.img-placeholder.ratio-3-2 { aspect-ratio: 3/2; }
+.img-placeholder.ratio-2-3 { aspect-ratio: 2/3; }
+
+.img-placeholder .ph-icon {
+  width: 28px;
+  height: 28px;
+  border: 2px dashed #C4BFB8;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.img-placeholder .ph-filename {
+  font-size: 11px;
+  font-weight: 600;
+  color: #A09990;
+  letter-spacing: 0.3px;
+  font-family: 'Courier New', monospace;
+  word-break: break-all;
+}
+.img-placeholder .ph-caption {
+  font-size: 11px;
+  color: #C4BFB8;
+  line-height: 1.4;
+}
+
+/* Real images (once added) */
+.img-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+/* ─── NEXT / PREV ─── */
+.project-nav {
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.proj-nav-link {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-decoration: none;
+  max-width: 280px;
+}
+.proj-nav-link.next { text-align: right; }
+.proj-nav-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray);
+  opacity: 0.6;
+}
+.proj-nav-title {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--black);
+  transition: color 0.18s;
+}
+.proj-nav-link:hover .proj-nav-title { color: var(--amber); }
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 60px;
+  margin-top: 40px;
+}
+footer p {
+  font-size: 12px;
+  color: var(--gray);
+  letter-spacing: 0.3px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  nav, .back-wrap, .hero, .content, footer { padding-left: 24px; padding-right: 24px; }
+  .meta-strip { grid-template-columns: 1fr 1fr; }
+  .meta-cell { margin-left: 24px; padding-left: 0; }
+  .section-header { grid-template-columns: 1fr; gap: 8px; }
+  .img-grid-2, .img-grid-3 { grid-template-columns: 1fr; }
+  .hero-title { letter-spacing: -1px; }
+  .project-nav { flex-direction: column; gap: 32px; }
+  .proj-nav-link.next { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a class="logo" href="index.html">
+    <span class="logo-type" id="logoType"></span>
+  </a>
+  <div class="nav-right">
+    <a href="about.html" class="nav-link">About me</a>
+  </div>
+</nav>
+
+<!-- ─── BACK ─── -->
+<div class="back-wrap">
+  <a href="index.html" class="back-link">
+    <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 5H1M1 5L6 1M1 5L6 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    All work
+  </a>
+</div>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <p class="hero-eyebrow">Brand &amp; Communications · 2025–2026</p>
+  <h1 class="hero-title">Cambridge Redevelopment Authority</h1>
+  <p class="hero-desc">A nonprofit dedicated to neighborhood revitalization and equitable growth in Cambridge, MA. As a Communications and Graphic Design Intern, I worked across print, digital, and environmental design — balancing brand standards with materials that had to communicate clearly to diverse public audiences.</p>
+</div>
+
+<!-- ─── META STRIP ─── -->
+<div class="meta-strip">
+  <div class="meta-cell">
+    <div class="meta-label">Year</div>
+    <div class="meta-value">2025–2026</div>
+  </div>
+  <div class="meta-cell">
+    <div class="meta-label">Organization</div>
+    <div class="meta-value">Cambridge Redevelopment Authority</div>
+  </div>
+  <div class="meta-cell">
+    <div class="meta-label">Role</div>
+    <div class="meta-value">Communications + Graphic Design Intern</div>
+  </div>
+  <div class="meta-cell">
+    <div class="meta-label">Tools</div>
+    <div class="meta-value">Illustrator, InDesign, Photoshop, PowerPoint, Squarespace, Constant Contact</div>
+  </div>
+  <div class="meta-cell">
+    <div class="meta-label">Skills</div>
+    <div class="meta-value">Print Design, Brand Design, Web Design, Vendor Management, Production</div>
+  </div>
+</div>
+
+<!-- ─── CONTENT ─── -->
+<div class="content">
+
+  <!-- OVERVIEW -->
+  <div class="overview">
+    <p>The scope spanned the organization's full communications output: a flagship annual report, a complete brand system refresh, environmental signage, digital content, community illustrations, and event materials. Each deliverable required navigating institutional constraints while keeping the work accessible and visually consistent.</p>
+  </div>
+
+  <!-- ─── 1. ANNUAL REPORT ─── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Annual Report</span>
+      <div class="section-body">
+        <h2 class="section-title">CRA 69th Annual Report, 2025</h2>
+        <p class="section-desc">Full layout, typography, infographics, and print production coordination for a 48-page publication covering the organization's 2025 projects, financials, and strategic priorities. Coordinated with print vendor through preflight and final file delivery. <a href="https://drive.google.com/file/d/1RoA1U_Tq8neYVreY6MWSTCxxTx4ypMjs/view" target="_blank">View full report →</a></p>
+      </div>
+    </div>
+    <div class="img-grid-1">
+      <div class="img-placeholder ratio-16-9">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-annual-report-cover.jpg</span>
+        <span class="ph-caption">Cover</span>
+      </div>
+    </div>
+    <div style="margin-top: 12px;" class="img-grid-2">
+      <div class="img-placeholder ratio-4-3">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-annual-report-spread-1.jpg</span>
+        <span class="ph-caption">Interior spread</span>
+      </div>
+      <div class="img-placeholder ratio-4-3">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-annual-report-spread-2.jpg</span>
+        <span class="ph-caption">Interior spread</span>
+      </div>
+    </div>
+    <div style="margin-top: 12px;" class="img-grid-2">
+      <div class="img-placeholder ratio-4-3">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-annual-report-spread-3.jpg</span>
+        <span class="ph-caption">Infographics / data pages</span>
+      </div>
+      <div class="img-placeholder ratio-4-3">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-annual-report-spread-4.jpg</span>
+        <span class="ph-caption">Typography / layout detail</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 2. BRAND SYSTEMS ─── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Brand Systems</span>
+      <div class="section-body">
+        <h2 class="section-title">Brandbook, templates, and email design</h2>
+        <p class="section-desc">Developed the CRA's brand system to establish consistent visual standards across print and digital channels. Deliverables included the organization's brandbook, a PowerPoint presentation template, and email marketing templates in Constant Contact. <a href="https://drive.google.com/file/d/1T-9SkHe81F3J5S_pF8SKkzO_vn61sej2/view" target="_blank">View full brandbook →</a></p>
+      </div>
+    </div>
+    <div class="img-grid-1">
+      <div class="img-placeholder ratio-16-9">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-brandbook-cover.jpg</span>
+        <span class="ph-caption">Brandbook cover</span>
+      </div>
+    </div>
+    <div style="margin-top: 12px;" class="img-grid-3">
+      <div class="img-placeholder ratio-4-3">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-brandbook-colors.jpg</span>
+        <span class="ph-caption">Color system</span>
+      </div>
+      <div class="img-placeholder ratio-4-3">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-brandbook-typography.jpg</span>
+        <span class="ph-caption">Typography</span>
+      </div>
+      <div class="img-placeholder ratio-4-3">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-brandbook-applications.jpg</span>
+        <span class="ph-caption">Applications</span>
+      </div>
+    </div>
+    <div style="margin-top: 12px;" class="img-grid-2">
+      <div class="img-placeholder ratio-16-9">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-powerpoint-template.jpg</span>
+        <span class="ph-caption">PowerPoint template</span>
+      </div>
+      <div class="img-placeholder ratio-16-9">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-email-template.jpg</span>
+        <span class="ph-caption">Constant Contact email template</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 3. BISHOP ALLEN LOGO ─── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Logo Design</span>
+      <div class="section-body">
+        <h2 class="section-title">Bishop Allen Drive logo</h2>
+        <p class="section-desc">A mark for the CRA's mixed-use development at Bishop Allen Drive, balancing historic reference with a contemporary identity. The design incorporates brick texture referencing the building's industrial past, while angular forms and a figure-based composition reflect its current role as a community space for nonprofits and startups.</p>
+      </div>
+    </div>
+    <div class="img-grid-3">
+      <div class="img-placeholder ratio-1-1">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-bishop-allen-logo-primary.jpg</span>
+        <span class="ph-caption">Primary mark</span>
+      </div>
+      <div class="img-placeholder ratio-1-1">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-bishop-allen-logo-variations.jpg</span>
+        <span class="ph-caption">Logo variations</span>
+      </div>
+      <div class="img-placeholder ratio-1-1">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-bishop-allen-logo-mockup.jpg</span>
+        <span class="ph-caption">Applied mockup</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 4. RLF SQUARESPACE ─── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Web Design</span>
+      <div class="section-body">
+        <h2 class="section-title">Revolving Loan Fund — Squarespace page</h2>
+        <p class="section-desc">Custom header illustrations for the CRA's Revolving Loan Fund web page, visualizing the cyclical nature of the loan system. Built within Squarespace's platform constraints ahead of the program's public launch.</p>
+      </div>
+    </div>
+    <div class="img-grid-1">
+      <div class="img-placeholder ratio-16-9">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-rlf-page-full.jpg</span>
+        <span class="ph-caption">Full page view</span>
+      </div>
+    </div>
+    <div style="margin-top: 12px;" class="img-grid-2">
+      <div class="img-placeholder ratio-3-2">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-rlf-illustration-1.jpg</span>
+        <span class="ph-caption">Header illustration</span>
+      </div>
+      <div class="img-placeholder ratio-3-2">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-rlf-illustration-2.jpg</span>
+        <span class="ph-caption">Diagram detail</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 5. SCRIM ─── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Environmental Design</span>
+      <div class="section-body">
+        <h2 class="section-title">1175 Cambridge Street construction scrim</h2>
+        <p class="section-desc">Large-format construction scrim for the 1175 Cambridge Street redevelopment site. Coordinated with print vendor through multiple revision rounds, managing preflight requirements and delivering final production files at scale.</p>
+      </div>
+    </div>
+    <div class="img-grid-1">
+      <div class="img-placeholder ratio-16-9">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-scrim-full.jpg</span>
+        <span class="ph-caption">Full scrim design</span>
+      </div>
+    </div>
+    <div style="margin-top: 12px;" class="img-grid-2">
+      <div class="img-placeholder ratio-3-2">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-scrim-detail.jpg</span>
+        <span class="ph-caption">Detail / section</span>
+      </div>
+      <div class="img-placeholder ratio-3-2">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-scrim-installed.jpg</span>
+        <span class="ph-caption">Installed on site (if available)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 6. CONSTRUCTION TEMPLATE ─── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Signage System</span>
+      <div class="section-body">
+        <h2 class="section-title">Construction signage template</h2>
+        <p class="section-desc">Standardized signage template for future CRA construction sites, ensuring visual consistency with the organization's brand across all upcoming projects.</p>
+      </div>
+    </div>
+    <div class="img-grid-1">
+      <div class="img-placeholder ratio-16-9">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-construction-template.jpg</span>
+        <span class="ph-caption">Signage template</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 7. TABLECLOTH ─── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Event Materials</span>
+      <div class="section-body">
+        <h2 class="section-title">Event tablecloth design</h2>
+        <p class="section-desc">Designed multiple variations for a branded event tablecloth. Managed the full production process from concept to delivery — vendor outreach, pricing comparison, sample review, and final print coordination.</p>
+      </div>
+    </div>
+    <div class="img-grid-3">
+      <div class="img-placeholder ratio-3-2">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-tablecloth-v1.jpg</span>
+        <span class="ph-caption">Variation 1</span>
+      </div>
+      <div class="img-placeholder ratio-3-2">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-tablecloth-v2.jpg</span>
+        <span class="ph-caption">Variation 2</span>
+      </div>
+      <div class="img-placeholder ratio-3-2">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-tablecloth-final.jpg</span>
+        <span class="ph-caption">Final / printed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 8. COVER REPORT ─── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Publication Design</span>
+      <div class="section-body">
+        <h2 class="section-title">Central Square Demonstration Project Plan — cover design</h2>
+        <p class="section-desc">Three cover variations for a digital report on the Central Square Demonstration Project, produced for public distribution by the Cambridge Redevelopment Authority.</p>
+      </div>
+    </div>
+    <div class="img-grid-3">
+      <div class="img-placeholder ratio-2-3">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-cover-report-v1.jpg</span>
+        <span class="ph-caption">Option A</span>
+      </div>
+      <div class="img-placeholder ratio-2-3">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-cover-report-v2.jpg</span>
+        <span class="ph-caption">Option B</span>
+      </div>
+      <div class="img-placeholder ratio-2-3">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-cover-report-v3.jpg</span>
+        <span class="ph-caption">Option C</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 9. COMMUNITY MATERIALS ─── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Community Materials</span>
+      <div class="section-body">
+        <h2 class="section-title">Flyers and community print</h2>
+        <p class="section-desc">Construction notifications, program announcements, and community outreach flyers produced across the internship. Each required adapting the brand system for audiences ranging from immediate neighbors to city officials.</p>
+      </div>
+    </div>
+    <div class="img-grid-2">
+      <div class="img-placeholder ratio-3-2">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-flyer-1.jpg</span>
+        <span class="ph-caption">Flyer</span>
+      </div>
+      <div class="img-placeholder ratio-3-2">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-flyer-2.jpg</span>
+        <span class="ph-caption">Flyer</span>
+      </div>
+    </div>
+    <div style="margin-top: 12px;" class="img-grid-2">
+      <div class="img-placeholder ratio-3-2">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-flyer-3.jpg</span>
+        <span class="ph-caption">Flyer</span>
+      </div>
+      <div class="img-placeholder ratio-3-2">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-flyer-4.jpg</span>
+        <span class="ph-caption">Flyer</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 10. GALAXY PARK STICKER ─── -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-label">Illustration</span>
+      <div class="section-body">
+        <h2 class="section-title">Galaxy Park sticker</h2>
+        <p class="section-desc">An illustrated die-cut sticker featuring native plant species found at Galaxy Park in Cambridge, produced for community distribution as part of the CRA's public engagement efforts.</p>
+      </div>
+    </div>
+    <div class="img-grid-3">
+      <div class="img-placeholder ratio-1-1">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-galaxy-park-sticker.jpg</span>
+        <span class="ph-caption">Final sticker design</span>
+      </div>
+      <div class="img-placeholder ratio-1-1">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-galaxy-park-sticker-detail.jpg</span>
+        <span class="ph-caption">Illustration detail</span>
+      </div>
+      <div class="img-placeholder ratio-1-1">
+        <div class="ph-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="1" stroke="#C4BFB8" stroke-width="1.5"/><path d="M1 10L4.5 6.5L7 9L9.5 6L13 10" stroke="#C4BFB8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <span class="ph-filename">cra-galaxy-park-sticker-printed.jpg</span>
+        <span class="ph-caption">Printed sticker (if available)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PREV / NEXT ─── -->
+  <div class="project-nav">
+    <div><!-- no previous --></div>
+    <a href="hikari.html" class="proj-nav-link next">
+      <span class="proj-nav-label">Next project</span>
+      <span class="proj-nav-title">Hikari →</span>
+    </a>
+  </div>
+
+</div><!-- /content -->
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <p>© 2026 Shoyu Park</p>
+</footer>
+
+<script>
+/* ─── LOGO TYPEWRITER (same as index) ─── */
+const FULL_TEXT = 'SHOYU\u2726PARK';
+const STAR = '\u2726';
+const logoEl = document.getElementById('logoType');
+
+function renderLogo(visibleText, highlightRange, showCursor) {
+  let html = '';
+  for (let i = 0; i < visibleText.length; i++) {
+    const ch = visibleText[i] === STAR
+      ? `<span style="font-size:9px;vertical-align:middle;line-height:1;">${STAR}</span>`
+      : visibleText[i];
+    if (highlightRange && i >= highlightRange[0] && i < highlightRange[1]) {
+      html += `<span class="highlight">${ch}</span>`;
+    } else {
+      html += ch;
+    }
+  }
+  if (showCursor) html += '<span class="cursor"></span>';
+  logoEl.innerHTML = html;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function logoLoop() {
+  while (true) {
+    for (let i = 1; i <= FULL_TEXT.length; i++) {
+      renderLogo(FULL_TEXT.slice(0, i), null, true);
+      await sleep(85);
+    }
+    await sleep(520);
+    renderLogo(FULL_TEXT, [1, 5], true);
+    await sleep(500);
+    const afterDelete = FULL_TEXT[0] + FULL_TEXT.slice(5);
+    renderLogo(afterDelete, null, true);
+    await sleep(1600);
+    let remaining = afterDelete;
+    while (remaining.length > 0) {
+      remaining = remaining.slice(0, -1);
+      renderLogo(remaining, null, true);
+      await sleep(70);
+    }
+    renderLogo('', null, true);
+    await sleep(700);
+  }
+}
+
+logoLoop();
+</script>
+
+</body>
+</html>
