@@ -265,6 +265,18 @@
     box-shadow:0 18px 40px -20px rgba(13,43,28,0.35);
   }
 
+
+  /* ---------- project cards: no white caption box, white text,
+     titles in the same type as the category tabs, smaller descriptions ---------- */
+  .work-panel .card{ background:transparent !important; box-shadow:none !important; overflow:visible !important; border-radius:0 !important; }
+  .work-panel .card .thumb{ border-radius:18px !important; box-shadow:0 18px 40px -22px rgba(0,0,0,.45) !important; }
+  .work-panel .card .meta{ padding:18px 4px 0 !important; }
+  .work-panel .card .meta-title{
+    font-family:var(--font-sans); font-weight:500; letter-spacing:.3px; text-transform:uppercase;
+    font-size:clamp(18px,1.75vw,27px); color:#ffffff !important;
+  }
+  .work-panel .card .meta-desc{ font-size:clamp(14px,1.15vw,18px); line-height:1.5; color:rgba(255,255,255,.88) !important; }
+  .work-panel .card .title-flowers svg{ fill:#ffffff !important; width:16px; height:16px; }
 </style>
 </head>
 <body class="ruled" style="--st-bg:#FFC0D4; --st-fg:#A8006F;">
@@ -316,7 +328,7 @@
     <a class="card reveal" data-category="illustrations,branding-identity,print-marketing-collateral,digital-web-design" href="PORTFOLIO_CRApage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/cra-hero.jpg" alt="Cambridge Redevelopment Authority"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Cambridge Redevelopment Authority</span></div>
         <div class="meta-desc">Brand systems, print production &amp; communications design</div>
       </div>
@@ -325,7 +337,7 @@
     <a class="card reveal" data-category="print-marketing-collateral,digital-web-design" href="PORTFOLIO_HikariPage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/hikari-ferramentas.webp" alt="Hikari Ferramentas"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Hikari Ferramentas</span></div>
         <div class="meta-desc">Motion design, product photography &amp; marketing</div>
       </div>
@@ -334,7 +346,7 @@
     <a class="card reveal" data-category="print-marketing-collateral,branding-identity" href="PORTFOLIO_HelenaJangPage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/helena-jang-hero.jpg" alt="Influencer Media Kit"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Influencer Media Kit</span></div>
         <div class="meta-desc">Brand identity &amp; media kit for Helena Jang</div>
       </div>
@@ -343,7 +355,7 @@
     <a class="card reveal" data-category="digital-web-design" href="PORTFOLIO_FilthyGorgeousPage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/filthy-gorgeous-banner/01-full-banner-v1.jpg" alt="Filthy Gorgeous"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Filthy Gorgeous</span></div>
         <div class="meta-desc">Streetwear banner design for jewelry brand</div>
       </div>
@@ -352,7 +364,7 @@
     <a class="card reveal" data-category="digital-web-design" href="PORTFOLIO_KoreanMagicDustPage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/korean-magic-dust.webp" alt="Korean Magic Dust"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Korean Magic Dust</span></div>
         <div class="meta-desc">A+ content design &amp; product photography</div>
       </div>
@@ -361,7 +373,7 @@
     <a class="card reveal" data-category="print-marketing-collateral" href="PORTFOLIO_RogueDefensePage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/rogue-defense.jpg" alt="Rogue Defense"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Rogue Defense</span></div>
         <div class="meta-desc">Apparel graphic &amp; t-shirt design</div>
       </div>
@@ -370,7 +382,7 @@
     <a class="card reveal" data-category="branding-identity" href="PORTFOLIO_BeyondBancardPage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/beyond-bancard.jpg" alt="Beyond Bancard"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Beyond Bancard</span></div>
         <div class="meta-desc">Social ad design, brand book &amp; presentation design</div>
       </div>
@@ -379,7 +391,7 @@
     <a class="card reveal" data-category="branding-identity" href="PORTFOLIO_KbappPage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/k-bapp.webp" alt="K_bapp"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">K_bapp</span></div>
         <div class="meta-desc">Logo design &amp; brand identity</div>
       </div>
@@ -388,7 +400,7 @@
     <a class="card reveal" data-category="print-marketing-collateral" href="PORTFOLIO_DazeyShadesPage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/dazey-shades.jpg" alt="Dazey Shades"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Dazey Shades</span></div>
         <div class="meta-desc">Packaging design for children's sunglasses</div>
       </div>
@@ -397,7 +409,7 @@
     <a class="card reveal" data-category="illustrations" href="PORTFOLIO_MupyPage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/mupy.jpg" alt="Mupy"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Mupy</span></div>
         <div class="meta-desc">Personal project: storyboarding, visual storytelling &amp; illustration</div>
       </div>
@@ -406,7 +418,7 @@
     <a class="card reveal" data-category="illustrations" href="PORTFOLIO_MidwayCrusadePage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/midway-crusade.webp" alt="Midway Crusade"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Midway Crusade</span></div>
         <div class="meta-desc">Personal project: visual storytelling, character &amp; concept design</div>
       </div>
@@ -415,7 +427,7 @@
     <a class="card reveal" data-category="illustrations" href="PORTFOLIO_YoMochiPage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/yo-mochi.jpg" alt="Yo Mochi"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Yo Mochi</span></div>
         <div class="meta-desc">Illustration &amp; character brand identity</div>
       </div>
@@ -424,7 +436,7 @@
     <a class="card reveal" data-category="digital-web-design" href="PORTFOLIO_HiddenHillsPage.html">
       <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/hidden-hills.webp" alt="Hidden Hills"/></div>
       <div class="meta">
-        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Hidden Hills</span></div>
         <div class="meta-desc">Ad layout design</div>
       </div>
@@ -470,7 +482,7 @@
   </svg>
 </div>
 
-<script src="assets/theme.js?v=21"></script>
+<script src="assets/theme.js?v=22"></script>
 <script>
 function scrollToWork(){
   const g = document.getElementById('workPanel');

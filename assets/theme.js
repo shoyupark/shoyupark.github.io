@@ -315,9 +315,10 @@
   function apply(){
     document.querySelectorAll('.section-block').forEach(sb => {
       const keep = ids.includes(sb.id);
-      sb.classList.toggle('embed-keep', keep);
-      if (keep) sb.classList.add('in');
+      if (!keep){ sb.remove(); return; }          // drop unused sections so their images/videos never download
+      sb.classList.add('embed-keep', 'in');
     });
+    document.querySelectorAll('.proj-hero, .browse-projects, .nav-back, footer').forEach(el => el.remove());
     // links inside open in the full window, not inside the frame
     document.querySelectorAll('a[href]').forEach(a => { if (!a.target) a.target = '_top'; });
     send();
