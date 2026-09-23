@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Beyond Bancard | Shoyu Park</title>
+<link rel="stylesheet" href="assets/theme.css?v=21"/>
+<style>
+  /* Project pages keep it simple: one continuous green mat, no white paper
+     section. The grid texture just fades out gradually the further you
+     scroll, rather than crossing into a different background color. */
+  .proj-mat{ padding-bottom:80px; }
+  .page-fade{
+    -webkit-mask-image:linear-gradient(180deg, #000 0%, #000 35%, transparent 85%);
+    mask-image:linear-gradient(180deg, #000 0%, #000 35%, transparent 85%);
+  }
+  /* first viewport: nav + header fill exactly 100vh, so the title/desc/specs
+     are the only thing visible on load — everything else starts below the
+     fold, only reached by scrolling. */
+  .proj-hero{ min-height:100vh; display:flex; flex-direction:column; }
+  .proj-head{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:56px;
+    position:relative; z-index:3; flex:1; align-content:center;
+  }
+  @media (max-width:820px){ .proj-head{ grid-template-columns:1fr; } }
+  .proj-title{
+    font-family:var(--font-serif); font-style:italic; font-weight:600;
+    font-size:clamp(48px,8vw,104px); color:var(--ink); line-height:1.02; margin-bottom:24px;
+  }
+  .proj-desc{ font-family:var(--font-sans); font-size:23px; line-height:1.7; color:rgba(13,13,13,0.82); }
+  /* each row is exactly one grid unit (80px) tall so its divider lands
+     exactly on the mat's background grid line instead of drawing a second,
+     slightly-off line right next to it */
+  .spec-row{ display:flex; align-items:center; justify-content:space-between; height:80px; border-bottom:2px solid rgba(13,13,13,.15); }
+  .spec-label{ font-family:var(--font-sans); font-size:24px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:rgba(13,13,13,0.55); }
+  .spec-val{ font-family:var(--font-sans); font-size:18px; color:var(--ink); text-align:right; max-width:60%; }
+
+  /* full mat width — no max-width/auto-margin — so this lines up with
+     .proj-head above it instead of centering as a narrower column */
+  .section-block{ position:relative; z-index:1; margin-bottom:108px; }
+  .section-block:last-child{ margin-bottom:0; }
+  /* two extra grid squares (80px each) of breathing room below the hero,
+     before the first section starts */
+  .proj-hero + .section-block{ margin-top:160px; }
+  /* title takes 1/3, description takes 2/3, both top-aligned; images go
+     full-width below this row — one extra grid square (80px) added on top
+     of the base gap so the photos don't crowd the description */
+  .section-head{ display:grid; grid-template-columns:1fr 2fr; gap:56px; align-items:start; margin-bottom:108px; }
+  @media (max-width:820px){ .section-head{ grid-template-columns:1fr; } }
+  .section-title{ font-family:var(--font-sans); font-weight:500; font-size:56px; color:var(--ink); text-transform:uppercase; }
+  .section-text{ font-family:var(--font-sans); font-size:22px; line-height:1.7; color:rgba(13,13,13,0.75); }
+  .section-text a{ color:var(--ink); }
+
+  /* one row, five square Instagram ad tiles — same aspect ratio source
+     images, so a plain equal-width row keeps them at matching height */
+  .ig-row{ display:flex; gap:20px; }
+  .ig-row img{
+    flex:1 1 0; min-width:0; width:100%; aspect-ratio:1/1; object-fit:cover;
+    display:block; border-radius:var(--radius);
+    box-shadow:0 18px 40px -22px rgba(0,0,0,.35);
+  }
+  @media (max-width:820px){ .ig-row{ flex-wrap:wrap; } .ig-row img{ flex:1 1 40%; } }
+
+  /* brand book deck pages and slideshow deck pages — both same aspect ratio
+     throughout their own set, so a plain 3-column grid keeps every row the
+     same height with no cropping. White background behind each PNG since
+     the source decks export with a soft-edged transparent margin that
+     would otherwise show through as black. */
+  .deck-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  @media (max-width:820px){ .deck-grid{ grid-template-columns:repeat(2,1fr); } }
+  .deck-grid img{
+    width:100%; display:block; background:#fff; border-radius:var(--radius);
+    box-shadow:0 18px 40px -22px rgba(0,0,0,.35);
+  }
+
+  /* other projects to browse to once you're done with this one */
+  .browse-projects{ position:relative; z-index:1; margin-bottom:56px; }
+  .browse-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:28px; }
+  @media (max-width:820px){ .browse-grid{ grid-template-columns:1fr; } }
+  .browse-card{ display:block; text-decoration:none; color:inherit; }
+  .browse-thumb{
+    position:relative; width:100%; aspect-ratio:16/9; overflow:hidden;
+    border-radius:var(--radius);
+    box-shadow:0 18px 40px -22px rgba(0,0,0,.35);
+  }
+  .browse-thumb img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1);
+  }
+  .browse-card:hover .browse-thumb img{ transform:scale(1.05); }
+  .browse-title{
+    display:block; margin-top:14px;
+    font-family:var(--font-sans); font-weight:700; font-size:16px;
+    letter-spacing:.3px; text-transform:uppercase; color:var(--ink);
+  }
+
+  .nav-back{ margin-top:56px; }
+</style>
+</head>
+<body class="plain">
+
+<div class="mat proj-mat" id="projMat">
+  <div class="mat-grid page-fade"></div>
+  <div class="page-fade"><div class="mat-grid-bright"></div></div>
+  <div class="ruler-h"></div>
+  <div class="ruler-v left"></div>
+  <div class="ruler-v right"></div>
+
+  <div class="proj-hero">
+    <nav>
+      <a class="logo" href="index.html">
+        <span>SHOYU PARK</span>
+      </a>
+      <a class="pill" href="about.html">ABOUT ME</a>
+    </nav>
+
+    <div class="proj-head reveal" id="rv1">
+      <div>
+        <h1 class="proj-title">Beyond Bancard</h1>
+        <p class="proj-desc">Beyond Bancard is a merchant payment processing company serving small and mid-sized businesses, from in-store POS to online and mobile checkout. Freelance work refreshing their brand identity: updated brand guidelines, a redesigned pitch deck, and a set of Instagram ad graphics to match.</p>
+      </div>
+      <div class="spec-note"><div class="spec-table">
+        <div class="spec-row"><span class="spec-label">Year</span><span class="spec-val">2024</span></div>
+        <div class="spec-row"><span class="spec-label">Organization</span><span class="spec-val">Freelance for JSB</span></div>
+        <div class="spec-row"><span class="spec-label">Role</span><span class="spec-val">Social Media Ad Design, Brand Book Redesign, Presentation Design</span></div>
+        <div class="spec-row"><span class="spec-label">Tools</span><span class="spec-val">Illustrator, PowerPoint</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div id="social-media-ad-design" class="section-block reveal">
+    <div class="section-head">
+      <h2 class="section-title">Social Media Ad Design</h2>
+      <p class="section-text">A set of Instagram ads for Beyond Bancard's payment processing services, built around the refreshed brand's deep blue palette and bold, benefit-forward headlines.</p>
+    </div>
+    <div class="ig-row">
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-social/01-on-the-go.jpg" alt="Beyond Bancard Instagram ad, On-The-Go, Easy Checkout, Mobile Solutions, Apple Pay / Google Pay"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-social/02-take-control.jpg" alt="Beyond Bancard Instagram ad, Take Control of your Business, mobile invoicing at your fingertips"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-social/03-digital-invoicing.jpg" alt="Beyond Bancard Instagram ad, Digital Invoicing for your business needs, no paperwork, no delays"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-social/04-quick-service.jpg" alt="Beyond Bancard Instagram ad, Quick Service, Secure Payments, Mobile Options"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-social/05-hipaa-compliant.jpg" alt="Beyond Bancard Instagram ad, HIPAA-compliant solutions for medical services"/>
+    </div>
+  </div>
+
+  <div id="brand-book-update" class="section-block reveal">
+    <div class="section-head">
+      <h2 class="section-title">Brand Book Update</h2>
+      <p class="section-text">A full refresh of Beyond Bancard's brand guidelines deck, covering logo usage, typography, color palette, gradients, shadows, photography direction, and iconography, rebuilt into one cohesive reference for future marketing materials.</p>
+    </div>
+    <div class="deck-grid">
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/01-cover.jpg" alt="Beyond Bancard brand guidelines, cover"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/02-toc.jpg" alt="Beyond Bancard brand guidelines, table of contents"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/03-intro.jpg" alt="Beyond Bancard brand guidelines, introduction"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/04-about-brand.jpg" alt="Beyond Bancard brand guidelines, about the brand, vision, mission, audience"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/05-logo.jpg" alt="Beyond Bancard brand guidelines, logo usage and clear space"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/06-logo-variants.jpg" alt="Beyond Bancard brand guidelines, logo color variants"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/07-typography-primary.jpg" alt="Beyond Bancard brand guidelines, primary typeface, Archivo"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/08-typography-secondary.jpg" alt="Beyond Bancard brand guidelines, secondary typeface, Manrope"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/09-primary-colors.jpg" alt="Beyond Bancard brand guidelines, primary color palette"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/10-gradients.jpg" alt="Beyond Bancard brand guidelines, brand gradients"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/11-shadows.jpg" alt="Beyond Bancard brand guidelines, drop shadow specs"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/12-stock-photography.jpg" alt="Beyond Bancard brand guidelines, stock photography direction"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/13-charts-graphs.jpg" alt="Beyond Bancard brand guidelines, charts and graphs style"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/14-icon-set.jpg" alt="Beyond Bancard brand guidelines, custom icon set"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-brandbook/15-thank-you.jpg" alt="Beyond Bancard brand guidelines, closing page"/>
+    </div>
+  </div>
+
+  <div id="slideshow" class="section-block reveal">
+    <div class="section-head">
+      <h2 class="section-title">Slideshow</h2>
+      <p class="section-text">A redesigned sales presentation for Beyond Bancard, reflecting the new visual identity, from the company overview and by-the-numbers stats through how payment processing works, pricing models, and next-day funding.</p>
+    </div>
+    <div class="deck-grid">
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/01-hero.jpg" alt="Beyond Bancard slideshow, Payment Processing Made Easy, cover"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/02-introduction.jpg" alt="Beyond Bancard slideshow, Introduction"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/03-about-beyond-bancard.jpg" alt="Beyond Bancard slideshow, About Beyond Bancard"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/04-about-beyond-bancard-values.jpg" alt="Beyond Bancard slideshow, About Beyond Bancard, headquarters and core values"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/05-beyond-the-numbers.jpg" alt="Beyond Bancard slideshow, Beyond the Numbers"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/06-what-is-payment-processing.jpg" alt="Beyond Bancard slideshow, What is Payment Processing"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/07-how-credit-processing-works.jpg" alt="Beyond Bancard slideshow, How Credit Processing Works"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/08-introduction-company-idea.jpg" alt="Beyond Bancard slideshow, Introduction, our company and our idea"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/09-secure-card-processing.jpg" alt="Beyond Bancard slideshow, Secure Card Processing"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/10-flexible-processing-options.jpg" alt="Beyond Bancard slideshow, Flexible Processing Options"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/11-payment-methods.jpg" alt="Beyond Bancard slideshow, Payment Methods"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/12-interchange-plus-pricing.jpg" alt="Beyond Bancard slideshow, Interchange-Plus Pricing"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/13-next-day-funding.jpg" alt="Beyond Bancard slideshow, Next-Day Funding"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/14-dual-pricing-model.jpg" alt="Beyond Bancard slideshow, Dual Pricing Model"/>
+      <img loading="lazy" decoding="async" src="assets/images/beyond-bancard-slideshow/15-more-features-benefits.jpg" alt="Beyond Bancard slideshow, More Features and Benefits"/>
+    </div>
+  </div>
+
+  <div class="browse-projects reveal">
+    <h2 class="section-title">Browse Projects</h2>
+    <div class="browse-grid">
+      <a class="browse-card" href="PORTFOLIO_CRApage.html">
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/cra-hero.jpg" alt="Cambridge Redevelopment Authority"/></div>
+        <span class="browse-title">Cambridge Redevelopment Authority</span>
+      </a>
+      <a class="browse-card" href="PORTFOLIO_HelenaJangPage.html">
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/helena-jang-hero.jpg" alt="Chef Helena"/></div>
+        <span class="browse-title">Chef Helena</span>
+      </a>
+      <a class="browse-card" href="PORTFOLIO_KbappPage.html">
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/k-bapp.webp" alt="K_bapp"/></div>
+        <span class="browse-title">K_bapp</span>
+      </a>
+    </div>
+  </div>
+
+  <a class="pill dark nav-back" href="index.html">← Back to all work</a>
+
+</div>
+
+<footer>
+  <p>© 2026 Shoyu Park</p>
+</footer>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 14.5V3.5M9 3.5L4.5 8M9 3.5L13.5 8" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<script src="assets/theme.js?v=21"></script>
+<script>
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  if (window.scrollY > 400) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+}, { passive:true });
+</script>
+</body>
+</html>

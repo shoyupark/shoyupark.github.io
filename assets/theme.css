@@ -1,0 +1,444 @@
+/* ===================================================================
+   Shoyu Park — Portfolio Theme
+   Cutting-mat visual system: green mat background, ruler edges,
+   grid overlay with cursor-following spotlight, flower cursor.
+=================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,500;0,600;0,700;1,500;1,600;1,700&family=Archivo:wght@500;600;700;800&display=swap');
+
+:root{
+  --mat-green:#4e9689;
+  --mat-green-dark:#2e6057;
+  --mat-green-deep:#1e3e38;
+  --paper:#ffffff;
+  --ink:#0d0d0d;
+  --ink-soft:#102723b3;
+  --ruler-line:rgba(255,255,255,0.55);
+  --ruler-line-soft:rgba(255,255,255,0.22);
+  --font-serif:'STIX Two Text', Georgia, serif;
+  --font-sans:'Archivo', Helvetica, Arial, sans-serif;
+  --radius:0;
+  cursor:none;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:var(--font-sans);
+  color:var(--ink);
+  background:var(--mat-green);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+a{cursor:none;}
+
+/* ---------- page reveal ---------- */
+body{opacity:0;}
+body.ready{
+  opacity:1;
+  transition:opacity .5s ease;
+}
+.reveal{opacity:0; transform:translateY(18px);}
+.reveal.in{
+  opacity:1; transform:translateY(0);
+  transition:opacity .6s cubic-bezier(.2,.7,.3,1), transform .6s cubic-bezier(.2,.7,.3,1);
+}
+
+/* ---------- cutting mat surface ---------- */
+.mat{
+  position:relative;
+  background:
+    radial-gradient(ellipse 120% 70% at 75% 0%, rgba(255,255,255,0.10), transparent 55%),
+    linear-gradient(180deg, var(--mat-green) 0%, var(--mat-green-dark) 100%);
+  padding:44px 56px 40px;
+  overflow:hidden;
+}
+.mat.short{padding-bottom:64px;}
+
+/* Coarse (80px = 10 ruler units) grid: the only layer that's always visible,
+   no cursor needed. Sized so each square's edge lands exactly on a 10/20/30
+   ruler mark. Default color is white, for use on the green mat. Add
+   .tone-dark for use on white paper (used inside .grid-fade-in/out pairs in
+   the fade zones below). */
+.mat-grid{
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.14) 1px, transparent 1px);
+  background-size:80px 80px;
+  pointer-events:none;
+}
+.mat-grid.tone-dark{
+  background-image:
+    linear-gradient(rgba(30,62,56,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,62,56,0.07) 1px, transparent 1px);
+}
+
+/* Fine (16px) grid: only ever revealed in a soft circle around the cursor.
+   Default color is white (on green mat); .tone-dark is for white paper. */
+.mat-grid-bright{
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px);
+  background-size:16px 16px;
+  pointer-events:none;
+  -webkit-mask-image:radial-gradient(circle 160px at var(--mx,50%) var(--my,50%), rgba(0,0,0,0.55), transparent 70%);
+  mask-image:radial-gradient(circle 160px at var(--mx,50%) var(--my,50%), rgba(0,0,0,0.55), transparent 70%);
+  transition:background-position .1s linear;
+}
+.mat-grid-bright.tone-dark{
+  background-image:
+    linear-gradient(rgba(30,62,56,0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,62,56,0.35) 1px, transparent 1px);
+}
+
+/* Cross-fade wrappers used only where a mat transitions into white paper:
+   the white-toned grid layer(s) fade OUT, the dark-toned ones fade IN, over
+   the same distance (--zone-fade) as the section's own background gradient. */
+.grid-fade-in, .grid-fade-out{
+  position:absolute; inset:0;
+  pointer-events:none;
+}
+.grid-fade-out{
+  -webkit-mask-image:linear-gradient(180deg, #000 0, transparent var(--zone-fade, 300px));
+  mask-image:linear-gradient(180deg, #000 0, transparent var(--zone-fade, 300px));
+}
+.grid-fade-in{
+  -webkit-mask-image:linear-gradient(180deg, transparent 0, #000 var(--zone-fade, 300px));
+  mask-image:linear-gradient(180deg, transparent 0, #000 var(--zone-fade, 300px));
+}
+
+/* ---------- ruler ---------- */
+/* inset left/right so the horizontal ruler starts right where the vertical
+   ruler ends, instead of both drawing a "0" on top of each other in the
+   corner and hiding one of them */
+.ruler-h{
+  position:absolute; top:0; left:34px; right:34px; height:34px;
+  pointer-events:none; z-index:2;
+}
+.ruler-v{
+  position:absolute; top:0; bottom:0; width:34px;
+  pointer-events:none; z-index:2;
+}
+.ruler-v.left{left:0;}
+.ruler-v.right{right:0;}
+/* continuation ruler used inside .mat-extend zones, carrying the numbering on
+   down into the white section below. A single medium-dark tone is used
+   (instead of the earlier white/dark crossfade) so the ticks stay reliably
+   visible against both the green mat and the white paper — the crossfade
+   was too subtle to read as "continuing." Only tapers off right at the very
+   end so it doesn't stop abruptly. */
+.ruler-v.extend{
+  bottom:auto;
+  -webkit-mask-image:linear-gradient(180deg, #000 0%, #000 85%, transparent 100%);
+  mask-image:linear-gradient(180deg, #000 0%, #000 85%, transparent 100%);
+}
+.ruler-v.extend .tick{ background:rgba(16,39,35,.4); }
+.ruler-v.extend .tick-num{ color:rgba(16,39,35,.55); }
+.tick{position:absolute; background:var(--ruler-line);}
+.ruler-h .tick{top:0; width:1px;}
+.ruler-v .tick{left:0; height:1px;}
+.ruler-v.right .tick{right:0; left:auto;}
+.tick-num{
+  position:absolute;
+  font-family:var(--font-sans);
+  font-size:9px;
+  font-weight:600;
+  color:var(--ruler-line);
+  letter-spacing:.5px;
+}
+
+/* ---------- cross marks ---------- */
+/* scratchboard-style "+" at every 3rd big square (every 30 ruler units),
+   echoing the bold intersection marks on a real cutting mat. Built in JS
+   (buildCrosses) so they stay phase-locked with the ruler numbering. */
+.cross-mark{ position:absolute; pointer-events:none; }
+.cross-mark::before, .cross-mark::after{ content:''; position:absolute; background:var(--ruler-line); }
+.cross-mark::before{ width:13px; height:1px; left:-6.5px; top:-0.5px; }
+.cross-mark::after{ width:1px; height:13px; left:-0.5px; top:-6.5px; }
+.cross-mark.tone-dark::before, .cross-mark.tone-dark::after{ background:rgba(16,39,35,.4); }
+
+/* continuation zone: hosts the tapering ruler ticks that carry a .mat's ruler
+   numbering down into the following white section */
+.mat-extend{
+  position:absolute; top:0; left:0; right:0;
+  pointer-events:none; z-index:0;
+}
+
+/* ---------- custom cursor ---------- */
+#cursor{
+  position:fixed; top:0; left:0;
+  width:26px; height:26px;
+  pointer-events:none;
+  z-index:9999;
+  transform:translate(-50%,-50%);
+  will-change:transform;
+  transition:opacity .2s ease;
+}
+#cursor svg{width:100%;height:100%;display:block; filter:drop-shadow(0 1px 3px rgba(0,0,0,0.25));}
+#cursor path{fill:#ffffff; transition:fill .18s ease;}
+#cursor.on-dark path{fill:#0d2b1c;}
+#cursor.on-card path{fill:#0d0d0d;}
+
+/* trailing flowers that walk in beside hovered project title */
+.title-row{
+  display:flex; align-items:center; gap:0;
+}
+.title-flowers{
+  display:inline-flex; align-items:center;
+  max-width:0; overflow:hidden; opacity:0;
+  transition:max-width .32s ease, opacity .28s ease, margin-right .32s ease;
+  margin-right:0;
+  gap:2px;
+}
+.card:hover .title-flowers{max-width:80px; opacity:1; margin-right:14px;}
+.title-flowers svg{width:24px;height:24px; flex-shrink:0;}
+.title-flowers svg:nth-child(1){transition-delay:0s;}
+.title-flowers svg:nth-child(2){transition-delay:.04s;}
+
+/* ---------- nav ---------- */
+nav{
+  display:flex; align-items:center; justify-content:space-between;
+  position:relative; z-index:5;
+  margin-bottom:56px;
+}
+.logo{
+  display:flex; align-items:flex-start; gap:8px;
+  text-decoration:none; color:var(--ink);
+  font-family:var(--font-sans);
+  font-weight:700; font-size:clamp(15px,1.2vw,19px); line-height:.92;
+  letter-spacing:.5px;
+}
+.logo svg{width:28px;height:28px; margin-top:2px; flex-shrink:0; animation:spin 14s linear infinite;}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+.pill{
+  display:inline-flex; align-items:center;
+  padding:clamp(12px,1.05vw,18px) clamp(24px,2vw,32px);
+  border-radius:100px;
+  font-family:var(--font-sans);
+  font-size:clamp(14px,1.2vw,19px); font-weight:600;
+  letter-spacing:.3px;
+  text-decoration:none;
+  background:var(--paper); color:var(--ink);
+  border:none;
+  cursor:none;
+  transition:transform .18s ease, background .18s ease, color .18s ease;
+}
+.pill:hover{transform:translateY(-1px);}
+.pill.dark{background:var(--ink); color:var(--paper);}
+/* matches .filter-pill's font-size/padding/weight (the category pills on the
+   work grid) so the nav's About Me button reads as the same button, just
+   with different label text */
+nav .pill{
+  padding:clamp(8px,0.7vw,12px) clamp(14px,1.3vw,20px);
+  font-size:clamp(18px,2.1vw,32px); font-weight:500;
+  text-transform:uppercase;
+}
+
+footer{
+  padding:26px 56px;
+  background:var(--mat-green-deep);
+}
+footer p{
+  font-family:var(--font-sans);
+  font-size:12px; color:rgba(13,13,13,0.60);
+  letter-spacing:.3px;
+}
+
+/* ---------- scroll-to-top button (shared across all pages) ---------- */
+.scroll-top{
+  position:fixed; bottom:32px; right:36px;
+  width:46px;height:46px; border-radius:50%;
+  background:var(--ink); display:flex; align-items:center; justify-content:center;
+  opacity:0; pointer-events:none; transition:opacity .3s ease, transform .5s ease;
+  z-index:50; cursor:none;
+}
+.scroll-top.visible{ opacity:1; pointer-events:auto; }
+.scroll-top:hover{ transform:rotate(360deg); }
+.scroll-top svg{ width:16px;height:16px; }
+
+/* ---------- looping videos (converted from GIFs for speed) ---------- */
+.thumb video, .browse-thumb video{
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .6s cubic-bezier(.2,.7,.3,1);
+}
+.card:hover .thumb video{ transform:scale(1.045); }
+.browse-card:hover .browse-thumb video{ transform:scale(1.05); }
+
+/* autoplaying videos: never show Safari/iOS play overlay */
+video::-webkit-media-controls-start-playback-button{ display:none !important; -webkit-appearance:none; }
+video::-webkit-media-controls{ display:none !important; }
+video::-webkit-media-controls-overlay-play-button{ display:none !important; }
+
+/* spotlight removed for performance */
+.mat-grid-bright{ display:none !important; }
+#cursor{ will-change:transform; }
+
+/* circle cursor */
+#cursor{ width:16px; height:16px; border-radius:50%; background:#ffffff; border:1.5px solid rgba(16,39,35,.35); }
+#cursor.on-dark{ background:#0d2b1c; border-color:rgba(255,255,255,.5); }
+#cursor.on-card{ background:#0d0d0d; border-color:rgba(255,255,255,.5); }
+
+/* ================= white redesign =================
+   Plain white background on every page, black text. The cutting-mat grid,
+   rulers and cross marks are hidden. */
+/* kids' math-notebook graph paper: light blue squares on white */
+:root{ --graph-line:rgba(70,140,225,.30); --graph-size:24px; }
+body, .mat{
+  background-color:#ffffff !important;
+  background-image:
+    linear-gradient(var(--graph-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--graph-line) 1px, transparent 1px) !important;
+  background-size:var(--graph-size) var(--graph-size) !important;
+}
+.mat-grid, .mat-grid-bright, .ruler-h, .ruler-v, .mat-extend, .cross-mark, .mat-crosses,
+.grid-fade-in, .grid-fade-out{ display:none !important; }
+.logo{ color:var(--ink); }
+.pill{ background:var(--ink); color:#ffffff; }
+footer{ background:transparent; border-top:1px solid rgba(13,13,13,.12); }
+footer p{ color:rgba(13,13,13,.6); }
+#cursor{ background:var(--ink); border-color:rgba(255,255,255,.6); }
+#cursor.on-card{ background:#ffffff; border-color:rgba(13,13,13,.5); }
+
+/* project pages: plain white, no graph paper */
+body.plain, body.plain .mat{ background-image:none !important; }
+
+/* same soft drop shadow on every image, video and embed across the site */
+.proj-mat img, .proj-mat video, .proj-mat iframe, .proj-mat .yt-fallback,
+.illustration-grid img, .thumb, .browse-thumb, .headshot-frame{
+  box-shadow:0 18px 40px -22px rgba(0,0,0,.35);
+}
+
+/* ---------- ABOUT ME: plain black text; on hover a marker circle is drawn
+   around it (slanted), like someone circled it by hand ---------- */
+nav .pill{
+  position:relative; background:transparent !important; color:var(--ink) !important;
+  transition:transform .3s ease;
+}
+nav .pill:hover{ transform:rotate(-4deg); }
+nav .pill .marker{
+  position:absolute; left:-14%; top:-38%; width:128%; height:176%;
+  pointer-events:none; overflow:visible; transform:rotate(-7deg);
+}
+nav .pill .marker path{
+  fill:none; stroke:#A8006F; stroke-width:3.2; stroke-linecap:round; stroke-linejoin:round;
+  stroke-dasharray:1; stroke-dashoffset:1; opacity:0;
+  transition:stroke-dashoffset .55s cubic-bezier(.6,.05,.3,1), opacity .15s ease .4s;
+}
+nav .pill:hover .marker path{ stroke-dashoffset:0; opacity:1; transition:stroke-dashoffset .55s cubic-bezier(.6,.05,.3,1), opacity 0s; }
+
+/* cursor: solid black dot, no outline, in every state */
+#cursor, #cursor.on-card, #cursor.on-dark{ background:#0d0d0d !important; border:none !important; }
+#cursor{ width:21px !important; height:21px !important; }   /* 1/3 bigger than 16px */
+
+/* ---------- notebook alignment (pages with the graph-paper grid) ----------
+   Side padding = 72px (3 squares) so text and images start on a vertical
+   grid line. Vertical snapping of text is done in theme.js (gridSnap). */
+body:not(.plain) .mat{ padding-left:72px; padding-right:72px; padding-top:48px; }
+body:not(.plain) nav{ margin-bottom:48px; }
+
+
+/* ---------- project info as a taped sticky note ----------
+   Paper: Cotton Candy #FFC0D4 with a faint paper texture and torn edges.
+   Tape: Lipstick #A8006F. Labels: Lipstick (bold). Values: Jacksons Purple
+   #18218B (8.4:1 contrast on the paper). */
+.spec-note{
+  position:relative; align-self:center;
+  transform:rotate(-1.6deg);
+  filter:drop-shadow(0 16px 20px rgba(0,0,0,.18)) drop-shadow(0 2px 3px rgba(0,0,0,.12));
+  margin-top:28px;
+}
+.spec-note::before{          /* the tape */
+  content:''; position:absolute; z-index:2;
+  top:-20px; left:50%; width:44%; height:46px;
+  transform:translateX(-50%) rotate(-2.5deg);
+  background:#A8006F; opacity:.93;
+  clip-path:polygon(0% 0%, 100% 0%, 100.0% 0.0%, 98.0% 16.7%, 100.0% 33.3%, 98.0% 50.0%, 100.0% 66.7%, 98.0% 83.3%, 100.0% 100.0%, 0% 100%, 0% 100.0%, 2% 83.3%, 0% 66.7%, 2% 50.0%, 0% 33.3%, 2% 16.7%, 0% 0.0%);
+}
+.spec-note .spec-table{
+  transform:none !important;          /* ignore the old ruler snapping */
+  background:#FFC0D4 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .55  0 0 0 0 .25  0 0 0 0 .35  0 0 0 .10 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  clip-path:polygon(0.00% 0.16%, 3.57% 0.08%, 7.14% 0.33%, 10.71% 0.04%, 14.29% 0.27%, 17.86% 0.18%, 21.43% 0.03%, 25.00% 0.25%, 28.57% 0.02%, 32.14% 0.22%, 35.71% 0.03%, 39.29% 0.05%, 42.86% 0.21%, 46.43% 0.41%, 50.00% 0.06%, 53.57% 0.11%, 57.14% 0.31%, 60.71% 0.47%, 64.29% 0.29%, 67.86% 0.20%, 71.43% 0.49%, 75.00% 0.02%, 78.57% 0.43%, 82.14% 0.14%, 85.71% 0.07%, 89.29% 0.06%, 92.86% 0.15%, 96.43% 0.41%, 100.00% 0.09%, 99.30% 0.00%, 99.23% 4.55%, 99.55% 9.09%, 99.34% 13.64%, 99.92% 18.18%, 99.93% 22.73%, 99.75% 27.27%, 99.18% 31.82%, 99.49% 36.36%, 99.62% 40.91%, 99.30% 45.45%, 99.46% 50.00%, 99.64% 54.55%, 99.05% 59.09%, 99.16% 63.64%, 99.71% 68.18%, 99.31% 72.73%, 99.37% 77.27%, 98.95% 81.82%, 99.12% 86.36%, 99.65% 90.91%, 98.82% 95.45%, 99.86% 100.00%, 100.00% 99.37%, 97.06% 99.60%, 94.12% 99.79%, 91.18% 98.77%, 88.24% 99.91%, 85.29% 99.81%, 82.35% 99.73%, 79.41% 99.26%, 76.47% 99.96%, 73.53% 98.93%, 70.59% 99.38%, 67.65% 99.54%, 64.71% 98.68%, 61.76% 98.41%, 58.82% 98.96%, 55.88% 98.88%, 52.94% 99.90%, 50.00% 98.94%, 47.06% 99.24%, 44.12% 98.49%, 41.18% 98.66%, 38.24% 99.27%, 35.29% 99.07%, 32.35% 99.05%, 29.41% 98.89%, 26.47% 99.50%, 23.53% 98.60%, 20.59% 99.08%, 17.65% 98.78%, 14.71% 98.93%, 11.76% 99.94%, 8.82% 99.22%, 5.88% 99.76%, 2.94% 98.79%, 0.00% 99.33%, 0.45% 100.00%, 0.30% 95.45%, 0.34% 90.91%, 0.00% 86.36%, 0.21% 81.82%, 0.47% 77.27%, 0.39% 72.73%, 0.19% 68.18%, 0.19% 63.64%, 0.14% 59.09%, 0.12% 54.55%, 0.77% 50.00%, 0.71% 45.45%, 0.29% 40.91%, 0.33% 36.36%, 0.22% 31.82%, 0.69% 27.27%, 0.66% 22.73%, 0.71% 18.18%, 0.44% 13.64%, 0.36% 9.09%, 0.06% 4.55%, 0.70% 0.00%);
+  padding:clamp(44px,4vw,60px) clamp(26px,2.4vw,40px) clamp(30px,2.6vw,42px);
+}
+.spec-note .spec-row{
+  height:auto; min-height:0; padding:14px 0; gap:20px; align-items:baseline;
+  border-bottom:1.5px dashed rgba(24,33,139,.28);
+}
+.spec-note .spec-row:last-child{ border-bottom:none; }
+.spec-note .spec-label{
+  font-size:clamp(14px,1.1vw,17px); letter-spacing:1.5px; font-weight:700;
+  color:#A8006F; flex-shrink:0;
+}
+.spec-note .spec-val{
+  font-size:clamp(15px,1.2vw,19px); line-height:1.4; color:#18218B; max-width:68%;
+}
+
+/* ---------- landing page: ruled notebook paper ----------
+   Blue writing lines every 24px (same rhythm the text snaps to), a blank
+   header band at the top, and a double red margin line down the left. */
+:root{ --rule-blue:rgba(60,120,215,.42); --rule-red:rgba(222,56,72,.75); }
+body.ruled, body.ruled .mat{
+  background-color:#ffffff !important;
+  background-image:
+    linear-gradient(90deg, transparent 46px, var(--rule-red) 46px, var(--rule-red) 48px, transparent 48px,
+                           transparent 54px, var(--rule-red) 54px, var(--rule-red) 56px, transparent 56px),
+    linear-gradient(#ffffff, #ffffff),
+    linear-gradient(var(--rule-blue) 1px, transparent 1px) !important;
+  background-size:100% 100%, 100% 144px, 100% 24px !important;
+  background-repeat:no-repeat, no-repeat, repeat !important;
+  background-position:0 0, 0 0, 0 0 !important;
+}
+
+/* ---------- embed mode (a project page shown inside a category tab) ---------- */
+html.embed body{ background:#ffffff !important; }
+html.embed .proj-hero, html.embed .browse-projects, html.embed .nav-back,
+html.embed footer, html.embed .scroll-top, html.embed .section-block:not(.embed-keep){ display:none !important; }
+html.embed .proj-mat{ padding:36px clamp(20px,3vw,48px) 12px !important; min-height:0 !important; }
+html.embed .section-block.embed-keep{ margin:0 0 72px !important; }
+html.embed .section-block.embed-keep:last-of-type{ margin-bottom:24px !important; }
+html.embed .reveal{ opacity:1 !important; transform:none !important; }
+
+/* one-line SHOYU PARK wordmark */
+.logo{ white-space:nowrap; align-items:center; }
+
+/* ---------- back-to-top button: bigger, palette colors ----------
+   Default (white pages): Jacksons Purple button, Cotton Candy arrow.
+   Landing page: the button takes the inverse of the selected tab
+   (tab's text color as the button, tab's color as the arrow). */
+.scroll-top{
+  width:68px !important; height:68px !important; bottom:36px; right:40px;
+  background:var(--st-bg, #18218B) !important;
+  box-shadow:0 12px 26px -10px rgba(0,0,0,.35);
+  transition:opacity .3s ease, transform .5s ease, background-color .45s ease;
+}
+.scroll-top svg{ width:28px !important; height:28px !important; }
+.scroll-top svg path{ stroke:var(--st-fg, #FFC0D4) !important; stroke-width:2.4 !important; transition:stroke .45s ease; }
+
+/* ---------- Browse Projects slider ---------- */
+.browse-head{ display:flex; align-items:center; justify-content:space-between; gap:24px; }
+.browse-controls{ display:flex; gap:12px; flex-shrink:0; }
+.browse-arrow{
+  width:56px; height:56px; border-radius:50%; border:0; cursor:none;
+  background:#18218B; display:flex; align-items:center; justify-content:center;
+  transition:background .2s ease, opacity .2s ease, transform .2s ease;
+}
+.browse-arrow:hover:not(:disabled){ background:#A8006F; transform:scale(1.06); }
+.browse-arrow:disabled{ opacity:.3; }
+.browse-arrow svg{ width:24px; height:24px; }
+.browse-arrow svg path{ fill:none; stroke:#FFC0D4; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; }
+.browse-track{
+  display:flex; gap:28px; margin-top:28px; padding-bottom:28px;
+  overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth;
+  scrollbar-width:none; -webkit-overflow-scrolling:touch;
+}
+.browse-track::-webkit-scrollbar{ display:none; }
+.browse-track .browse-card{ flex:0 0 calc((100% - 56px) / 3); scroll-snap-align:start; }
+@media (max-width:900px){ .browse-track .browse-card{ flex-basis:calc((100% - 28px) / 2); } }
+@media (max-width:600px){ .browse-track .browse-card{ flex-basis:85%; } }
+.browse-track .browse-title{ color:var(--ink); }

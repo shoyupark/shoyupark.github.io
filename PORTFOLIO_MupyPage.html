@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Mupy | Shoyu Park</title>
+<link rel="stylesheet" href="assets/theme.css?v=21"/>
+<style>
+  /* Project pages keep it simple: one continuous green mat, no white paper
+     section. The grid texture just fades out gradually the further you
+     scroll, rather than crossing into a different background color. */
+  .proj-mat{ padding-bottom:80px; }
+  .page-fade{
+    -webkit-mask-image:linear-gradient(180deg, #000 0%, #000 35%, transparent 85%);
+    mask-image:linear-gradient(180deg, #000 0%, #000 35%, transparent 85%);
+  }
+  /* first viewport: nav + header fill exactly 100vh, so the title/desc/specs
+     are the only thing visible on load — everything else starts below the
+     fold, only reached by scrolling. */
+  .proj-hero{ min-height:100vh; display:flex; flex-direction:column; }
+  .proj-head{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:56px;
+    position:relative; z-index:3; flex:1; align-content:center;
+  }
+  @media (max-width:820px){ .proj-head{ grid-template-columns:1fr; } }
+  .proj-title{
+    font-family:var(--font-serif); font-style:italic; font-weight:600;
+    font-size:clamp(48px,8vw,104px); color:var(--ink); line-height:1.02; margin-bottom:24px;
+  }
+  .proj-desc{ font-family:var(--font-sans); font-size:23px; line-height:1.7; color:rgba(13,13,13,0.82); }
+  .proj-desc + .proj-desc{ margin-top:16px; }
+  /* each row is exactly one grid unit (80px) tall so its divider lands
+     exactly on the mat's background grid line instead of drawing a second,
+     slightly-off line right next to it */
+  .spec-row{ display:flex; align-items:center; justify-content:space-between; height:80px; border-bottom:2px solid rgba(13,13,13,.15); }
+  .spec-label{ font-family:var(--font-sans); font-size:24px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:rgba(13,13,13,0.55); }
+  .spec-val{ font-family:var(--font-sans); font-size:18px; color:var(--ink); text-align:right; max-width:60%; }
+
+  /* full mat width — no max-width/auto-margin — so this lines up with
+     .proj-head above it instead of centering as a narrower column */
+  .section-block{ position:relative; z-index:1; margin-bottom:108px; }
+  .section-block:last-child{ margin-bottom:0; }
+  /* two extra grid squares (80px each) of breathing room below the hero,
+     before the first section starts */
+  .proj-hero + .section-block{ margin-top:160px; }
+  /* title takes 1/3, description takes 2/3, both top-aligned; images go
+     full-width below this row — one extra grid square (80px) added on top
+     of the base gap so the photos don't crowd the description */
+  .section-head{ display:grid; grid-template-columns:1fr 2fr; gap:56px; align-items:start; margin-bottom:108px; }
+  @media (max-width:820px){ .section-head{ grid-template-columns:1fr; } }
+  .section-title{ font-family:var(--font-sans); font-weight:500; font-size:56px; color:var(--ink); text-transform:uppercase; }
+  .section-text{ font-family:var(--font-sans); font-size:22px; line-height:1.7; color:rgba(13,13,13,0.75); }
+  .section-text a{ color:var(--ink); }
+
+  /* every plate — single image or pair — is a direct child of this flex
+     column, so the gap is identical everywhere regardless of what kind of
+     item sits on either side of it */
+  .plate-flow{ display:flex; flex-direction:column; gap:28px; }
+  .plate-flow > img{
+    display:block; width:100%; border-radius:var(--radius);
+    box-shadow:0 18px 40px -22px rgba(0,0,0,.35);
+  }
+  /* side-by-side pairs, locked to a shared height (not just a shared width)
+     so two images line up edge to edge instead of one hanging lower than
+     the other. object-fit:contain rather than cover so nothing gets
+     cropped. */
+  .plate-pair{ display:flex; gap:28px; align-items:flex-start; }
+  .plate-pair img{
+    flex:var(--ar,1) 1 0; min-width:0; width:100%; height:auto; display:block;
+    border-radius:var(--radius);
+    box-shadow:0 18px 40px -22px rgba(0,0,0,.35);
+  }
+  @media (max-width:820px){
+    .plate-pair{ flex-direction:column; height:auto; }
+    .plate-pair img{ height:auto; width:100%; }
+  }
+
+  /* other projects to browse to once you're done with this one */
+  .browse-projects{ position:relative; z-index:1; margin-bottom:56px; }
+  .browse-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:28px; }
+  @media (max-width:820px){ .browse-grid{ grid-template-columns:1fr; } }
+  .browse-card{ display:block; text-decoration:none; color:inherit; }
+  .browse-thumb{
+    position:relative; width:100%; aspect-ratio:16/9; overflow:hidden;
+    border-radius:var(--radius);
+    box-shadow:0 18px 40px -22px rgba(0,0,0,.35);
+  }
+  .browse-thumb img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1);
+  }
+  .browse-card:hover .browse-thumb img{ transform:scale(1.05); }
+  .browse-title{
+    display:block; margin-top:14px;
+    font-family:var(--font-sans); font-weight:700; font-size:16px;
+    letter-spacing:.3px; text-transform:uppercase; color:var(--ink);
+  }
+
+  /* storefront + splash variants: one exact 3-column grid, every cell the same size */
+  .env-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .env-grid img{ width:100%; aspect-ratio:1400/779; object-fit:cover; display:block; border-radius:var(--radius); }
+  @media (max-width:760px){ .env-grid{ grid-template-columns:1fr; } }
+  /* Style Frames: one big frame at a time, swipe/scroll or use the arrows */
+  .frame-slider{ position:relative; }
+  .frame-track{ display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth;
+                scrollbar-width:none; border-radius:var(--radius); box-shadow:0 18px 40px -22px rgba(0,0,0,.35); }
+  .frame-track::-webkit-scrollbar{ display:none; }
+  .frame-slide{ flex:0 0 100%; scroll-snap-align:center; aspect-ratio:1.75; }
+  .frame-slide img{ width:100%; height:100%; object-fit:cover; display:block; box-shadow:none !important; }
+  .frame-prev, .frame-next{ position:absolute; top:50%; transform:translateY(-50%); z-index:2; }
+  .frame-prev{ left:20px; } .frame-next{ right:20px; }
+  .frame-prev:hover:not(:disabled), .frame-next:hover:not(:disabled){ transform:translateY(-50%) scale(1.06); }
+  .frame-dots{ display:flex; justify-content:center; gap:10px; margin-top:20px; }
+  .frame-dots button{ width:11px; height:11px; border-radius:50%; border:0; padding:0; cursor:none; background:rgba(24,33,139,.25); transition:background .2s, transform .2s; }
+  .frame-dots button.on{ background:#18218B; transform:scale(1.25); }
+  .nav-back{ margin-top:56px; }
+</style>
+</head>
+<body class="plain">
+
+<div class="mat proj-mat" id="projMat">
+  <div class="mat-grid page-fade"></div>
+  <div class="page-fade"><div class="mat-grid-bright"></div></div>
+  <div class="ruler-h"></div>
+  <div class="ruler-v left"></div>
+  <div class="ruler-v right"></div>
+
+  <div class="proj-hero">
+    <nav>
+      <a class="logo" href="index.html">
+        <span>SHOYU PARK</span>
+      </a>
+      <a class="pill" href="about.html">ABOUT ME</a>
+    </nav>
+
+    <div class="proj-head reveal" id="rv1">
+      <div>
+        <h1 class="proj-title">Mupy</h1>
+        <p class="proj-desc">Mupy is a beloved Brazilian soy-based drink that has become a household name in Brazil, known for its wide range of fruit flavors and its loyal following as a dairy-free alternative to traditional milk-based drinks.</p>
+        <p class="proj-desc">A personal project imagining a commercial for the brand: style frames, a storyboard, and environment and character design for a hypothetical Mupy ad.</p>
+      </div>
+      <div class="spec-note"><div class="spec-table">
+        <div class="spec-row"><span class="spec-label">Year</span><span class="spec-val">2025</span></div>
+        <div class="spec-row"><span class="spec-label">Organization</span><span class="spec-val">Personal Project</span></div>
+        <div class="spec-row"><span class="spec-label">Role</span><span class="spec-val">Concept Design</span></div>
+        <div class="spec-row"><span class="spec-label">Tools</span><span class="spec-val">Procreate</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div id="style-frames" class="section-block reveal">
+    <div class="section-head">
+      <h2 class="section-title">Style Frames</h2>
+      <p class="section-text">Key visual frames imagining the look of a Mupy commercial: the brand's signature fruit splash, a storefront built around the logo, and a hero shot of the full flavor lineup.</p>
+    </div>
+    <div class="plate-flow">
+      <div class="frame-slider">
+        <div class="frame-track">
+          <div class="frame-slide"><img src="assets/images/mupy/v2-fruit-splash.jpg" alt="Mupy style frame, fruit splash"/></div>
+          <div class="frame-slide"><img src="assets/images/mupy/v2-storefront-color.jpg" alt="Mupy style frame, branded storefront, daytime color"/></div>
+          <div class="frame-slide"><img src="assets/images/mupy/v2-product-plate.jpg" alt="Mupy style frame, full flavor lineup on a plate"/></div>
+        </div>
+        <button class="browse-arrow frame-prev" aria-label="Previous frame"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button class="browse-arrow frame-next" aria-label="Next frame"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+        <div class="frame-dots"><button aria-label="Frame 1"></button><button aria-label="Frame 2"></button><button aria-label="Frame 3"></button></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="storyboard" class="section-block reveal">
+    <div class="section-head">
+      <h2 class="section-title">Storyboard</h2>
+      <p class="section-text">A full storyboard for the hypothetical commercial: a chef slicing fresh fruit that splashes into the Mupy pouches, set against the branded storefront.</p>
+    </div>
+    <div class="plate-flow">
+      <img loading="lazy" decoding="async" src="assets/images/mupy/v2-storyboard.jpg" alt="Mupy commercial storyboard, 16 panels"/>
+    </div>
+  </div>
+
+  <div id="environment-design" class="section-block reveal">
+    <div class="section-head">
+      <h2 class="section-title">Environment Design</h2>
+      <p class="section-text">Development of the storefront setting: early architectural line-art explorations, a fully rendered grayscale pass, day/night lighting studies, and color palette variants carried through to the fruit-splash motif.</p>
+    </div>
+    <div class="plate-flow">
+      <img loading="lazy" decoding="async" src="assets/images/mupy/v2-sketches.jpg" alt="Mupy storefront, six early architectural sketches"/>
+      <div class="env-grid">
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-lineart-animation.webp" alt="Mupy storefront line art, animated"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-storefront-gray-day.jpg" alt="Mupy storefront, grayscale day"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-storefront-gray-night.jpg" alt="Mupy storefront, grayscale night"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-color-1.jpg" alt="Mupy storefront, color palette variant 1"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-color-2.jpg" alt="Mupy storefront, color palette variant 2"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-color-3.jpg" alt="Mupy storefront, color palette variant 3"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-splash-1.jpg" alt="Mupy fruit splash, color variant 1"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-splash-2.jpg" alt="Mupy fruit splash, color variant 2"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-splash-3.jpg" alt="Mupy fruit splash, color variant 3"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-splash-4.jpg" alt="Mupy fruit splash, color variant 4"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-splash-5.jpg" alt="Mupy fruit splash, color variant 5"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-splash-6.jpg" alt="Mupy fruit splash, color variant 6"/>
+      </div>
+    </div>
+  </div>
+
+  <div id="character-design" class="section-block reveal">
+    <div class="section-head">
+      <h2 class="section-title">Character Design</h2>
+      <p class="section-text">A lineup of Mupy pouch mascots, each given its own personality, from a sleepy sailor to a scowling martial artist, to carry the brand's playful tone.</p>
+    </div>
+    <div class="plate-flow">
+      <img loading="lazy" decoding="async" src="assets/images/mupy/v2-character-lineup.jpg" alt="Mupy pouch mascot character lineup, seven characters"/>
+    </div>
+  </div>
+
+  <div class="browse-projects reveal">
+    <h2 class="section-title">Browse Projects</h2>
+    <div class="browse-grid">
+      <a class="browse-card" href="PORTFOLIO_CRApage.html">
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/cra-hero.jpg" alt="Cambridge Redevelopment Authority"/></div>
+        <span class="browse-title">Cambridge Redevelopment Authority</span>
+      </a>
+      <a class="browse-card" href="PORTFOLIO_MidwayCrusadePage.html">
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/midway-crusade.webp" alt="Midway Crusade"/></div>
+        <span class="browse-title">Midway Crusade</span>
+      </a>
+      <a class="browse-card" href="PORTFOLIO_KbappPage.html">
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/k-bapp.webp" alt="K_bapp"/></div>
+        <span class="browse-title">K_bapp</span>
+      </a>
+    </div>
+  </div>
+
+  <a class="pill dark nav-back" href="index.html">← Back to all work</a>
+
+</div>
+
+<footer>
+  <p>© 2026 Shoyu Park</p>
+</footer>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 14.5V3.5M9 3.5L4.5 8M9 3.5L13.5 8" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<script src="assets/theme.js?v=21"></script>
+<script>
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  if (window.scrollY > 400) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+}, { passive:true });
+</script>
+
+<script>
+document.querySelectorAll('.frame-slider').forEach(sl => {
+  const tr = sl.querySelector('.frame-track'), n = tr.children.length;
+  const dots = [...sl.querySelectorAll('.frame-dots button')];
+  const idx = () => Math.round(tr.scrollLeft / tr.clientWidth);
+  const go = i => tr.scrollTo({ left: Math.max(0, Math.min(n - 1, i)) * tr.clientWidth, behavior:'smooth' });
+  sl.querySelector('.frame-prev').onclick = () => go(idx() - 1);
+  sl.querySelector('.frame-next').onclick = () => go(idx() + 1);
+  dots.forEach((d, i) => d.onclick = () => go(i));
+  const upd = () => { const i = idx(); dots.forEach((d, k) => d.classList.toggle('on', k === i));
+    sl.querySelector('.frame-prev').disabled = i === 0; sl.querySelector('.frame-next').disabled = i === n - 1; };
+  tr.addEventListener('scroll', upd, { passive:true }); window.addEventListener('resize', upd); upd();
+});
+</script>
+</body>
+</html>

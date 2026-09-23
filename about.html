@@ -3,451 +3,303 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>About — Shoyu Park</title>
+<title>Shoyu Park | About</title>
+<link rel="stylesheet" href="assets/theme.css?v=21"/>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --white:  #FFFFFF;
-  --black:  #0D0D0D;
-  --amber:  #E8A030;
-  --gray:   #6B6B6B;
-  --light:  #F0EEEA;
-  --border: #E0DDD8;
-  --font:   'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--white);
-  color: var(--black);
-  font-family: var(--font);
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-
-/* ─── NAV ─── */
-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 60px;
-  height: 72px;
-  position: sticky;
-  top: 0;
-  background: rgba(255,255,255,0.94);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  z-index: 50;
-  opacity: 0;
-  animation: fadeUp 0.5s ease 0.05s forwards;
-}
-.logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  cursor: pointer;
-}
-.logo-type {
-  font-family: var(--font);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--black);
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  min-width: 120px;
-  transition: opacity 0.18s;
-}
-.logo:hover .logo-type { opacity: 0.65; }
-.logo-type .highlight {
-  background: var(--amber);
-  color: var(--white);
-  border-radius: 2px;
-  padding: 0 1px;
-}
-.logo-type .cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1em;
-  background: var(--black);
-  margin-left: 1px;
-  vertical-align: middle;
-  animation: blink 0.85s step-end infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-
-.nav-right { display: flex; gap: 36px; align-items: center; }
-.nav-link {
-  font-family: var(--font);
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--gray);
-  text-decoration: none;
-  letter-spacing: 0.2px;
-  transition: color 0.18s;
-}
-.nav-link:hover { color: var(--amber); }
-.nav-link.active { color: var(--black); font-weight: 700; }
-
-/* ─── HERO ─── */
-.hero {
-  min-height: calc(100vh - 72px);
-  padding: 64px 60px 56px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  opacity: 0;
-  animation: fadeUp 0.55s ease 0.1s forwards;
-}
-.hero-eyebrow {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--amber);
-  margin-bottom: 20px;
-}
-.hero-title {
-  font-family: var(--font);
-  font-size: clamp(64px, 8vw, 108px);
-  font-weight: 700;
-  line-height: 0.92;
-  letter-spacing: -4px;
-  color: var(--black);
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-.arrow-circle {
-  width: 48px;
-  height: 48px;
-  border: 2px solid var(--black);
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: background 0.22s, border-color 0.22s, transform 0.6s;
-  cursor: pointer;
-}
-.arrow-circle svg { width: 18px; height: 18px; display: block; }
-.hero-title:hover .arrow-circle {
-  background: var(--amber);
-  border-color: var(--amber);
-  transform: rotate(360deg);
-}
-.hero-title:hover .arrow-circle svg path { stroke: var(--white); }
-
-/* ─── CONTENT SECTION ─── */
-#content {
-  padding: 88px 60px 140px;
-  display: grid;
-  grid-template-columns: 400px 1fr;
-  gap: 80px;
-  align-items: start;
-}
-
-/* ─── PHOTO ─── */
-.about-photo-wrap {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.about-photo-wrap.visible { opacity: 1; transform: translateY(0); }
-.about-photo {
-  width: 100%;
-  aspect-ratio: 2/3;
-  object-fit: cover;
-  object-position: center top;
-  border-radius: 4px;
-  display: block;
-  background: var(--light);
-}
-.photo-placeholder {
-  width: 100%;
-  aspect-ratio: 2/3;
-  background: linear-gradient(160deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255,255,255,0.18);
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-/* ─── TEXT SIDE ─── */
-.about-text {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
-}
-.about-text.visible { opacity: 1; transform: translateY(0); }
-
-/* ─── HELLO TYPEWRITER ─── */
-.hello-wrap {
-  margin-bottom: 36px;
-  min-height: 72px;
-}
-.hello-line {
-  font-family: var(--font);
-  font-size: clamp(36px, 4.5vw, 56px);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -1.5px;
-  color: var(--black);
-  display: block;
-}
-/* Each typed character */
-.hello-line .hl-char { color: var(--black); }
-.hello-line .hl-star { color: var(--amber); font-size: 0.55em; vertical-align: middle; }
-/* Highlight state when selecting before delete */
-.hello-line.selecting .hl-char,
-.hello-line.selecting .hl-star {
-  background: var(--amber);
-  color: var(--white);
-  border-radius: 2px;
-}
-/* Blinking cursor bar */
-.tw-cursor {
-  display: inline-block;
-  width: 3px;
-  height: 0.85em;
-  background: var(--black);
-  margin-left: 2px;
-  vertical-align: middle;
-  border-radius: 1px;
-  animation: blink 0.75s step-end infinite;
-}
-.hello-line.selecting .tw-cursor { background: var(--white); }
-
-/* ─── BODY TEXT ─── */
-.about-body {
-  font-family: var(--font);
-  font-size: 17px;
-  font-weight: 500;
-  line-height: 1.75;
-  color: var(--black);
-}
-.about-body p + p { margin-top: 22px; }
-.about-body p:first-child {
-  font-size: 19px;
-  font-weight: 500;
-  line-height: 1.65;
-}
-
-/* ─── SOCIAL ─── */
-.social-links {
-  margin-top: 44px;
-  display: flex;
-  gap: 14px;
-  align-items: center;
-}
-.social-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 24px;
-  border: 1.5px solid var(--black);
-  border-radius: 100px;
-  text-decoration: none;
-  color: var(--black);
-  font-family: var(--font);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  transition: background 0.18s, color 0.18s, border-color 0.18s;
-}
-.social-btn:hover { background: var(--black); color: var(--white); }
-.social-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-/* ─── FOOTER ─── */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 28px 60px;
-}
-footer p {
-  font-size: 13px;
-  color: var(--gray);
-  letter-spacing: 0.3px;
-}
-
-/* ─── ANIMATIONS ─── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ─── RESPONSIVE ─── */
-@media (max-width: 940px) {
-  #content {
-    grid-template-columns: 1fr;
-    gap: 52px;
-    padding: 60px 24px 80px;
+  .about-mat{ padding-bottom:80px; }
+  .intro{
+    display:grid; grid-template-columns:340px 1fr; gap:56px;
+    align-items:start; position:relative; z-index:3; margin-top:24px;
   }
-  .about-photo-wrap { max-width: 340px; }
-  nav, .hero { padding-left: 24px; padding-right: 24px; }
-  .hello-line { font-size: clamp(30px, 7vw, 48px); }
-}
+  @media (max-width:820px){ .intro{ grid-template-columns:1fr; } }
+  .headshot{ position:relative; width:100%; aspect-ratio:4/5; }
+  .headshot-frame{
+    width:100%; height:100%; border-radius:0;
+    overflow:hidden; box-shadow:0 20px 44px -18px rgba(0,0,0,.4);
+  }
+  .headshot-frame img{ width:100%;height:100%;object-fit:cover; display:block; }
+  /* corner pieces styled like masking tape, taping the photo to the mat */
+  .tape{
+    position:absolute; width:92px; height:32px;
+    background-color:rgba(240,234,220,.82);
+    background-image:repeating-linear-gradient(
+      120deg,
+      rgba(255,255,255,.35) 0 3px,
+      rgba(0,0,0,.03) 3px 6px
+    );
+    box-shadow:0 3px 8px rgba(0,0,0,.22);
+    mix-blend-mode:normal;
+  }
+  .tape.tl{ top:-12px; left:-20px; transform:rotate(-42deg); }
+  .tape.tr{ top:-12px; right:-20px; transform:rotate(42deg); }
+  .hello{
+    font-family:var(--font-serif); font-style:italic; font-weight:600;
+    font-size:22px; color:var(--ink); margin-bottom:6px;
+  }
+  .name{
+    font-family:var(--font-sans); font-weight:700;
+    font-size:clamp(38px,5vw,56px); color:var(--ink); letter-spacing:-1px; margin-bottom:22px;
+  }
+  .bio p{
+    font-family:var(--font-sans); font-size:14.5px; line-height:1.7;
+    color:rgba(13,13,13,0.82); margin-bottom:14px; max-width:620px;
+  }
+  .cta-row{ display:flex; gap:12px; margin-top:24px; }
+
+  .divider{ display:flex; justify-content:center; margin:56px 0; position:relative; z-index:3; }
+  .divider svg{ width:34px;height:34px; animation:spin 14s linear infinite; }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .info-grid{
+    display:grid; grid-template-columns:1.15fr 1fr; gap:56px;
+    position:relative; z-index:3;
+  }
+  @media (max-width:820px){ .info-grid{ grid-template-columns:1fr; gap:40px; } }
+  h2.section{
+    font-family:var(--font-serif); font-style:italic; font-weight:600;
+    font-size:22px; color:var(--ink); text-decoration:underline;
+    text-underline-offset:6px; margin-bottom:26px;
+  }
+  .job{ position:relative; padding-left:26px; margin-bottom:30px; }
+  .job::before{
+    content:''; position:absolute; left:3px; top:6px;
+    width:8px;height:8px; border-radius:50%; background:var(--ink);
+  }
+  .job::after{
+    content:''; position:absolute; left:6px; top:16px; bottom:-30px;
+    width:1.5px; background:rgba(13,13,13,.25);
+  }
+  .job:last-child::after{ display:none; }
+  .job-title{ font-family:var(--font-sans); font-weight:700; font-size:15.5px; color:var(--ink); }
+  .job-role{ font-family:var(--font-serif); font-style:italic; font-size:14px; color:rgba(13,13,13,0.80); margin-bottom:4px; }
+  .job-loc{ font-family:var(--font-sans); font-size:11px; color:rgba(13,13,13,0.55); letter-spacing:.3px; margin-bottom:8px; }
+  .job ul{ padding-left:32px; }
+  .job li{
+    font-family:var(--font-sans); font-size:13px; line-height:1.6;
+    color:rgba(13,13,13,0.80); list-style:disc; margin-bottom:6px;
+    padding-left:4px;
+  }
+  .job li::marker{ color:rgba(13,13,13,0.55); }
+
+  .edu-block{ margin-bottom:24px; }
+  .edu-school{ font-family:var(--font-sans); font-weight:700; font-size:15px; color:var(--ink); }
+  .edu-degree{ font-family:var(--font-sans); font-size:13px; color:rgba(13,13,13,0.75); }
+  .edu-year{ font-family:var(--font-sans); font-size:12px; color:rgba(13,13,13,0.55); }
+
+  .lang-row{ display:flex; justify-content:space-between; max-width:280px; margin-bottom:6px; }
+  .lang-row span:first-child{ font-family:var(--font-sans); font-weight:600; font-size:13.5px; color:var(--ink); }
+  .lang-row span:last-child{ font-family:var(--font-sans); font-size:13px; color:rgba(13,13,13,0.65); }
+
+  .badges{ display:flex; gap:10px; flex-wrap:wrap; }
+  .badge{
+    width:44px;height:44px; border-radius:8px; background:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-sans); font-weight:700; font-size:13px; color:#fff;
+  }
+
+  /* ===== bigger, bolder, more legible over the graph paper ===== */
+  .intro{ grid-template-columns:minmax(300px,440px) 1fr; gap:clamp(40px,5vw,96px); margin-top:40px; }
+  .hello{ font-size:clamp(28px,2.6vw,40px); margin-bottom:10px; }
+  .name{ font-size:clamp(56px,7vw,108px); letter-spacing:-2px; margin-bottom:32px; line-height:1; }
+  .bio p{ font-size:clamp(19px,1.6vw,25px); line-height:1.6; color:var(--ink); max-width:900px; margin-bottom:22px; }
+  .cta-row{ margin-top:36px; gap:16px; }
+  .divider{ margin:96px 0; }
+  .divider svg{ width:48px; height:48px; }
+  .info-grid{ gap:clamp(48px,6vw,112px); }
+  h2.section{ font-size:clamp(32px,3vw,46px); margin-bottom:40px; text-underline-offset:10px; }
+  .job{ padding-left:36px; margin-bottom:48px; }
+  .job::before{ width:12px; height:12px; top:10px; left:2px; }
+  .job::after{ left:7px; top:26px; bottom:-48px; width:2px; }
+  .job-title{ font-size:clamp(22px,1.9vw,30px); }
+  .job-role{ font-size:clamp(19px,1.6vw,25px); color:var(--ink); margin:4px 0 6px; }
+  .job-loc{ font-size:clamp(15px,1.2vw,18px); color:rgba(13,13,13,.75); margin-bottom:14px; }
+  .job ul{ padding-left:24px; }
+  .job li{ font-size:clamp(17px,1.4vw,22px); line-height:1.55; color:var(--ink); margin-bottom:10px; }
+  .edu-block{ margin-bottom:36px; }
+  .edu-school{ font-size:clamp(22px,1.9vw,30px); }
+  .edu-degree{ font-size:clamp(18px,1.5vw,23px); color:var(--ink); margin-top:4px; }
+  .edu-year{ font-size:clamp(15px,1.2vw,18px); color:rgba(13,13,13,.75); margin-top:4px; }
+  .lang-row{ max-width:440px; margin-bottom:12px; }
+  .lang-row span:first-child{ font-size:clamp(18px,1.5vw,23px); }
+  .lang-row span:last-child{ font-size:clamp(17px,1.4vw,22px); color:rgba(13,13,13,.8); }
+  .badges{ gap:14px; }
+  .badge{ width:72px; height:72px; border-radius:12px; font-size:22px; }
+  /* soft white halo so letters stay crisp over the grid lines */
+  .about-mat .intro, .about-mat .info-grid{ text-shadow:0 0 6px #fff, 0 0 3px #fff; }
+  .about-mat .badge{ text-shadow:none; }
+
+  /* ---------- notebook alignment ---------- */
+  .intro{ grid-template-columns:432px 1fr; column-gap:96px; }      /* 432 = 18 squares, 96 = 4 */
+  @media (max-width:820px){ .intro{ grid-template-columns:1fr; } }
+  .headshot{ width:432px; max-width:100%; aspect-ratio:auto; height:528px; }  /* 18 x 22 squares */
+  .info-grid{ column-gap:96px; }
+  /* timeline runs exactly down a vertical grid line (the column's left edge) */
+  .job{ padding-left:48px; }
+  .job::after{ left:-1px !important; width:2px !important; top:24px !important; bottom:-48px !important; }
+  .job::before{ left:-6px !important; width:12px !important; height:12px !important; top:6px !important; }
+  /* heading underline sits right on the grid line under the words */
+  h2.section{ text-underline-offset:2px; text-decoration-thickness:2px; }
+
+  /* LinkedIn / Contact buttons: palette color, no glow */
+  .about-mat .pill{ text-shadow:none !important; }
+  .cta-row .pill{ background:#18218B !important; color:#FFC0D4 !important; }
+  .cta-row .pill:hover{ background:#A8006F !important; }
+
+  /* body text sized to write on every grid row (24px) without skipping one */
+  .bio p{ font-size:clamp(18px,1.5vw,21px); margin-bottom:24px; }
+  .job li{ font-size:clamp(16px,1.3vw,20px); margin-bottom:0; }
+  .job-role, .edu-degree{ font-size:clamp(17px,1.4vw,21px); margin:0; }
+  .job-loc, .edu-year{ margin:0; }
+  .lang-row{ margin-bottom:0; }
+  .lang-row span:first-child, .lang-row span:last-child{ font-size:clamp(17px,1.4vw,21px); }
+
+  /* ===== consistent notebook spacing: every gap is a whole number of rows (24px) ===== */
+  .intro, .divider, .info-grid{ margin-left:24px; }          /* content starts one square in, under the O of SHOYU */
+  .hello{ margin:0 0 0; }
+  .name{ margin:0 0 24px; }
+  .bio p{ margin:0 0 24px; }
+  .cta-row{ margin-top:24px; }
+  .divider{ margin-top:72px; margin-bottom:72px; }
+  h2.section{ margin:0 0 24px; }
+  h2.section.section-next{ margin-top:48px; }
+  .job{ margin:0 0 48px; }
+  .job:last-child{ margin-bottom:0; }
+  .job-title, .job-role, .job-loc{ margin:0; }
+  .job ul{ margin:0; padding-left:24px; }
+  .job li{ margin:0; }
+  .edu-block{ margin:0 0 24px; }
+  .edu-school, .edu-degree, .edu-year{ margin:0; }
+  .lang-row{ margin:0; }
+  .badges{ margin-top:0; }
 </style>
 </head>
-<body>
+<body class="ruled">
 
-<!-- ─── NAV ─── -->
-<nav>
-  <a class="logo" href="index.html">
-    <span class="logo-type" id="logoType"></span>
-  </a>
-  <div class="nav-right">
-    <a href="index.html" class="nav-link">Work</a>
-    <a href="about.html" class="nav-link active">About me</a>
+<div class="mat about-mat">
+  <div class="mat-grid"></div>
+  <div class="mat-grid-bright"></div>
+  <div class="ruler-h"></div>
+  <div class="ruler-v left"></div>
+  <div class="ruler-v right"></div>
+
+  <nav>
+    <a class="logo" href="index.html">
+      <span>SHOYU PARK</span>
+    </a>
+    <a class="pill" href="about.html">ABOUT ME</a>
+  </nav>
+
+  <div class="intro reveal" id="rv1">
+    <div class="headshot">
+      <div class="headshot-frame">
+        <img src="assets/images/isabel-headshot.jpg" alt="Isabel Park"/>
+      </div>
+      <div class="tape tl"></div>
+      <div class="tape tr"></div>
+    </div>
+    <div>
+      <p class="hello">Hello!</p>
+      <h1 class="name">Isabel S. Park</h1>
+      <div class="bio">
+        <p>I'm Isabel Park, a creative professional focused on visual communication, branding, and design-driven problem solving.</p>
+        <p>My background is illustration-heavy, but my approach is broader and more applied. I think visually and work best when I can use design to solve problems efficiently and creatively, not just to create standalone visuals. I'm interested in how ideas translate clearly, especially when aesthetics and communication need to work together.</p>
+        <p>Right now, my goal is to expand my visual design skills into marketing, social media, and branding contexts, where design is used actively within campaigns and practical outcomes rather than existing in isolation.</p>
+      </div>
+      <div class="cta-row">
+        <a class="pill" href="https://www.linkedin.com/in/shoyu-park/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a class="pill" href="mailto:sohyunp243@gmail.com">Contact</a>
+      </div>
+    </div>
   </div>
-</nav>
 
-<!-- ─── HERO ─── -->
-<div class="hero">
-  <div>
-    <p class="hero-eyebrow">Brand Designer &amp; Illustrator</p>
-    <h1 class="hero-title">
-      ABOUT ME
-      <span class="arrow-circle" onclick="document.getElementById('content').scrollIntoView({behavior:'smooth'})">
-        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M9 3.5V14.5M9 14.5L4.5 10M9 14.5L13.5 10" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </span>
-    </h1>
+  <div class="divider reveal" id="rv2"></div>
+
+  <div class="info-grid reveal" id="rv3">
+    <div>
+      <h2 class="section">Work Experience</h2>
+
+      <div class="job">
+        <div class="job-title">Cambridge Redevelopment Authority</div>
+        <div class="job-role">Communications Intern</div>
+        <div class="job-loc">Boston, MA | Nov 2025 to May 2026</div>
+        <ul>
+          <li>Designed branded print &amp; digital materials: reports, templates, large-format graphics, signage, brandbook, and a logo for a partner project.</li>
+          <li>Coordinated with print vendors on large-format and specialty collateral.</li>
+          <li>Created social media graphics and supported monthly email newsletters via Constant Contact &amp; Buffer.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-title">JSB Analytics</div>
+        <div class="job-role">Freelance Designer</div>
+        <div class="job-loc">Los Angeles, CA | Jan 2024 to Present</div>
+        <ul>
+          <li>Designed digital assets for a variety of client projects, aligning with branding and project goals.</li>
+          <li>Managed multiple design projects simultaneously, delivering creative assets on time.</li>
+          <li>Adapted to client feedback with minimal revisions, resulting in fast turnarounds.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-title">Hikari Ferramentas</div>
+        <div class="job-role">Junior Graphic &amp; Motion Designer</div>
+        <div class="job-loc">São Paulo, SP | Jun 2024 to Jun 2025</div>
+        <ul>
+          <li>Executed content from project briefs, adhering to deadlines and brand standards.</li>
+          <li>Created product showcase videos for sales teams, improving client engagement.</li>
+          <li>Edited &amp; photographed products for the company's website.</li>
+          <li>Designed promotional graphics for social media and packaging.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="section">Education</h2>
+      <div class="edu-block">
+        <div class="edu-school">Boston University</div>
+        <div class="edu-degree">MS in Global Marketing Management</div>
+        <div class="edu-year">Sept 2025 – Present</div>
+      </div>
+      <div class="edu-block">
+        <div class="edu-school">Otis College of Art and Design</div>
+        <div class="edu-degree">BFA in Digital Media</div>
+        <div class="edu-year">Aug 2019 – May 2023</div>
+      </div>
+
+      <h2 class="section section-next">Languages</h2>
+      <div class="lang-row"><span>English</span><span>Fluent</span></div>
+      <div class="lang-row"><span>Portuguese</span><span>Fluent</span></div>
+      <div class="lang-row"><span>Korean</span><span>Elementary</span></div>
+
+      <h2 class="section section-next">Design</h2>
+      <div class="badges">
+        <div class="badge">Ai</div>
+        <div class="badge">Ps</div>
+        <div class="badge">Id</div>
+        <div class="badge">Ae</div>
+        <div class="badge">Pr</div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ─── CONTENT ─── -->
-<section id="content">
-
-  <!-- Photo -->
-  <div class="about-photo-wrap" id="photoWrap">
-    <img class="about-photo" src="isabel-park.jpg" alt="Isabel Park"
-         onerror="this.style.display='none';document.getElementById('photoPh').style.display='flex'"/>
-    <div class="photo-placeholder" id="photoPh" style="display:none">Isabel Park</div>
-  </div>
-
-  <!-- Text -->
-  <div class="about-text" id="aboutText">
-
-    <!-- Looping typewriter heading -->
-    <div class="hello-wrap">
-      <span class="hello-line" id="helloLine"><span class="tw-cursor"></span></span>
-    </div>
-
-    <div class="about-body">
-      <p>I'm a creative professional focused on visual communication, branding, and design-driven problem solving. With a BFA in Concept Design and my current pursuits of an MS in Global Marketing Management at BU, I'm interested in how ideas translate clearly, especially when aesthetics and communication need to work together.</p>
-      <p>Right now, my goal is to expand my visual design skills into marketing, social media, and branding contexts, where design is used actively within campaigns and practical outcomes rather than existing in isolation.</p>
-    </div>
-
-    <div class="social-links">
-      <a class="social-btn" href="https://www.linkedin.com/in/shoyu-park/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-        </svg>
-        LinkedIn
-      </a>
-    </div>
-  </div>
-
-</section>
-
-<!-- ─── FOOTER ─── -->
 <footer>
   <p>© 2026 Shoyu Park</p>
 </footer>
 
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 14.5V3.5M9 3.5L4.5 8M9 3.5L13.5 8" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<script src="assets/theme.js?v=21"></script>
 <script>
-/* ─── NAV LOGO TYPEWRITER ─── */
-const FULL_TEXT = 'SHOYU✶PARK';
-const STAR      = '✶';
-const logoEl    = document.getElementById('logoType');
-
-function renderLogo(txt, hlRange, cur) {
-  let h = '';
-  for (let i = 0; i < txt.length; i++) {
-    const ch = txt[i] === STAR
-      ? `<span style="font-size:9px;vertical-align:middle;line-height:1;">${STAR}</span>`
-      : txt[i];
-    h += (hlRange && i >= hlRange[0] && i < hlRange[1])
-      ? `<span class="highlight">${ch}</span>` : ch;
-  }
-  if (cur) h += '<span class="cursor"></span>';
-  logoEl.innerHTML = h;
-}
-
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-async function logoLoop() {
-  while (true) {
-    for (let i = 1; i <= FULL_TEXT.length; i++) {
-      renderLogo(FULL_TEXT.slice(0, i), null, true);
-      await sleep(85);
-    }
-    await sleep(520);
-    renderLogo(FULL_TEXT, [1, 5], true);
-    await sleep(500);
-    const after = FULL_TEXT[0] + FULL_TEXT.slice(5);
-    renderLogo(after, null, true);
-    await sleep(1600);
-    let rem = after;
-    while (rem.length) { rem = rem.slice(0,-1); renderLogo(rem,null,true); await sleep(70); }
-    renderLogo('', null, true);
-    await sleep(700);
-  }
-}
-logoLoop();
-
-/* ─── HELLO TYPEWRITER ─── */
-const HELLO = "Hello! I'm Isabel✶";
-const helloEl = document.getElementById('helloLine');
-
-function buildHelloHTML(chars, selecting) {
-  let h = '';
-  for (const ch of chars) {
-    if (ch === '✶') {
-      h += `<span class="hl-star">${ch}</span>`;
-    } else {
-      h += `<span class="hl-char">${ch === ' ' ? '&nbsp;' : ch}</span>`;
-    }
-  }
-  h += '<span class="tw-cursor"></span>';
-  return h;
-}
-
-async function helloLoop() {
-  while (true) {
-    helloEl.classList.remove('selecting');
-    const typed = [];
-    for (const ch of HELLO) {
-      typed.push(ch);
-      helloEl.innerHTML = buildHelloHTML(typed, false);
-      await sleep(ch === ' ' ? 120 : 78);
-    }
-    await sleep(900);
-    helloEl.classList.add('selecting');
-    await sleep(600);
-    helloEl.classList.remove('selecting');
-    helloEl.innerHTML = '<span class="tw-cursor"></span>';
-    await sleep(520);
-  }
-}
-
-/* ─── LOAD ANIMATIONS ─── */
-window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('photoWrap').classList.add('visible'), 220);
-  setTimeout(() => {
-    document.getElementById('aboutText').classList.add('visible');
-    helloLoop();
-  }, 400);
-});
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  if (window.scrollY > 400) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+}, { passive:true });
 </script>
-
 </body>
 </html>

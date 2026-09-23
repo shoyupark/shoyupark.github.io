@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Filthy Gorgeous | Shoyu Park</title>
+<link rel="stylesheet" href="assets/theme.css?v=21"/>
+<style>
+  /* Project pages keep it simple: one continuous green mat, no white paper
+     section. The grid texture just fades out gradually the further you
+     scroll, rather than crossing into a different background color. */
+  .proj-mat{ padding-bottom:80px; }
+  .page-fade{
+    -webkit-mask-image:linear-gradient(180deg, #000 0%, #000 35%, transparent 85%);
+    mask-image:linear-gradient(180deg, #000 0%, #000 35%, transparent 85%);
+  }
+  /* first viewport: nav + header fill exactly 100vh, so the title/desc/specs
+     are the only thing visible on load — everything else starts below the
+     fold, only reached by scrolling. */
+  .proj-hero{ min-height:100vh; display:flex; flex-direction:column; }
+  .proj-head{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:56px;
+    position:relative; z-index:3; flex:1; align-content:center;
+  }
+  @media (max-width:820px){ .proj-head{ grid-template-columns:1fr; } }
+  .proj-title{
+    font-family:var(--font-serif); font-style:italic; font-weight:600;
+    font-size:clamp(48px,8vw,104px); color:var(--ink); line-height:1.02; margin-bottom:24px;
+  }
+  .proj-desc{ font-family:var(--font-sans); font-size:23px; line-height:1.7; color:rgba(13,13,13,0.82); }
+  /* each row is exactly one grid unit (80px) tall so its divider lands
+     exactly on the mat's background grid line instead of drawing a second,
+     slightly-off line right next to it */
+  .spec-row{ display:flex; align-items:center; justify-content:space-between; height:80px; border-bottom:2px solid rgba(13,13,13,.15); }
+  .spec-label{ font-family:var(--font-sans); font-size:24px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:rgba(13,13,13,0.55); }
+  .spec-val{ font-family:var(--font-sans); font-size:18px; color:var(--ink); text-align:right; max-width:60%; }
+
+  /* full mat width — no max-width/auto-margin — so this lines up with
+     .proj-head above it instead of centering as a narrower column */
+  .section-block{ position:relative; z-index:1; margin-bottom:108px; }
+  .section-block:last-child{ margin-bottom:0; }
+  /* two extra grid squares (80px each) of breathing room below the hero,
+     before the first section starts */
+  .proj-hero + .section-block{ margin-top:160px; }
+  /* title takes 1/3, description takes 2/3, both top-aligned; images go
+     full-width below this row — one extra grid square (80px) added on top
+     of the base gap so the photos don't crowd the description */
+  .section-head{ display:grid; grid-template-columns:1fr 2fr; gap:56px; align-items:start; margin-bottom:108px; }
+  @media (max-width:820px){ .section-head{ grid-template-columns:1fr; } }
+  .section-title{ font-family:var(--font-sans); font-weight:500; font-size:56px; color:var(--ink); text-transform:uppercase; }
+  .section-text{ font-family:var(--font-sans); font-size:22px; line-height:1.7; color:rgba(13,13,13,0.75); }
+  .section-text a{ color:var(--ink); }
+  .img-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .img-grid.single{ grid-template-columns:1fr; }
+  .img-grid img{
+    width:100%; border-radius:var(--radius); display:block;
+    box-shadow:0 18px 40px -22px rgba(0,0,0,.35);
+  }
+
+  /* other projects to browse to once you're done with this one */
+  .browse-projects{ position:relative; z-index:1; margin-bottom:56px; }
+  .browse-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; margin-top:28px; }
+  @media (max-width:820px){ .browse-grid{ grid-template-columns:1fr; } }
+  .browse-card{ display:block; text-decoration:none; color:inherit; }
+  .browse-thumb{
+    position:relative; width:100%; aspect-ratio:16/9; overflow:hidden;
+    border-radius:var(--radius);
+    box-shadow:0 18px 40px -22px rgba(0,0,0,.35);
+  }
+  .browse-thumb img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .5s cubic-bezier(.2,.7,.3,1);
+  }
+  .browse-card:hover .browse-thumb img{ transform:scale(1.05); }
+  .browse-title{
+    display:block; margin-top:14px;
+    font-family:var(--font-sans); font-weight:700; font-size:16px;
+    letter-spacing:.3px; text-transform:uppercase; color:var(--ink);
+  }
+
+  .nav-back{ margin-top:56px; }
+</style>
+</head>
+<body class="plain">
+
+<div class="mat proj-mat" id="projMat">
+  <div class="mat-grid page-fade"></div>
+  <div class="page-fade"><div class="mat-grid-bright"></div></div>
+  <div class="ruler-h"></div>
+  <div class="ruler-v left"></div>
+  <div class="ruler-v right"></div>
+
+  <div class="proj-hero">
+    <nav>
+      <a class="logo" href="index.html">
+        <span>SHOYU PARK</span>
+      </a>
+      <a class="pill" href="about.html">ABOUT ME</a>
+    </nav>
+
+    <div class="proj-head reveal" id="rv1">
+      <div>
+        <h1 class="proj-title">Filthy Gorgeous</h1>
+        <p class="proj-desc">Filthy Gorgeous is a jewelry brand with a grunge, streetwear-inspired aesthetic.</p>
+      </div>
+      <div class="spec-note"><div class="spec-table">
+        <div class="spec-row"><span class="spec-label">Year</span><span class="spec-val">2024</span></div>
+        <div class="spec-row"><span class="spec-label">Organization</span><span class="spec-val">Freelance for JSB</span></div>
+        <div class="spec-row"><span class="spec-label">Role</span><span class="spec-val">Graphic Design</span></div>
+        <div class="spec-row"><span class="spec-label">Tools</span><span class="spec-val">Illustrator, Photoshop</span></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div id="banner-design" class="section-block reveal">
+    <div class="section-head">
+      <h2 class="section-title">Banner Design</h2>
+      <p class="section-text">For a jewelry brand website, I designed the homepage banner, staying true to Filthy Gorgeous's grunge, streetwear-inspired branding. I created several banner alternatives with desktop specifications, and the client selected one for final use.</p>
+    </div>
+    <div class="img-grid">
+      <img loading="lazy" decoding="async" src="assets/images/filthy-gorgeous-banner/01-full-banner-v1.jpg" alt="Filthy Gorgeous homepage banner, alternative 1"/>
+      <img loading="lazy" decoding="async" src="assets/images/filthy-gorgeous-banner/02-detail-cross-ring-blue.jpg" alt="Filthy Gorgeous banner detail, gothic cross ring, alternative 1"/>
+      <img loading="lazy" decoding="async" src="assets/images/filthy-gorgeous-banner/03-full-banner-v2.jpg" alt="Filthy Gorgeous homepage banner, alternative 2"/>
+      <img loading="lazy" decoding="async" src="assets/images/filthy-gorgeous-banner/04-detail-cross-ring-wolf-overlay.jpg" alt="Filthy Gorgeous banner detail, gothic cross ring, alternative 2"/>
+      <img loading="lazy" decoding="async" src="assets/images/filthy-gorgeous-banner/05-full-banner-v3.jpg" alt="Filthy Gorgeous homepage banner, alternative 3"/>
+      <img loading="lazy" decoding="async" src="assets/images/filthy-gorgeous-banner/06-detail-cross-ring-plain.jpg" alt="Filthy Gorgeous banner detail, gothic cross ring, alternative 3"/>
+    </div>
+  </div>
+
+  <div class="browse-projects reveal">
+    <h2 class="section-title">Browse Projects</h2>
+    <div class="browse-grid">
+      <a class="browse-card" href="PORTFOLIO_CRApage.html">
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/cra-hero.jpg" alt="Cambridge Redevelopment Authority"/></div>
+        <span class="browse-title">Cambridge Redevelopment Authority</span>
+      </a>
+      <a class="browse-card" href="PORTFOLIO_HelenaJangPage.html">
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/helena-jang-hero.jpg" alt="Chef Helena"/></div>
+        <span class="browse-title">Chef Helena</span>
+      </a>
+      <a class="browse-card" href="PORTFOLIO_KbappPage.html">
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/k-bapp.webp" alt="K_bapp"/></div>
+        <span class="browse-title">K_bapp</span>
+      </a>
+    </div>
+  </div>
+
+  <a class="pill dark nav-back" href="index.html">← Back to all work</a>
+
+</div>
+
+<footer>
+  <p>© 2026 Shoyu Park</p>
+</footer>
+
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 14.5V3.5M9 3.5L4.5 8M9 3.5L13.5 8" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</div>
+
+<script src="assets/theme.js?v=21"></script>
+<script>
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('scrollTop');
+  if (window.scrollY > 400) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+}, { passive:true });
+</script>
+</body>
+</html>

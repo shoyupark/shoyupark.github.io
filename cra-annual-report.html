@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CRA 2025 Annual Report | Shoyu Park</title>
+<link rel="stylesheet" href="assets/theme.css?v=21"/>
+<style>
+  body{ background:var(--paper); }
+  .flip-page{
+    height:100vh; display:flex; flex-direction:column;
+    padding:44px 56px 40px;
+  }
+  body.embed .flip-page{ padding:20px; }
+  nav{ margin-bottom:0; }
+  body.embed nav, body.embed .flip-caption, body.embed .hint{ display:none; }
+  /* nav/pill are styled for the dark green mat elsewhere on the site — this
+     page is a white reading surface, so flip both to dark-on-light here */
+  .logo{ color:var(--ink); }
+  .logo svg{ fill:var(--ink) !important; }
+  .pill{ background:var(--ink); color:var(--ink); }
+  .flip-caption{
+    text-align:center; margin-top:18px;
+    font-family:var(--font-sans); font-size:13px; letter-spacing:.5px;
+    color:rgba(16,39,35,.55); text-transform:uppercase;
+  }
+  /* perspective belongs on the parent of the rotating element, not on the
+     element itself — having it on .page-frame while also animating
+     .page-frame meant there was no 3D space for the rotation to happen in,
+     so it just squashed flat (scaleX) instead of turning in depth. */
+  .flip-stage{
+    flex:1; min-height:0; display:flex; align-items:center; justify-content:center;
+    gap:28px; padding:24px 0; perspective:2400px;
+  }
+  .flip-arrow{
+    width:52px; height:52px; border-radius:100px; flex-shrink:0;
+    background:rgba(16,39,35,.06); border:none; cursor:none;
+    display:flex; align-items:center; justify-content:center;
+    transition:background .18s ease, opacity .18s ease;
+  }
+  .flip-arrow:hover:not(:disabled){ background:rgba(16,39,35,.12); }
+  .flip-arrow:disabled{ opacity:.25; }
+  .flip-arrow svg path{ stroke:var(--ink); }
+  .flip-arrow svg{ width:20px; height:20px; }
+  /* width/height are set in JS to the exact real-page proportions (11:8.5
+     for the cover/back cover alone, 22:8.5 for an open two-page spread) —
+     scaled as large as will fit the available box, never approximated. */
+  .page-frame{
+    position:relative; display:flex; transform-style:preserve-3d;
+    box-shadow:0 20px 50px -18px rgba(16,39,35,.3);
+  }
+  .page-frame img{
+    height:100%; width:50%; object-fit:contain; display:block;
+    background:#fff;
+  }
+  .page-frame.single img{ width:100%; }
+  /* book-gutter shadow down the centerfold of a spread: darkest at the seam,
+     fading out to transparent well before the outer edges so it actually
+     reads as the binding rather than a thin line */
+  .page-frame.spread::after{
+    content:''; position:absolute; top:0; bottom:0; left:50%; width:110px;
+    transform:translateX(-50%);
+    background:linear-gradient(90deg, transparent, rgba(0,0,0,.25) 50%, transparent);
+    pointer-events:none;
+  }
+  /* whole-frame flip — only used for cover <-> first/last spread, where
+     there's no second page underneath to reveal */
+  .page-frame.turning-next{ animation:turnNext .5s ease; }
+  .page-frame.turning-prev{ animation:turnPrev .5s ease; }
+  @keyframes turnNext{
+    0%{ transform:rotateY(0deg); }
+    50%{ transform:rotateY(-85deg); opacity:.5; }
+    51%{ transform:rotateY(85deg); }
+    100%{ transform:rotateY(0deg); opacity:1; }
+  }
+  @keyframes turnPrev{
+    0%{ transform:rotateY(0deg); }
+    50%{ transform:rotateY(85deg); opacity:.5; }
+    51%{ transform:rotateY(-85deg); }
+    100%{ transform:rotateY(0deg); opacity:1; }
+  }
+  /* real page-turn — used between two open spreads. The leaf is the single
+     page being turned: its front face is what's currently showing, its back
+     face is what the *other* side will show once it lands. It hinges at the
+     book's spine (center) and rotates over the top of the static pages,
+     which have already been swapped underneath so the leaf reveals correct
+     content the instant it passes 90°/lands. */
+  .flip-leaf{
+    position:absolute; top:0; width:50%; height:100%;
+    transform-style:preserve-3d; pointer-events:none; z-index:5;
+  }
+  .flip-leaf.hinge-right{ left:50%; transform-origin:left center; }
+  .flip-leaf.hinge-left{ left:0; transform-origin:right center; }
+  .flip-leaf img{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
+    backface-visibility:hidden; background:#fff; display:block;
+  }
+  .flip-leaf .leaf-back{ transform:rotateY(180deg); }
+  .flip-leaf::after{
+    content:''; position:absolute; inset:0; background:#000; opacity:0;
+  }
+  .flip-leaf.go-next{ animation:leafNext .7s ease forwards; }
+  .flip-leaf.go-prev{ animation:leafPrev .7s ease forwards; }
+  .flip-leaf.go-next::after, .flip-leaf.go-prev::after{ animation:leafShadow .7s ease forwards; }
+  @keyframes leafNext{ from{ transform:rotateY(0deg); } to{ transform:rotateY(-180deg); } }
+  @keyframes leafPrev{ from{ transform:rotateY(0deg); } to{ transform:rotateY(180deg); } }
+  @keyframes leafShadow{ 0%{ opacity:0; } 50%{ opacity:.35; } 100%{ opacity:0; } }
+  .flip-footer{
+    display:flex; align-items:center; justify-content:center; gap:18px;
+    margin-top:8px;
+  }
+  .page-counter{
+    font-family:var(--font-sans); font-weight:600; font-size:14px;
+    color:var(--ink); letter-spacing:.3px; min-width:70px; text-align:center;
+  }
+  .page-jump{
+    width:56px; padding:6px 8px; border-radius:8px; border:1px solid rgba(16,39,35,.2);
+    background:rgba(16,39,35,.04); color:var(--ink); font-family:var(--font-sans); font-size:13px;
+    text-align:center;
+  }
+  .hint{
+    text-align:center; margin-top:14px;
+    font-family:var(--font-sans); font-size:12px; color:rgba(16,39,35,.4);
+  }
+</style>
+</head>
+<body class="plain">
+
+<div class="flip-page">
+  <nav>
+    <a class="logo" href="index.html">
+      <span>SHOYU PARK</span>
+    </a>
+    <a class="pill" href="PORTFOLIO_CRApage.html">← Back to project</a>
+  </nav>
+  <p class="flip-caption">Cambridge Redevelopment Authority, 69th Annual Report, 2025</p>
+
+  <div class="flip-stage" id="flipStage">
+    <button class="flip-arrow" id="prevBtn" aria-label="Previous page">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 5L8 12L15 19" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+
+    <div class="page-frame single" id="pageFrame">
+      <img loading="lazy" decoding="async" id="imgLeft" alt="Annual report page"/>
+    </div>
+
+    <button class="flip-arrow" id="nextBtn" aria-label="Next page">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 5L16 12L9 19" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <div class="flip-footer">
+    <span class="page-counter" id="pageCounter"></span>
+    <input class="page-jump" id="pageJump" type="number" min="1" placeholder="go to"/>
+  </div>
+  <p class="hint">Use ← → or click the arrows to turn pages</p>
+</div>
+
+<script src="assets/theme.js?v=21"></script>
+<script>
+(function(){
+  if (location.search.indexOf('embed=1') !== -1) document.body.classList.add('embed');
+
+  const TOTAL = 48;                 // real page count
+  const LAST_SPREAD = 1 + (TOTAL-2)/2; // index of the back-cover view (24)
+  const DIR = 'assets/images/cra-annual-report/';
+  const PAGE_RATIO = 11/8.5;        // real horizontal-letter page proportions
+
+  // spread index: 0 = front cover alone, 1..23 = open spreads (2-3 .. 46-47),
+  // 24 = back cover alone
+  let spread = 0;
+
+  const stage = document.getElementById('flipStage');
+  const frame = document.getElementById('pageFrame');
+  const imgLeft = document.getElementById('imgLeft');
+  let imgRight = null;
+  const counter = document.getElementById('pageCounter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const jump = document.getElementById('pageJump');
+
+  const pad = n => String(n).padStart(2,'0');
+  const srcFor = n => `${DIR}page-${pad(n)}.jpg`;
+  const preloadPage = n => { if(n>=1 && n<=TOTAL){ const im = new Image(); im.src = srcFor(n); } };
+
+  // which real page(s) a spread index shows, and the page-number range for the counter
+  function pagesFor(s){
+    if (s === 0) return [1];
+    if (s === LAST_SPREAD) return [TOTAL];
+    const left = 2*s;
+    return [left, left+1];
+  }
+
+  function layout(){
+    const pages = pagesFor(spread);
+    const isSpread = pages.length === 2;
+    const ratio = isSpread ? PAGE_RATIO*2 : PAGE_RATIO;
+    const availH = stage.clientHeight;
+    const arrowsAndGap = 52*2 + 28*2;
+    const availW = stage.clientWidth - arrowsAndGap;
+    let h = availH, w = h*ratio;
+    if (w > availW){ w = availW; h = w/ratio; }
+    frame.style.width = w+'px';
+    frame.style.height = h+'px';
+  }
+
+  function updateChrome(pages){
+    counter.textContent = pages.length === 2 ? `${pages[0]}–${pages[1]} / ${TOTAL}` : `${pages[0]} / ${TOTAL}`;
+    prevBtn.disabled = animating || spread <= 0;
+    nextBtn.disabled = animating || spread >= LAST_SPREAD;
+    jump.value = '';
+    jump.placeholder = String(pages[0]);
+    pages.forEach(p => { preloadPage(p-1); preloadPage(p+1); preloadPage(p+2); });
+    layout();
+  }
+
+  function render(){
+    const pages = pagesFor(spread);
+    const isSpread = pages.length === 2;
+    frame.classList.toggle('single', !isSpread);
+    frame.classList.toggle('spread', isSpread);
+
+    imgLeft.src = srcFor(pages[0]);
+    if (isSpread){
+      if (!imgRight){
+        imgRight = document.createElement('img');
+        imgRight.id = 'imgRight';
+        imgRight.alt = 'Annual report page';
+        frame.appendChild(imgRight);
+      }
+      imgRight.src = srcFor(pages[1]);
+    } else if (imgRight){
+      imgRight.remove();
+      imgRight = null;
+    }
+    updateChrome(pages);
+  }
+
+  let animating = false;
+
+  // real book-style flip: turns just the one leaf between two open spreads
+  function leafFlip(next, dir, curPages, nextPages){
+    animating = true;
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+
+    // only the slot the leaf starts ON TOP of is safe to swap immediately —
+    // it's fully covered by the leaf's front face until the leaf rotates
+    // away. The other slot has nothing covering it yet, so swapping it now
+    // would flash the new page in before the leaf ever gets there; it gets
+    // updated later, right as the leaf lands on top of it.
+    if (dir > 0){ imgRight.src = srcFor(nextPages[1]); }
+    else { imgLeft.src = srcFor(nextPages[0]); }
+
+    const leaf = document.createElement('div');
+    leaf.className = 'flip-leaf ' + (dir > 0 ? 'hinge-right' : 'hinge-left');
+    const front = document.createElement('img');
+    front.alt = 'Annual report page';
+    const back = document.createElement('img');
+    back.className = 'leaf-back';
+    back.alt = 'Annual report page';
+    if (dir > 0){
+      front.src = srcFor(curPages[1]);  // current right page, flipping away
+      back.src = srcFor(nextPages[0]);  // becomes the new left page
+    } else {
+      front.src = srcFor(curPages[0]);  // current left page, flipping away
+      back.src = srcFor(nextPages[1]);  // becomes the new right page
+    }
+    leaf.appendChild(front);
+    leaf.appendChild(back);
+    frame.appendChild(leaf);
+
+    requestAnimationFrame(() => { leaf.classList.add(dir > 0 ? 'go-next' : 'go-prev'); });
+
+    setTimeout(() => {
+      // now swap the side that was never covered, exactly as the leaf
+      // finishes landing on it
+      if (dir > 0){ imgLeft.src = srcFor(nextPages[0]); }
+      else { imgRight.src = srcFor(nextPages[1]); }
+      leaf.remove();
+      spread = next;
+      animating = false;
+      updateChrome(nextPages);
+    }, 700);
+  }
+
+  function goTo(next, dir){
+    if (animating || next < 0 || next > LAST_SPREAD || next === spread) return;
+    const curPages = pagesFor(spread);
+    const nextPages = pagesFor(next);
+
+    if (curPages.length === 2 && nextPages.length === 2){
+      leafFlip(next, dir, curPages, nextPages);
+      return;
+    }
+
+    // cover <-> spread: no second page to reveal underneath, so the simple
+    // whole-frame flip is enough here
+    animating = true;
+    prevBtn.disabled = true;
+    nextBtn.disabled = true;
+    frame.classList.remove('turning-next','turning-prev');
+    void frame.offsetWidth;
+    frame.classList.add(dir > 0 ? 'turning-next' : 'turning-prev');
+    setTimeout(() => { spread = next; render(); }, 250);
+    setTimeout(() => {
+      frame.classList.remove('turning-next','turning-prev');
+      animating = false;
+      // render() ran at 250ms while animating was still true, so the
+      // buttons it computed were force-disabled — recheck now that
+      // animating has actually cleared
+      prevBtn.disabled = spread <= 0;
+      nextBtn.disabled = spread >= LAST_SPREAD;
+    }, 520);
+  }
+
+  function spreadForPage(n){
+    n = Math.max(1, Math.min(TOTAL, n));
+    if (n <= 1) return 0;
+    if (n >= TOTAL) return LAST_SPREAD;
+    return Math.floor(n/2);
+  }
+
+  prevBtn.addEventListener('click', () => goTo(spread-1, -1));
+  nextBtn.addEventListener('click', () => goTo(spread+1, 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') goTo(spread+1, 1);
+    if (e.key === 'ArrowLeft') goTo(spread-1, -1);
+  });
+  jump.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter'){
+      const n = parseInt(jump.value, 10);
+      if (n){
+        const target = spreadForPage(n);
+        goTo(target, target > spread ? 1 : -1);
+      }
+    }
+  });
+  window.addEventListener('resize', layout);
+
+  render();
+})();
+</script>
+</body>
+</html>

@@ -3,661 +3,690 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Shoyu Park — Portfolio</title>
+<title>Shoyu Park | My Portfolio</title>
+<link rel="stylesheet" href="assets/theme.css?v=21"/>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
---white: #FFFFFF;
---black: #0D0D0D;
---amber: #E8A030;
---gray: #6B6B6B;
---light: #F0EEEA;
---border: #E0DDD8;
---font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-html { scroll-behavior: smooth; }
-body {
-background: var(--white);
-color: var(--black);
-font-family: var(--font);
--webkit-font-smoothing: antialiased;
-overflow-x: hidden;
-}
-.anim { opacity: 0; transform: translateY(20px); }
-nav {
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 0 60px;
-height: 72px;
-position: sticky;
-top: 0;
-background: rgba(255,255,255,0.94);
-backdrop-filter: blur(16px);
--webkit-backdrop-filter: blur(16px);
-border-bottom: 1px solid var(--border);
-z-index: 50;
-}
-.logo {
-display: flex;
-align-items: center;
-text-decoration: none;
-cursor: pointer;
-}
-.logo-type {
-font-family: var(--font);
-font-size: 14px;
-font-weight: 700;
-color: var(--black);
-letter-spacing: 0.5px;
-white-space: nowrap;
-min-width: 120px;
-transition: opacity 0.18s;
-}
-.logo:hover .logo-type { opacity: 0.65; }
-.logo-type .highlight {
-background: var(--amber);
-color: var(--white);
-border-radius: 2px;
-padding: 0 1px;
-}
-.logo-type .cursor {
-display: inline-block;
-width: 2px;
-height: 1em;
-background: var(--black);
-margin-left: 1px;
-vertical-align: middle;
-animation: blink 0.85s step-end infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-.nav-right { display: flex; gap: 36px; align-items: center; }
-.nav-link {
-font-family: var(--font);
-font-size: 14px;
-font-weight: 500;
-color: var(--gray);
-text-decoration: none;
-letter-spacing: 0.2px;
-transition: color 0.18s, opacity 0.18s;
-}
-.nav-link:hover { color: var(--amber); opacity: 0.85; }
-.hero {
-min-height: calc(100vh - 72px);
-padding: 64px 60px 56px;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-}
-.hero-eyebrow {
-font-size: 11px;
-font-weight: 600;
-letter-spacing: 3px;
-text-transform: uppercase;
-color: var(--amber);
-margin-bottom: 20px;
-font-family: var(--font);
-}
-.hero-title {
-font-family: var(--font);
-font-size: clamp(64px, 8vw, 108px);
-font-weight: 700;
-line-height: 0.92;
-letter-spacing: -4px;
-color: var(--black);
-display: flex;
-align-items: center;
-gap: 16px;
-flex-wrap: wrap;
-}
-.arrow-circle {
-width: 48px;
-height: 48px;
-border: 2px solid var(--black);
-border-radius: 50%;
-display: inline-flex;
-align-items: center;
-justify-content: center;
-flex-shrink: 0;
-transition: background 0.22s, border-color 0.22s, transform 0.6s;
-cursor: pointer;
-}
-.arrow-circle svg { width: 18px; height: 18px; display: block; }
-.hero-title:hover .arrow-circle {
-background: var(--amber);
-border-color: var(--amber);
-transform: rotate(360deg);
-}
-.hero-title:hover .arrow-circle svg path { stroke: var(--white); }
-.filters {
-display: flex;
-gap: 8px;
-align-items: center;
-flex-wrap: wrap;
-}
-.pill {
-padding: 8px 20px;
-border-radius: 100px;
-font-size: 13px;
-font-weight: 500;
-cursor: pointer;
-border: 1.5px solid var(--border);
-background: transparent;
-color: var(--gray);
-letter-spacing: 0.2px;
-transition: all 0.18s ease;
-font-family: var(--font);
-}
-.pill:hover { border-color: var(--black); color: var(--black); }
-.pill.on { background: var(--black); border-color: var(--black); color: #fff; }
-.grid {
-padding: 8px 60px 120px;
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 20px;
-}
-.card {
-display: block;
-text-decoration: none;
-color: inherit;
-cursor: pointer;
-opacity: 1;
-transition: opacity 0.25s ease, transform 0.25s ease;
-}
-.card.hidden { opacity: 0; pointer-events: none; transform: translateY(8px); }
-.thumb {
-position: relative;
-width: 100%;
-aspect-ratio: 16/9;
-border-radius: 6px;
-overflow: hidden;
-background: var(--light);
-}
-.thumb.cra       { background: linear-gradient(140deg,#1A2744 0%,#2D4A7A 55%,#8EA8C3 100%); }
-.thumb.hikari    { background: linear-gradient(140deg,#0B1738 0%,#1A3070 55%,#B8860B 100%); }
-.thumb.mediakit  { background: linear-gradient(140deg,#1A1A1A 0%,#3D2B1F 55%,#C0392B 100%); }
-.thumb.filthy    { background: linear-gradient(140deg,#1A3A5C 0%,#2E6A9E 55%,#D4A017 100%); }
-.thumb.dust      { background: linear-gradient(140deg,#B71C1C 0%,#E53935 55%,#F57F17 100%); }
-.thumb.rogue     { background: linear-gradient(140deg,#111 0%,#2B0000 55%,#8B0000 100%); }
-.thumb.bancard   { background: linear-gradient(140deg,#0D2137 0%,#1A4B7A 55%,#2E86C1 100%); }
-.thumb.kimbap    { background: linear-gradient(140deg,#2E7D32 0%,#4CAF50 55%,#FDD835 100%); }
-.thumb.dazey     { background: linear-gradient(140deg,#006064 0%,#00ACC1 55%,#F06292 100%); }
-.thumb.mupy      { background: linear-gradient(140deg,#C4622D 0%,#E8851A 55%,#4EA7C4 100%); }
-.thumb.midway    { background: linear-gradient(140deg,#1A0A00 0%,#3D1F00 55%,#8B6914 100%); }
-.thumb.yomochi   { background: linear-gradient(140deg,#C2185B 0%,#F48FB1 55%,#FCE4EC 100%); }
-.thumb.hiddenhills { background: linear-gradient(140deg,#1B3A2D 0%,#2E7D52 55%,#B8C9A3 100%); }
-.thumb.hamihabi  { background: linear-gradient(140deg,#F57F17 0%,#FFB300 55%,#FF7043 100%); }
-.thumb-label {
-position: absolute;
-inset: 0;
-display: flex;
-align-items: center;
-justify-content: center;
-font-family: var(--font);
-font-size: 18px;
-font-weight: 700;
-color: rgba(255,255,255,0.12);
-letter-spacing: 2px;
-text-transform: uppercase;
-text-align: center;
-padding: 24px;
-pointer-events: none;
-}
-.card-video {
-position: absolute;
-inset: 0;
-width: 100%;
-height: 100%;
-object-fit: cover;
-opacity: 0;
-transition: opacity 0.4s ease;
-z-index: 1;
-}
-.thumb-inner {
-position: absolute;
-inset: 0;
-transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
-z-index: 0;
-}
-.card:hover .thumb-inner { transform: scale(1.05); }
-.meta { padding: 22px 2px 0; }
-.meta-title-row {
-display: flex;
-align-items: center;
-gap: 0;
-overflow: hidden;
-}
-.meta-arrow {
-display: inline-flex;
-align-items: center;
-align-self: center;
-flex-shrink: 0;
-max-width: 0;
-opacity: 0;
-overflow: hidden;
-transition: max-width 0.28s ease, opacity 0.22s ease, margin-right 0.28s ease;
-margin-right: 0;
-margin-top: -2px;
-}
-.meta-arrow svg { display: block; color: var(--amber); }
-.card:hover .meta-arrow { max-width: 28px; opacity: 1; margin-right: 8px; }
-.meta-title {
-font-family: var(--font);
-font-size: 17px;
-font-weight: 700;
-letter-spacing: -0.2px;
-color: var(--black);
-margin-bottom: 4px;
-transition: color 0.2s;
-line-height: 1.2;
-}
-.meta-desc {
-font-size: 13px;
-font-weight: 400;
-color: var(--gray);
-line-height: 1.5;
-font-family: var(--font);
-}
-.meta-tags { margin-top: 8px; display: flex; gap: 0; flex-wrap: wrap; }
-.tag {
-font-size: 10px;
-font-weight: 600;
-letter-spacing: 1.2px;
-text-transform: uppercase;
-color: var(--gray);
-opacity: 0.6;
-font-family: var(--font);
-}
-.tag + .tag::before { content: ' · '; margin: 0 4px; }
-.scroll-top {
-position: fixed;
-bottom: 36px;
-right: 44px;
-width: 48px;
-height: 48px;
-border: 2px solid var(--black);
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-background: var(--white);
-opacity: 0;
-pointer-events: none;
-transition: opacity 0.3s, background 0.2s, border-color 0.2s, transform 0.6s;
-z-index: 99;
-}
-.scroll-top.visible { opacity: 1; pointer-events: auto; }
-.scroll-top:hover { background: var(--amber); border-color: var(--amber); transform: rotate(360deg); }
-.scroll-top:hover svg path { stroke: var(--white); }
-.scroll-top svg { width: 18px; height: 18px; display: block; }
-footer { border-top: 1px solid var(--border); padding: 28px 60px; }
-footer p { font-size: 12px; color: var(--gray); letter-spacing: 0.3px; font-family: var(--font); }
+  .hero-mat{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:space-between;
+    padding-bottom:48px;
+  }
+  .hero-top{
+    position:absolute; z-index:3;
+    top:192px; left:72px; right:72px;
+    min-height:25vh;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .eyebrow{
+    font-family:var(--font-sans);
+    font-size:clamp(20px,3vw,43px); font-weight:600; letter-spacing:2.5px; text-transform:uppercase;
+    color:var(--ink); margin-bottom:22px;
+  }
+  .hero-title-row{ display:flex; align-items:center; gap:36px; flex-wrap:wrap; }
+  .hero-title{
+    font-family:var(--font-serif);
+    font-style:italic; font-weight:600;
+    font-size:clamp(90px,14vw,200px);
+    line-height:.95; letter-spacing:-1px;
+    color:var(--ink);
+  }
+  .hero-flower{
+    width:72px;height:72px; flex-shrink:0; opacity:.9;
+    animation:spin 14s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .hero-flower-btn{ background:none; border:0; padding:0; cursor:none; display:inline-flex; transition:transform .25s ease; }
+  .hero-flower-btn:hover{ transform:scale(1.12); }
+
+  .filters{
+    position:relative; z-index:3;
+    display:flex; justify-content:flex-start; gap:clamp(8px,0.8vw,14px); flex-wrap:wrap;
+    margin-top:64px;
+  }
+  /* laptop-width viewports keep the edge-to-edge default; any other ratio
+     (narrower or wider) falls back to left-aligned above */
+  @media (min-width:1200px) and (max-width:1700px){
+    .filters{ justify-content:space-between; }
+  }
+  .filter-pill{
+    padding:clamp(8px,0.7vw,12px) clamp(14px,1.3vw,20px); border-radius:100px;
+    font-family:var(--font-sans); font-size:clamp(18px,2.1vw,32px); font-weight:500; letter-spacing:.3px;
+    text-transform:uppercase;
+    background:#ffffff; color:var(--ink);
+    border:none; cursor:none;
+    transition:background .18s ease,color .18s ease,transform .18s ease;
+  }
+  .filter-pill:hover{ transform:translateY(-1px); }
+  .filter-pill.on{ background:#0d0d0d; color:#ffffff; }
+
+
+  /* ---------- category folders (replace the old filter pills) ----------
+     Each category is a file folder: a darker back sheet with a tab on the
+     left, and a front sheet in the category color with a tab on the right.
+     Label keeps the old filter-pill font + size. */
+  .folders{
+    position:relative; z-index:3;
+    display:grid; grid-template-columns:repeat(5, 1fr);
+    gap:clamp(10px,1.3vw,22px); margin-top:88px; align-items:end;
+  }
+  @media (max-width:900px){ .folders{ grid-template-columns:repeat(2,1fr); row-gap:44px; } }
+  .folder{
+    --c:#d81159; --t:#ffffff;
+    position:relative; display:block; width:100%;
+    height:clamp(130px,12vw,210px);
+    border:0; background:none; padding:0; cursor:none; text-align:left;
+    transition:transform .28s cubic-bezier(.2,.7,.3,1);
+  }
+  .folder-back, .folder-front{ position:absolute; left:0; right:0; border-radius:14px; }
+  .folder-back{
+    top:0; bottom:0;
+    background:color-mix(in srgb, var(--c) 62%, #000);
+  }
+  .folder-back::before{
+    content:''; position:absolute; top:-16px; left:10%; width:38%; height:22px;
+    background:inherit; border-radius:10px 10px 0 0;
+  }
+  .folder-front{
+    top:22%; bottom:0; background:var(--c);
+    box-shadow:0 -6px 14px -8px rgba(0,0,0,.45);
+  }
+  .folder-front::before{
+    content:''; position:absolute; top:-15px; right:8%; width:42%; height:20px;
+    background:var(--c); border-radius:10px 10px 0 0;
+  }
+  .folder-label{
+    position:absolute; left:clamp(12px,1.1vw,20px); right:clamp(10px,1vw,16px); bottom:clamp(10px,1vw,18px);
+    font-family:var(--font-sans); font-size:clamp(16px,1.75vw,27px); font-weight:500; letter-spacing:.3px;
+    text-transform:uppercase; line-height:1.05; color:var(--t); overflow-wrap:break-word; hyphens:manual;
+  }
+  .folder:hover{ transform:translateY(-6px); }
+  .folder.on{ transform:translateY(-16px); }
+  .folder.on .folder-front{ box-shadow:0 -6px 14px -8px rgba(0,0,0,.45), 0 22px 30px -18px rgba(0,0,0,.45); }
+
+
+  /* ---------- pinned hero + folder-tab panel ----------
+     The hero (logo, eyebrow, My Portfolio) stays pinned while you scroll; the
+     tab row and the colored panel slide up over it. The selected tab is
+     large, the rest are small, and the whole panel takes the selected
+     tab's color. */
+  body{ overflow-x:clip; }            /* 'hidden' would break position:sticky */
+  .hero-mat{ position:sticky; top:0; height:100vh; min-height:0; z-index:0; }
+  .work-panel{
+    --panel-c:#A8006F; --panel-t:#FFC0D4;
+    --peek:calc(clamp(96px,8.8vw,138px) + 36px);   /* tabs + a thin strip of color on first load */
+    position:relative; z-index:2; margin-top:calc(-1 * var(--peek));
+  }
+  .tabs{
+    display:flex; align-items:flex-end;
+    padding:0 clamp(14px,1.6vw,26px);
+  }
+  .tab{
+    --c:#A8006F; --t:#FFC0D4;
+    position:relative; z-index:1; flex:1 1 0; min-width:0;
+    min-height:clamp(58px,5.4vw,84px); padding-top:12px;
+    margin-left:-12px; padding:0 clamp(16px,1.8vw,30px) clamp(10px,1vw,16px);
+    display:flex; align-items:flex-end; justify-content:center; text-align:center;
+    border:0; background:none; cursor:none;
+    transition:flex .45s cubic-bezier(.2,.7,.3,1), min-height .45s cubic-bezier(.2,.7,.3,1), transform .2s ease;
+  }
+  .tab:first-child{ margin-left:0; }
+  /* trapezoid tab with rounded top, like a file folder */
+  .tab::before{
+    content:''; position:absolute; inset:0; z-index:-1;
+    background:var(--c); border-radius:18px 18px 0 0;
+    transform:perspective(140px) rotateX(12deg); transform-origin:bottom;
+  }
+  .tab-label{
+    font-family:var(--font-sans); font-weight:500; letter-spacing:.3px;
+    text-transform:uppercase; line-height:1.05; color:var(--t);
+    font-size:clamp(14px,1.45vw,24px);
+    transition:font-size .45s cubic-bezier(.2,.7,.3,1), transform .45s cubic-bezier(.2,.7,.3,1);
+  }
+  .tab:hover:not(.on){ min-height:calc(clamp(58px,5.4vw,84px) + 10px); }
+  .tab:hover:not(.on) .tab-label{ transform:translateY(-10px); }
+  /* sit the labels a little lower in every tab except Illustrations */
+  .tab:not([onclick*="'illustrations'"]){ padding-bottom:max(4px, calc(clamp(10px,1vw,16px) - 6px)); }
+  .tab.on{ flex:1.8 1 0; min-height:clamp(96px,8.8vw,138px); padding-top:18px; z-index:3; padding-left:clamp(30px,3.2vw,56px); padding-right:clamp(30px,3.2vw,56px); }
+  .tab.on .tab-label{ font-size:clamp(20px,2.1vw,36px); }
+  @media (max-width:760px){
+    .tabs{ overflow-x:auto; padding-top:20px; }
+    .tab{ flex:0 0 130px; } .tab.on{ flex:0 0 190px; }
+  }
+
+  .work-panel .grid-section{
+    background:var(--panel-c); color:var(--panel-t);
+    border-radius:28px 28px 0 0; margin-top:-1px; padding-top:96px;
+    transition:background-color .45s ease;
+  }
+  .work-panel .meta-title, .work-panel .meta-desc, .work-panel .illustration-title{ color:var(--panel-t); }
+  .work-panel .title-flowers svg{ fill:var(--panel-t); }
+
+
+
+
+  /* each project card: image on top, white caption box directly under it;
+     the panel color still shows in the gaps between cards */
+  .work-panel .card{
+    background:#ffffff;
+    box-shadow:0 18px 40px -22px rgba(0,0,0,.4);
+  }
+  .work-panel .card .thumb{ box-shadow:none; }
+  .work-panel .card .meta{ padding:20px clamp(18px,1.6vw,26px) clamp(20px,1.8vw,28px); }
+  .work-panel .card .meta-title,
+  .work-panel .card .meta-desc{ color:#18218B; }
+  .work-panel .card .title-flowers svg{ fill:#18218B; }
+
+
+  /* ---------- category pages: only the matching pieces of each project ---------- */
+  .category-feed{ position:relative; z-index:1; display:flex; flex-direction:column; gap:64px; }
+  .category-feed[hidden]{ display:none; }
+  .feed-cat{ display:flex; flex-direction:column; gap:64px; }
+  .feed-cat[hidden]{ display:none; }
+  .feed-head{ display:flex; align-items:baseline; justify-content:space-between; gap:24px; margin-bottom:16px; }
+  .feed-project{ font-family:var(--font-sans); font-weight:700; font-size:clamp(22px,2vw,32px);
+                 text-transform:uppercase; color:var(--panel-t); }
+  .feed-link{ font-family:var(--font-sans); font-weight:500; font-size:clamp(14px,1.1vw,17px);
+              color:var(--panel-t); text-decoration:underline; text-underline-offset:4px; white-space:nowrap; }
+  .feed-frame{ display:block; width:100%; height:600px; border:0; background:#fff;
+               box-shadow:0 18px 40px -22px rgba(0,0,0,.4); }
+
+
+  /* justified rows: images in a row share one height and together fill the
+     full width (flex-grow = aspect ratio), so no row ends short */
+  .illustration-grid{ column-count:auto !important; display:flex; flex-wrap:wrap; gap:20px; }
+  .illustration-grid img{
+    margin:0 !important; flex:var(--ar) 1 calc(var(--ar) * 300px);
+    width:0; min-width:0; height:auto; aspect-ratio:var(--ar); object-fit:cover;
+  }
+  @media (max-width:640px){ .illustration-grid img{ flex-basis:calc(var(--ar) * 180px); } }
+
+
+  /* projects get the same corner rounding as the folder tabs (18px) */
+  .work-panel .card{ border-radius:18px; overflow:hidden; }
+  .work-panel .card .thumb{ border-radius:0; }
+  .feed-frame{ border-radius:18px; }
+  .work-panel .illustration-grid img{ border-radius:18px; }
+
+  .grid-section{
+    position:relative;
+    --zone-fade:500px;
+    background:#ffffff;
+    padding:72px 56px 100px;
+  }
+  .hero-extend{ bottom:0; }
+  .grid{
+    position:relative; z-index:1;
+    display:grid; grid-template-columns:1fr 1fr; gap:32px 28px;
+  }
+  @media (max-width:760px){ .grid{ grid-template-columns:1fr; } }
+
+  .card{ display:block; text-decoration:none; color:inherit; }
+  .thumb{
+    position:relative; width:100%; aspect-ratio:16/9;
+    border-radius:var(--radius); overflow:hidden;
+    background:#eef4ee;
+    box-shadow:0 18px 40px -20px rgba(13,43,28,0.35);
+    transition:box-shadow .3s ease;
+  }
+  .thumb img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .6s cubic-bezier(.2,.7,.3,1), filter .35s ease;
+  }
+  .card:hover .thumb img{ transform:scale(1.045); }
+  .thumb::after{
+    content:''; position:absolute; inset:0;
+    background:#0d0d0d; opacity:0; transition:opacity .3s ease; mix-blend-mode:normal;
+  }
+  .card:hover .thumb::after{ opacity:.12; }
+
+  .meta{ padding:20px 4px 0; }
+  .meta-title{
+    font-family:var(--font-sans); font-weight:700; font-size:28.9px;
+    text-transform:uppercase;
+    color:var(--ink); letter-spacing:0; margin-bottom:5px;
+  }
+  .meta-desc{ font-family:var(--font-sans); font-size:27px; color:var(--ink); line-height:1.5; }
+
+  /* general illustration work, not tied to a client project — a free
+     masonry grid (CSS columns) rather than the uniform 16:9 card grid
+     above, since these pieces span every aspect ratio and none of them
+     should be cropped to fit a fixed cell. */
+  .illustration-tab{ position:relative; z-index:1; margin-top:96px; }
+  .illustration-title{
+    font-family:var(--font-sans); font-weight:700; font-size:56px;
+    text-transform:uppercase; color:var(--ink); margin-bottom:36px;
+  }
+  .illustration-grid{ column-count:3; column-gap:28px; }
+  @media (max-width:1100px){ .illustration-grid{ column-count:2; } }
+  @media (max-width:640px){ .illustration-grid{ column-count:1; } }
+  .illustration-grid img{
+    display:block; width:100%; margin-bottom:28px; break-inside:avoid;
+    border-radius:var(--radius);
+    box-shadow:0 18px 40px -20px rgba(13,43,28,0.35);
+  }
+
 </style>
 </head>
-<body>
+<body class="ruled" style="--st-bg:#FFC0D4; --st-fg:#A8006F;">
 
-<nav class="anim" id="nav">
-  <a class="logo" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
-    <span class="logo-type" id="logoType"></span>
-  </a>
-  <div class="nav-right">
-    <a href="about.html" target="_blank" class="nav-link">About me</a>
-  </div>
-</nav>
+<div class="mat hero-mat" id="heroMat">
+  <div class="mat-grid"></div>
+  <div class="mat-grid-bright"></div>
+  <div class="ruler-h"></div>
+  <div class="ruler-v left"></div>
+  <div class="ruler-v right"></div>
 
-<div class="hero">
-  <div class="anim" id="hero-top" style="transition-delay:0.08s">
-    <p class="hero-eyebrow">Brand Designer &amp; Illustrator</p>
-    <h1 class="hero-title">
-      MY WORK
-      <span class="arrow-circle" onclick="document.getElementById('grid').scrollIntoView({behavior:'smooth'})">
-        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M9 3.5V14.5M9 14.5L4.5 10M9 14.5L13.5 10" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </span>
-    </h1>
+  <nav>
+    <a class="logo" href="index.html">
+      <span>SHOYU PARK</span>
+    </a>
+    <a class="pill" href="about.html">ABOUT ME</a>
+  </nav>
+
+  <div class="hero-top reveal" id="rv1">
+    <p class="eyebrow">Brand Designer &amp; Illustrator</p>
+    <div class="hero-title-row">
+      <h1 class="hero-title">My Portfolio</h1>
+    </div>
   </div>
-  <div class="anim" id="filters-wrap" style="transition-delay:0.16s">
-    <div class="filters">
-      <button class="pill on" onclick="filter('all',this)">All work</button>
-      <button class="pill" onclick="filter('brand',this)">Brand &amp; Identity</button>
-      <button class="pill" onclick="filter('marketing',this)">Marketing &amp; Social</button>
-      <button class="pill" onclick="filter('packaging',this)">Packaging</button>
-      <button class="pill" onclick="filter('illustration',this)">Illustration</button>
+
+</div>
+
+<section class="work-panel" id="workPanel">
+  <div class="tabs" role="tablist">
+    <button class="tab on" style="--c:#A8006F; --t:#FFC0D4;" onclick="filterWork('all',this)"><span class="tab-label">All Work</span></button>
+    <button class="tab" style="--c:#7A2366; --t:#FFC0D4;" onclick="filterWork('illustrations',this)"><span class="tab-label">Illustrations</span></button>
+    <button class="tab" style="--c:#18218B; --t:#FFC0D4;" onclick="filterWork('branding-identity',this)"><span class="tab-label">Branding &amp; Identity</span></button>
+    <button class="tab" style="--c:#CFD357; --t:#18218B;" onclick="filterWork('print-marketing-collateral',this)"><span class="tab-label">Print/<wbr>Marketing</span></button>
+    <button class="tab" style="--c:#FFC0D4; --t:#18218B;" onclick="filterWork('digital-web-design',this)"><span class="tab-label">Digital/<wbr>Web Design</span></button>
+  </div>
+
+<div class="grid-section">
+  <div class="mat-grid grid-fade-out"></div>
+  <div class="mat-grid tone-dark grid-fade-in"></div>
+  <div class="grid-fade-out"><div class="mat-grid-bright"></div></div>
+  <div class="grid-fade-in"><div class="mat-grid-bright tone-dark"></div></div>
+  <div class="mat-extend hero-extend" data-continues="heroMat">
+    <div class="ruler-v extend left"></div>
+    <div class="ruler-v extend right"></div>
+  </div>
+  <div class="category-feed" id="feed" hidden></div>
+  <div class="grid" id="grid">
+
+    <a class="card reveal" data-category="illustrations,branding-identity,print-marketing-collateral,digital-web-design" href="PORTFOLIO_CRApage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/cra-hero.jpg" alt="Cambridge Redevelopment Authority"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Cambridge Redevelopment Authority</span></div>
+        <div class="meta-desc">Brand systems, print production &amp; communications design</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="print-marketing-collateral,digital-web-design" href="PORTFOLIO_HikariPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/hikari-ferramentas.webp" alt="Hikari Ferramentas"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Hikari Ferramentas</span></div>
+        <div class="meta-desc">Motion design, product photography &amp; marketing</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="print-marketing-collateral,branding-identity" href="PORTFOLIO_HelenaJangPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/helena-jang-hero.jpg" alt="Influencer Media Kit"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Influencer Media Kit</span></div>
+        <div class="meta-desc">Brand identity &amp; media kit for Helena Jang</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="digital-web-design" href="PORTFOLIO_FilthyGorgeousPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/filthy-gorgeous-banner/01-full-banner-v1.jpg" alt="Filthy Gorgeous"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Filthy Gorgeous</span></div>
+        <div class="meta-desc">Streetwear banner design for jewelry brand</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="digital-web-design" href="PORTFOLIO_KoreanMagicDustPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/korean-magic-dust.webp" alt="Korean Magic Dust"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Korean Magic Dust</span></div>
+        <div class="meta-desc">A+ content design &amp; product photography</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="print-marketing-collateral" href="PORTFOLIO_RogueDefensePage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/rogue-defense.jpg" alt="Rogue Defense"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Rogue Defense</span></div>
+        <div class="meta-desc">Apparel graphic &amp; t-shirt design</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="branding-identity" href="PORTFOLIO_BeyondBancardPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/beyond-bancard.jpg" alt="Beyond Bancard"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Beyond Bancard</span></div>
+        <div class="meta-desc">Social ad design, brand book &amp; presentation design</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="branding-identity" href="PORTFOLIO_KbappPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/k-bapp.webp" alt="K_bapp"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">K_bapp</span></div>
+        <div class="meta-desc">Logo design &amp; brand identity</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="print-marketing-collateral" href="PORTFOLIO_DazeyShadesPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/dazey-shades.jpg" alt="Dazey Shades"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Dazey Shades</span></div>
+        <div class="meta-desc">Packaging design for children's sunglasses</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="illustrations" href="PORTFOLIO_MupyPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/mupy.jpg" alt="Mupy"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Mupy</span></div>
+        <div class="meta-desc">Personal project: storyboarding, visual storytelling &amp; illustration</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="illustrations" href="PORTFOLIO_MidwayCrusadePage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/midway-crusade.webp" alt="Midway Crusade"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Midway Crusade</span></div>
+        <div class="meta-desc">Personal project: visual storytelling, character &amp; concept design</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="illustrations" href="PORTFOLIO_YoMochiPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/yo-mochi.jpg" alt="Yo Mochi"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Yo Mochi</span></div>
+        <div class="meta-desc">Illustration &amp; character brand identity</div>
+      </div>
+    </a>
+
+    <a class="card reveal" data-category="digital-web-design" href="PORTFOLIO_HiddenHillsPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/hidden-hills.webp" alt="Hidden Hills"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><path d="M12 0c1.2 3.6 1.6 6 3.4 7.8C17.2 9.6 19.6 10 23.2 11.2c-3.6 1.2-6 1.6-7.8 3.4C13.6 16.4 13.2 18.8 12 22.4c-1.2-3.6-1.6-6-3.4-7.8C6.8 12.8 4.4 12.4.8 11.2c3.6-1.2 6-1.6 7.8-3.4C10.4 6 10.8 3.6 12 0z"/></svg></span>
+          <span class="meta-title">Hidden Hills</span></div>
+        <div class="meta-desc">Ad layout design</div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="illustration-tab reveal">
+    <h2 class="illustration-title">Illustration</h2>
+    <div class="illustration-grid">
+      <img style="--ar:1.8325" loading="lazy" decoding="async" src="assets/images/illustration-grid/01.jpg" alt="Illustration, two women smoking in a nightclub"/>
+      <img style="--ar:1.7588" loading="lazy" decoding="async" src="assets/images/illustration-grid/02.jpg" alt="Illustration, sword fight aboard a ship"/>
+      <img style="--ar:1.3672" loading="lazy" decoding="async" src="assets/images/illustration-grid/03.jpg" alt="Illustration, two fashion figure studies"/>
+      <img style="--ar:1.3972" loading="lazy" decoding="async" src="assets/images/illustration-grid/04.jpg" alt="Illustration, three checkered-coat fashion figure studies"/>
+      <img style="--ar:1.4199" loading="lazy" decoding="async" src="assets/images/illustration-grid/05.jpg" alt="Illustration, five fashion figure studies in a trench coat"/>
+      <img style="--ar:1.4799" loading="lazy" decoding="async" src="assets/images/illustration-grid/06.jpg" alt="Illustration, cluttered interior room, pencil sketch"/>
+      <img style="--ar:1.7766" loading="lazy" decoding="async" src="assets/images/illustration-grid/07.jpg" alt="Illustration, embellished walking stick prop design"/>
+      <img style="--ar:1.5368" loading="lazy" decoding="async" src="assets/images/illustration-grid/08.jpg" alt="Illustration, isometric workshop scene with an elderly woman at her desk"/>
+      <img style="--ar:1.4448" loading="lazy" decoding="async" src="assets/images/illustration-grid/09.jpg" alt="Illustration, stilt-house village, pencil sketch"/>
+      <img style="--ar:1.7011" loading="lazy" decoding="async" src="assets/images/illustration-grid/10.jpg" alt="Illustration, three women peering through curtains"/>
+      <img style="--ar:1.8158" loading="lazy" decoding="async" src="assets/images/illustration-grid/11.jpg" alt="Illustration, anime-style girl with a retro television"/>
+      <img style="--ar:1.6827" loading="lazy" decoding="async" src="assets/images/illustration-grid/12.jpg" alt="Illustration, girl touching a mirror, sci-fi scene"/>
+      <img style="--ar:0.6865" loading="lazy" decoding="async" src="assets/images/illustration-grid/13.jpg" alt="Illustration, portrait, girl in a checkered beret"/>
+      <img style="--ar:0.5555" loading="lazy" decoding="async" src="assets/images/illustration-grid/14.jpg" alt="Illustration, portrait, girl in a smoke-print top"/>
+      <img style="--ar:1.0116" loading="lazy" decoding="async" src="assets/images/illustration-grid/15.jpg" alt="Illustration, elderly woman relaxing in a chair"/>
+      <img style="--ar:2.5688" loading="lazy" decoding="async" src="assets/images/illustration-grid/16.jpg" alt="Illustration, The Minotaur, character design sheet"/>
+      <img style="--ar:2.2436" loading="lazy" decoding="async" src="assets/images/illustration-grid/17.jpg" alt="Illustration, The Shaman, character design sheet"/>
+      <img style="--ar:2.2544" loading="lazy" decoding="async" src="assets/images/illustration-grid/18.jpg" alt="Illustration, Theseus (Thalia), character design sheet"/>
+      <img style="--ar:1.6298" loading="lazy" decoding="async" src="assets/images/illustration-grid/19.jpg" alt="Illustration, character height comparison lineup"/>
+      <img style="--ar:2.2258" loading="lazy" decoding="async" src="assets/images/illustration-grid/20.jpg" alt="Illustration, golf course scene"/>
     </div>
   </div>
 </div>
 
-<div class="grid anim" id="grid" style="transition-delay:0.24s">
-
-  <!-- 0 CRA — FIRST -->
-  <a class="card" href="PORTFOLIO_CRApage.html" data-cat="brand marketing">
-    <div class="thumb cra">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">CRA</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Cambridge Redevelopment Authority</span>
-      </div>
-      <div class="meta-desc">Brand systems, print production &amp; communications design</div>
-      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Print</span><span class="tag">Communications</span></div>
-    </div>
-  </a>
-
-  <!-- 1 Hikari -->
-  <a class="card" href="#" data-cat="brand marketing" onmouseenter="playVid(this)" onmouseleave="pauseVid(this)">
-    <div class="thumb hikari">
-      <video class="card-video" src="hikari-preview.mp4" muted playsinline loop preload="none"></video>
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Hikari</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Hikari</span>
-      </div>
-      <div class="meta-desc">Motion design, product photography &amp; marketing</div>
-      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Motion</span><span class="tag">Photography</span></div>
-    </div>
-  </a>
-
-  <!-- 2 Influencer Media Kit -->
-  <a class="card" href="#" data-cat="brand marketing">
-    <div class="thumb mediakit">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Media Kit</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Influencer Media Kit</span>
-      </div>
-      <div class="meta-desc">Brand identity &amp; media kit for Helena Jang</div>
-      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Social Media</span><span class="tag">Marketing</span></div>
-    </div>
-  </a>
-
-  <!-- 3 Filthy Gorgeous -->
-  <a class="card" href="#" data-cat="brand">
-    <div class="thumb filthy">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Filthy Gorgeous</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Filthy Gorgeous</span>
-      </div>
-      <div class="meta-desc">Streetwear banner design for jewelry brand</div>
-      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Banner Design</span></div>
-    </div>
-  </a>
-
-  <!-- 4 Korean Magic Dust -->
-  <a class="card" href="#" data-cat="brand marketing">
-    <div class="thumb dust">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Korean Magic Dust</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Korean Magic Dust</span>
-      </div>
-      <div class="meta-desc">Product photography &amp; social content</div>
-      <div class="meta-tags"><span class="tag">Photography</span><span class="tag">Social Media</span></div>
-    </div>
-  </a>
-
-  <!-- 5 Rogue Defense -->
-  <a class="card" href="#" data-cat="brand illustration">
-    <div class="thumb rogue">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Rogue Defense</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Rogue Defense</span>
-      </div>
-      <div class="meta-desc">Apparel graphic &amp; t-shirt design</div>
-      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Apparel</span></div>
-    </div>
-  </a>
-
-  <!-- 6 Beyond Bancard -->
-  <a class="card" href="#" data-cat="brand">
-    <div class="thumb bancard">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Beyond Bancard</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Beyond Bancard</span>
-      </div>
-      <div class="meta-desc">Brand &amp; visual identity</div>
-      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Identity</span></div>
-    </div>
-  </a>
-
-  <!-- 7 K_bapp -->
-  <a class="card" href="#" data-cat="brand illustration">
-    <div class="thumb kimbap">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">K_bapp</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Korean Kimbap Home-Ma</span>
-      </div>
-      <div class="meta-desc">Character logo &amp; brand identity</div>
-      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Logo</span><span class="tag">Illustration</span></div>
-    </div>
-  </a>
-
-  <!-- 8 Dazey Shades -->
-  <a class="card" href="#" data-cat="packaging">
-    <div class="thumb dazey">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Dazey Shades</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Dazey Shades</span>
-      </div>
-      <div class="meta-desc">Packaging design for children's sunglasses</div>
-      <div class="meta-tags"><span class="tag">Packaging</span><span class="tag">Print</span></div>
-    </div>
-  </a>
-
-  <!-- 9 Mupy -->
-  <a class="card" href="#" data-cat="brand illustration packaging">
-    <div class="thumb mupy">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Mupy</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Mupy</span>
-      </div>
-      <div class="meta-desc">Illustrated brand identity &amp; packaging</div>
-      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Illustration</span><span class="tag">Packaging</span></div>
-    </div>
-  </a>
-
-  <!-- 10 Midway Crusade -->
-  <a class="card" href="#" data-cat="illustration">
-    <div class="thumb midway">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Midway Crusade</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Midway Crusade</span>
-      </div>
-      <div class="meta-desc">Illustration &amp; visual development</div>
-      <div class="meta-tags"><span class="tag">Illustration</span><span class="tag">Concept Art</span></div>
-    </div>
-  </a>
-
-  <!-- 11 Yo Mochi -->
-  <a class="card" href="#" data-cat="brand illustration">
-    <div class="thumb yomochi">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Yo Mochi</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Yo Mochi</span>
-      </div>
-      <div class="meta-desc">Brand &amp; illustrated identity</div>
-      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Illustration</span></div>
-    </div>
-  </a>
-
-  <!-- 12 Hidden Hills -->
-  <a class="card" href="#" data-cat="brand">
-    <div class="thumb hiddenhills">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Hidden Hills</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Hidden Hills</span>
-      </div>
-      <div class="meta-desc">Brand &amp; visual identity</div>
-      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Identity</span></div>
-    </div>
-  </a>
-
-  <!-- 13 Hami & Habi -->
-  <a class="card" href="#" data-cat="brand illustration">
-    <div class="thumb hamihabi">
-      <div class="thumb-inner"></div>
-      <div class="thumb-label">Hami &amp; Habi</div>
-    </div>
-    <div class="meta">
-      <div class="meta-title-row">
-        <span class="meta-arrow"><svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 6H15M15 6L10 1M15 6L10 11" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="meta-title">Hami &amp; Habi</span>
-      </div>
-      <div class="meta-desc">Character brand &amp; illustrated identity</div>
-      <div class="meta-tags"><span class="tag">Brand</span><span class="tag">Illustration</span></div>
-    </div>
-  </a>
-
-</div>
-
+</section>
 <footer>
   <p>© 2026 Shoyu Park</p>
 </footer>
 
 <div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M9 14.5V3.5M9 3.5L4.5 8M9 3.5L13.5 8" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M9 14.5V3.5M9 3.5L4.5 8M9 3.5L13.5 8" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 </div>
 
+<script src="assets/theme.js?v=21"></script>
 <script>
-window.addEventListener('load', () => {
-  const els = document.querySelectorAll('.anim');
-  els.forEach((el) => {
-    const delay = parseFloat(el.style.transitionDelay || '0') * 1000;
-    setTimeout(() => {
-      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      el.style.opacity = '1';
-      el.style.transform = 'translateY(0)';
-    }, 80 + delay);
+function scrollToWork(){
+  const g = document.getElementById('workPanel');
+  window.scrollTo({ top: g.getBoundingClientRect().top + window.scrollY, behavior:'smooth' });
+}
+
+/* ---------- category pages ---------- */
+const FEED = {
+ "illustrations": [
+  {
+   "page": "PORTFOLIO_CRApage.html",
+   "label": "Cambridge Redevelopment Authority",
+   "ids": [
+    "galaxy-park-sticker"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_MupyPage.html",
+   "label": "Mupy",
+   "ids": [
+    "style-frames",
+    "storyboard",
+    "environment-design",
+    "character-design"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_MidwayCrusadePage.html",
+   "label": "Midway Crusade",
+   "ids": [
+    "character-design",
+    "environment-design"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_YoMochiPage.html",
+   "label": "Yo! Mochi",
+   "ids": [
+    "pattern-design"
+   ]
+  }
+ ],
+ "branding-identity": [
+  {
+   "page": "PORTFOLIO_CRApage.html",
+   "label": "Cambridge Redevelopment Authority",
+   "ids": [
+    "brandbook",
+    "bishop-allen-drive-logo-design"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_KbappPage.html",
+   "label": "K_bapp",
+   "ids": [
+    "brand-identity"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_BeyondBancardPage.html",
+   "label": "Beyond Bancard",
+   "ids": [
+    "brand-book-update"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_HelenaJangPage.html",
+   "label": "Chef Helena",
+   "ids": [
+    "media-kit"
+   ]
+  }
+ ],
+ "print-marketing-collateral": [
+  {
+   "page": "PORTFOLIO_CRApage.html",
+   "label": "Cambridge Redevelopment Authority",
+   "ids": [
+    "cra-2025-annual-report",
+    "scrim",
+    "construction-template",
+    "flyers",
+    "tablecloth-design"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_HikariPage.html",
+   "label": "Hikari Ferramentas",
+   "ids": [
+    "brand-and-print-design"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_HelenaJangPage.html",
+   "label": "Chef Helena",
+   "ids": [
+    "media-kit"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_DazeyShadesPage.html",
+   "label": "Dazey Shades",
+   "ids": [
+    "packaging-design"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_RogueDefensePage.html",
+   "label": "Rogue Defense",
+   "ids": [
+    "graphic-tee-design"
+   ]
+  }
+ ],
+ "digital-web-design": [
+  {
+   "page": "PORTFOLIO_CRApage.html",
+   "label": "Cambridge Redevelopment Authority",
+   "ids": [
+    "rlf-squarespace-page",
+    "cover-report-design"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_HikariPage.html",
+   "label": "Hikari Ferramentas",
+   "ids": [
+    "motion-design",
+    "videography-and-editing"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_BeyondBancardPage.html",
+   "label": "Beyond Bancard",
+   "ids": [
+    "social-media-ad-design"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_FilthyGorgeousPage.html",
+   "label": "Filthy Gorgeous",
+   "ids": [
+    "banner-design"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_KoreanMagicDustPage.html",
+   "label": "Korean Magic Dust",
+   "ids": [
+    "aplus-content-design"
+   ]
+  },
+  {
+   "page": "PORTFOLIO_HiddenHillsPage.html",
+   "label": "Hidden Hills",
+   "ids": [
+    "ad-banner-design"
+   ]
+  }
+ ]
+};
+function showCategory(cat){
+  const feed = document.getElementById('feed');
+  const grid = document.getElementById('grid');
+  const illus = document.querySelector('.illustration-tab');
+  const all = cat === 'all';
+  grid.style.display = all ? '' : 'none';
+  feed.hidden = all;
+  if (illus) illus.style.display = (all || cat === 'illustrations') ? '' : 'none';
+  feed.querySelectorAll('.feed-cat').forEach(c => c.hidden = c.dataset.cat !== cat);
+  if (all || feed.querySelector('.feed-cat[data-cat="'+cat+'"]')) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'feed-cat'; wrap.dataset.cat = cat;
+  (FEED[cat] || []).forEach((it, n) => {
+    const key = cat + '-' + n;
+    const art = document.createElement('article');
+    art.className = 'feed-item';
+    art.innerHTML =
+      '<div class="feed-head"><h3 class="feed-project">' + it.label + '</h3>' +
+      '<a class="feed-link" href="' + it.page + '">View full project \u2192</a></div>' +
+      '<iframe class="feed-frame" data-key="' + key + '" title="' + it.label + '" scrolling="no" ' +
+      'src="' + it.page + '?embed=1&only=' + it.ids.join(',') + '&key=' + key + '"></iframe>';
+    wrap.appendChild(art);
   });
+  feed.appendChild(wrap);
+  // hide the page's own cursor dot while over a frame (the frame draws its own)
+  wrap.querySelectorAll('iframe').forEach(fr => {
+    fr.addEventListener('mouseenter', () => { const c = document.getElementById('cursor'); if (c) c.style.visibility = 'hidden'; });
+    fr.addEventListener('mouseleave', () => { const c = document.getElementById('cursor'); if (c) c.style.visibility = ''; });
+  });
+}
+window.addEventListener('message', e => {
+  const d = e.data;
+  if (!d || d.type !== 'embedH') return;
+  const fr = document.querySelector('iframe.feed-frame[data-key="' + d.key + '"]');
+  if (fr) fr.style.height = d.h + 'px';
 });
 
-const FULL_TEXT = 'SHOYU\u2726PARK';
-const STAR = '\u2726';
-const logoEl = document.getElementById('logoType');
-
-function renderLogo(visibleText, highlightRange, showCursor) {
-  let html = '';
-  for (let i = 0; i < visibleText.length; i++) {
-    const ch = visibleText[i] === STAR
-      ? `<span style="font-size:9px;vertical-align:middle;line-height:1;">${STAR}</span>`
-      : visibleText[i];
-    if (highlightRange && i >= highlightRange[0] && i < highlightRange[1]) {
-      html += `<span class="highlight">${ch}</span>`;
-    } else {
-      html += ch;
-    }
-  }
-  if (showCursor) html += '<span class="cursor"></span>';
-  logoEl.innerHTML = html;
-}
-
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-async function logoLoop() {
-  while (true) {
-    for (let i = 1; i <= FULL_TEXT.length; i++) {
-      renderLogo(FULL_TEXT.slice(0, i), null, true);
-      await sleep(85);
-    }
-    await sleep(520);
-    renderLogo(FULL_TEXT, [1, 5], true);
-    await sleep(500);
-    const afterDelete = FULL_TEXT[0] + FULL_TEXT.slice(5);
-    renderLogo(afterDelete, null, true);
-    await sleep(1600);
-    let remaining = afterDelete;
-    while (remaining.length > 0) {
-      remaining = remaining.slice(0, -1);
-      renderLogo(remaining, null, true);
-      await sleep(70);
-    }
-    renderLogo('', null, true);
-    await sleep(700);
-  }
-}
-logoLoop();
-
-function filter(cat, btn) {
-  document.querySelectorAll('.pill').forEach(b => b.classList.remove('on'));
+function filterWork(cat, btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  document.querySelectorAll('.card').forEach(card => {
-    const cats = card.dataset.cat || '';
-    if (cat === 'all' || cats.includes(cat)) {
-      card.classList.remove('hidden');
-    } else {
-      card.classList.add('hidden');
-    }
-  });
+  const panel = document.getElementById('workPanel');
+  const cs = getComputedStyle(btn);
+  panel.style.setProperty('--panel-c', cs.getPropertyValue('--c').trim());
+  panel.style.setProperty('--panel-t', cs.getPropertyValue('--t').trim());
+  document.body.style.setProperty('--st-bg', cs.getPropertyValue('--t').trim());
+  document.body.style.setProperty('--st-fg', cs.getPropertyValue('--c').trim());
+  document.querySelectorAll('.card').forEach(card=>{ card.style.display=''; });
+  showCategory(cat);
+  window.scrollTo({ top: panel.getBoundingClientRect().top + window.scrollY, behavior:'smooth' });
 }
-
-function playVid(card) {
-  const vid = card.querySelector('.card-video');
-  if (!vid) return;
-  vid.play().then(() => { vid.style.opacity = '1'; }).catch(() => {});
-}
-
-function pauseVid(card) {
-  const vid = card.querySelector('.card-video');
-  if (!vid) return;
-  vid.style.opacity = '0';
-  setTimeout(() => { vid.pause(); vid.currentTime = 0; }, 400);
-}
-
 window.addEventListener('scroll', () => {
   const btn = document.getElementById('scrollTop');
-  if (window.scrollY > 300) { btn.classList.add('visible'); }
-  else { btn.classList.remove('visible'); }
-}, { passive: true });
+  if (window.scrollY > 400) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+}, { passive:true });
 </script>
 </body>
 </html>
