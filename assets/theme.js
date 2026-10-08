@@ -302,18 +302,18 @@
     ['PORTFOLIO_CRApage.html','Cambridge Redevelopment Authority','assets/images/cra-hero.jpg'],
     ['PORTFOLIO_HikariPage.html','Hikari Ferramentas','assets/images/hikari-ferramentas.webp'],
     ['PORTFOLIO_HelenaJangPage.html','Chef Helena','assets/images/helena-jang-hero.jpg'],
-    ['PORTFOLIO_FilthyGorgeousPage.html','Filthy Gorgeous','assets/images/filthy-gorgeous-banner/01-full-banner-v1.jpg'],
-    ['PORTFOLIO_KoreanMagicDustPage.html','Korean Magic Dust','assets/images/korean-magic-dust.webp'],
-    ['PORTFOLIO_RogueDefensePage.html','Rogue Defense','assets/images/rogue-defense.jpg'],
-    ['PORTFOLIO_BeyondBancardPage.html','Beyond Bancard','assets/images/beyond-bancard.jpg'],
+    ['PORTFOLIO_TiniBiniPage.html','Tini Bini','assets/images/jsb/tini-bini-banner-boys.jpg'],
     ['PORTFOLIO_KbappPage.html','K_bapp','assets/images/k-bapp.webp'],
+    ['PORTFOLIO_JSBPage.html','JSB Analytics','assets/images/jsb/jsb-cover.jpg'],
+    ['PORTFOLIO_BeyondBancardPage.html','Beyond Bancard','assets/images/beyond-bancard.jpg'],
+    ['PORTFOLIO_RogueDefensePage.html','Rogue Defense','assets/images/rogue-defense.jpg'],
     ['PORTFOLIO_DazeyShadesPage.html','Dazey Shades','assets/images/dazey-shades.jpg'],
+    ['PORTFOLIO_FilthyGorgeousPage.html','Filthy Gorgeous','assets/images/filthy-gorgeous-banner/01-full-banner-v1.jpg'],
+    ['PORTFOLIO_HiddenHillsPage.html','Hidden Hills','assets/images/hidden-hills.webp'],
+    ['PORTFOLIO_KoreanMagicDustPage.html','Korean Magic Dust','assets/images/korean-magic-dust.webp'],
     ['PORTFOLIO_MupyPage.html','Mupy','assets/images/mupy.jpg'],
     ['PORTFOLIO_MidwayCrusadePage.html','Midway Crusade','assets/images/midway-crusade.webp'],
-    ['PORTFOLIO_YoMochiPage.html','Yo! Mochi','assets/images/yo-mochi.jpg'],
-    ['PORTFOLIO_HiddenHillsPage.html','Hidden Hills','assets/images/hidden-hills.webp'],
-    ['PORTFOLIO_TiniBiniPage.html','Tini Bini','assets/images/jsb/tini-bini-banner-boys.jpg'],
-    ['PORTFOLIO_JSBPage.html','JSB Analytics','assets/images/jsb/jsb-cover.jpg']
+    ['PORTFOLIO_YoMochiPage.html','Yo! Mochi','assets/images/yo-mochi.jpg']
   ];
   const ANIM = {
     'assets/images/hikari-ferramentas.webp':'assets/images/hikari-ferramentas-poster.jpg',
