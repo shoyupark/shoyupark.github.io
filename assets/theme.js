@@ -349,7 +349,8 @@
     ['PORTFOLIO_MupyPage.html','Mupy','assets/images/mupy.jpg'],
     ['PORTFOLIO_MidwayCrusadePage.html','Midway Crusade','assets/images/midway-crusade.webp'],
     ['PORTFOLIO_YoMochiPage.html','Yo! Mochi','assets/images/yo-mochi.jpg'],
-    ['PORTFOLIO_HiddenHillsPage.html','Hidden Hills','assets/images/hidden-hills.webp']
+    ['PORTFOLIO_HiddenHillsPage.html','Hidden Hills','assets/images/hidden-hills.webp'],
+    ['PORTFOLIO_JSBPage.html','JSB Analytics','assets/images/jsb/tini-bini-banner-boys.jpg']
   ];
   function build(){
     const here = decodeURIComponent(location.pathname.split('/').pop());
