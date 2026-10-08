@@ -18,7 +18,6 @@
   --font-serif:'STIX Two Text', Georgia, serif;
   --font-sans:'Archivo', Helvetica, Arial, sans-serif;
   --radius:0;
-  cursor:none;
 }
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -31,10 +30,9 @@ body{
   background:var(--mat-green);
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
-  cursor:none;
 }
 
-a{cursor:none;}
+a{cursor:pointer;}
 
 /* ---------- page reveal ---------- */
 body{opacity:0;}
@@ -226,7 +224,7 @@ nav{
   text-decoration:none;
   background:var(--paper); color:var(--ink);
   border:none;
-  cursor:none;
+  cursor:pointer;
   transition:transform .18s ease, background .18s ease, color .18s ease;
 }
 .pill:hover{transform:translateY(-1px);}
@@ -256,7 +254,7 @@ footer p{
   width:46px;height:46px; border-radius:50%;
   background:var(--ink); display:flex; align-items:center; justify-content:center;
   opacity:0; pointer-events:none; transition:opacity .3s ease, transform .5s ease;
-  z-index:50; cursor:none;
+  z-index:50; cursor:pointer;
 }
 .scroll-top.visible{ opacity:1; pointer-events:auto; }
 .scroll-top:hover{ transform:rotate(360deg); }
@@ -424,7 +422,7 @@ html.embed .reveal{ opacity:1 !important; transform:none !important; }
 .browse-head{ display:flex; align-items:center; justify-content:space-between; gap:24px; }
 .browse-controls{ display:flex; gap:12px; flex-shrink:0; }
 .browse-arrow{
-  width:56px; height:56px; border-radius:50%; border:0; cursor:none;
+  width:56px; height:56px; border-radius:50%; border:0; cursor:pointer;
   background:#18218B; display:flex; align-items:center; justify-content:center;
   transition:background .2s ease, opacity .2s ease, transform .2s ease;
 }
@@ -442,3 +440,9 @@ html.embed .reveal{ opacity:1 !important; transform:none !important; }
 @media (max-width:900px){ .browse-track .browse-card{ flex-basis:calc((100% - 28px) / 2); } }
 @media (max-width:600px){ .browse-track .browse-card{ flex-basis:85%; } }
 .browse-track .browse-title{ color:var(--ink); }
+
+/* native cursor: the custom dot cursor was removed */
+#cursor{ display:none !important; }
+
+/* shadows only on elements that are on screen (theme.js toggles .in-view) */
+.shadow-gated.shadow-gated.shadow-gated:not(.in-view){ box-shadow:none !important; }

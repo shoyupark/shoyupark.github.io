@@ -186,7 +186,7 @@
   .tablecloth-carousel .carousel-slide.active{ opacity:1; }
   .carousel-arrow{
     position:absolute; top:50%; transform:translateY(-50%); z-index:2;
-    width:40px; height:40px; border-radius:100px; border:none; cursor:none;
+    width:40px; height:40px; border-radius:100px; border:none; cursor:pointer;
     background:rgba(255,255,255,.9); box-shadow:0 6px 16px -4px rgba(0,0,0,.4);
     display:flex; align-items:center; justify-content:center;
     transition:background .18s ease;
@@ -239,7 +239,7 @@
   }
   .flip-arrow{
     width:52px; height:52px; border-radius:100px; flex-shrink:0;
-    background:rgba(16,39,35,.06); border:none; cursor:none;
+    background:rgba(16,39,35,.06); border:none; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
     transition:background .18s ease, opacity .18s ease;
   }
@@ -562,7 +562,7 @@
         <img loading="lazy" decoding="async" src="assets/images/galaxy-park/galaxy-park-sticker.jpg" alt="Native Plants at Galaxy Park die-cut sticker"/>
       </div>
       <div class="video-cell" data-category="print-marketing-collateral">
-        <video src="assets/images/cra-instagram/galaxy-park-reel.mp4" autoplay muted loop playsinline></video>
+        <video src="assets/images/cra-instagram/galaxy-park-reel.mp4" data-vis-play muted loop playsinline preload="metadata"></video>
       </div>
     </div>
   </div>
@@ -579,7 +579,7 @@
         <span class="browse-title">Filthy Gorgeous</span>
       </a>
       <a class="browse-card" href="PORTFOLIO_KbappPage.html">
-        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/k-bapp.webp" alt="K_bapp"/></div>
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/k-bapp-poster.jpg" data-anim="assets/images/k-bapp.webp" alt="K_bapp"/></div>
         <span class="browse-title">K_bapp</span>
       </a>
     </div>
@@ -599,7 +599,7 @@
   </svg>
 </div>
 
-<script src="assets/theme.js?v=23"></script>
+<script src="assets/theme.js?v=25"></script>
 <script>
 window.addEventListener('scroll', () => {
   const btn = document.getElementById('scrollTop');

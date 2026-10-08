@@ -111,7 +111,7 @@
   .frame-prev{ left:20px; } .frame-next{ right:20px; }
   .frame-prev:hover:not(:disabled), .frame-next:hover:not(:disabled){ transform:translateY(-50%) scale(1.06); }
   .frame-dots{ display:flex; justify-content:center; gap:10px; margin-top:20px; }
-  .frame-dots button{ width:11px; height:11px; border-radius:50%; border:0; padding:0; cursor:none; background:rgba(24,33,139,.25); transition:background .2s, transform .2s; }
+  .frame-dots button{ width:11px; height:11px; border-radius:50%; border:0; padding:0; cursor:pointer; background:rgba(24,33,139,.25); transition:background .2s, transform .2s; }
   .frame-dots button.on{ background:#18218B; transform:scale(1.25); }
   .nav-back{ margin-top:56px; }
 </style>
@@ -184,7 +184,7 @@
     <div class="plate-flow">
       <img loading="lazy" decoding="async" src="assets/images/mupy/v2-sketches.jpg" alt="Mupy storefront, six early architectural sketches"/>
       <div class="env-grid">
-        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-lineart-animation.webp" alt="Mupy storefront line art, animated"/>
+        <img loading="lazy" decoding="async" src="assets/images/mupy/v2-lineart-animation-poster.jpg" data-anim="assets/images/mupy/v2-lineart-animation.webp" alt="Mupy storefront line art, animated"/>
         <img loading="lazy" decoding="async" src="assets/images/mupy/v2-storefront-gray-day.jpg" alt="Mupy storefront, grayscale day"/>
         <img loading="lazy" decoding="async" src="assets/images/mupy/v2-storefront-gray-night.jpg" alt="Mupy storefront, grayscale night"/>
         <img loading="lazy" decoding="async" src="assets/images/mupy/v2-color-1.jpg" alt="Mupy storefront, color palette variant 1"/>
@@ -218,11 +218,11 @@
         <span class="browse-title">Cambridge Redevelopment Authority</span>
       </a>
       <a class="browse-card" href="PORTFOLIO_MidwayCrusadePage.html">
-        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/midway-crusade.webp" alt="Midway Crusade"/></div>
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/midway-crusade-poster.jpg" data-anim="assets/images/midway-crusade.webp" alt="Midway Crusade"/></div>
         <span class="browse-title">Midway Crusade</span>
       </a>
       <a class="browse-card" href="PORTFOLIO_KbappPage.html">
-        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/k-bapp.webp" alt="K_bapp"/></div>
+        <div class="browse-thumb"><img loading="lazy" decoding="async" src="assets/images/k-bapp-poster.jpg" data-anim="assets/images/k-bapp.webp" alt="K_bapp"/></div>
         <span class="browse-title">K_bapp</span>
       </a>
     </div>
@@ -242,7 +242,7 @@
   </svg>
 </div>
 
-<script src="assets/theme.js?v=23"></script>
+<script src="assets/theme.js?v=25"></script>
 <script>
 window.addEventListener('scroll', () => {
   const btn = document.getElementById('scrollTop');

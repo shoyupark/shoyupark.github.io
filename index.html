@@ -35,7 +35,7 @@
     animation:spin 14s linear infinite;
   }
   @keyframes spin{ to{ transform:rotate(360deg); } }
-  .hero-flower-btn{ background:none; border:0; padding:0; cursor:none; display:inline-flex; transition:transform .25s ease; }
+  .hero-flower-btn{ background:none; border:0; padding:0; cursor:pointer; display:inline-flex; transition:transform .25s ease; }
   .hero-flower-btn:hover{ transform:scale(1.12); }
 
   .filters{
@@ -53,7 +53,7 @@
     font-family:var(--font-sans); font-size:clamp(18px,2.1vw,32px); font-weight:500; letter-spacing:.3px;
     text-transform:uppercase;
     background:#ffffff; color:var(--ink);
-    border:none; cursor:none;
+    border:none; cursor:pointer;
     transition:background .18s ease,color .18s ease,transform .18s ease;
   }
   .filter-pill:hover{ transform:translateY(-1px); }
@@ -74,7 +74,7 @@
     --c:#d81159; --t:#ffffff;
     position:relative; display:block; width:100%;
     height:clamp(130px,12vw,210px);
-    border:0; background:none; padding:0; cursor:none; text-align:left;
+    border:0; background:none; padding:0; cursor:pointer; text-align:left;
     transition:transform .28s cubic-bezier(.2,.7,.3,1);
   }
   .folder-back, .folder-front{ position:absolute; left:0; right:0; border-radius:14px; }
@@ -126,7 +126,7 @@
     min-height:clamp(58px,5.4vw,84px); padding-top:12px;
     margin-left:-12px; padding:0 clamp(16px,1.8vw,30px) clamp(10px,1vw,16px);
     display:flex; align-items:flex-end; justify-content:center; text-align:center;
-    border:0; background:none; cursor:none;
+    border:0; background:none; cursor:pointer;
     transition:flex .45s cubic-bezier(.2,.7,.3,1), min-height .45s cubic-bezier(.2,.7,.3,1), transform .2s ease;
   }
   .tab:first-child{ margin-left:0; }
@@ -335,7 +335,7 @@
     </a>
 
     <a class="card reveal" data-category="print-marketing-collateral,digital-web-design" href="PORTFOLIO_HikariPage.html">
-      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/hikari-ferramentas.webp" alt="Hikari Ferramentas"/></div>
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/hikari-ferramentas-poster.jpg" data-anim="assets/images/hikari-ferramentas.webp" alt="Hikari Ferramentas"/></div>
       <div class="meta">
         <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Hikari Ferramentas</span></div>
@@ -389,7 +389,7 @@
     </a>
 
     <a class="card reveal" data-category="branding-identity" href="PORTFOLIO_KbappPage.html">
-      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/k-bapp.webp" alt="K_bapp"/></div>
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/k-bapp-poster.jpg" data-anim="assets/images/k-bapp.webp" alt="K_bapp"/></div>
       <div class="meta">
         <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">K_bapp</span></div>
@@ -416,7 +416,7 @@
     </a>
 
     <a class="card reveal" data-category="illustrations" href="PORTFOLIO_MidwayCrusadePage.html">
-      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/midway-crusade.webp" alt="Midway Crusade"/></div>
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/midway-crusade-poster.jpg" data-anim="assets/images/midway-crusade.webp" alt="Midway Crusade"/></div>
       <div class="meta">
         <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">Midway Crusade</span></div>
@@ -441,12 +441,20 @@
         <div class="meta-desc">Display ad banner design</div>
       </div>
     </a>
-    <a class="card reveal" data-category="branding-identity,print-marketing-collateral,digital-web-design" href="PORTFOLIO_JSBPage.html">
-      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-banner-boys.jpg" alt="JSB Analytics"/></div>
+    <a class="card reveal" data-category="branding-identity,digital-web-design" href="PORTFOLIO_TiniBiniPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-banner-boys.jpg" alt="Tini Bini"/></div>
+      <div class="meta">
+        <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
+          <span class="meta-title">Tini Bini</span></div>
+        <div class="meta-desc">Logo design &amp; web banners</div>
+      </div>
+    </a>
+    <a class="card reveal" data-category="print-marketing-collateral,digital-web-design" href="PORTFOLIO_JSBPage.html">
+      <div class="thumb"><img loading="lazy" decoding="async" src="assets/images/jsb/jsb-cover.jpg" alt="JSB Analytics"/></div>
       <div class="meta">
         <div class="title-row"><span class="title-flowers"><svg viewBox="0 0 24 24" fill="var(--ink)"><circle cx="12" cy="12" r="8"/></svg></span>
           <span class="meta-title">JSB Analytics</span></div>
-        <div class="meta-desc">Web banners, logo exploration, social ads &amp; print flyers</div>
+        <div class="meta-desc">Social ads, menu posts &amp; print flyers</div>
       </div>
     </a>
 
@@ -490,7 +498,7 @@
   </svg>
 </div>
 
-<script src="assets/theme.js?v=23"></script>
+<script src="assets/theme.js?v=25"></script>
 <script>
 function scrollToWork(){
   const g = document.getElementById('workPanel');
@@ -564,8 +572,8 @@ const FEED = {
    ]
   },
   {
-   "page": "PORTFOLIO_JSBPage.html",
-   "label": "JSB Analytics",
+   "page": "PORTFOLIO_TiniBiniPage.html",
+   "label": "Tini Bini",
    "ids": [
     "tini-bini-logo"
    ]
@@ -665,10 +673,16 @@ const FEED = {
    ]
   },
   {
+   "page": "PORTFOLIO_TiniBiniPage.html",
+   "label": "Tini Bini",
+   "ids": [
+    "tini-bini-banners"
+   ]
+  },
+  {
    "page": "PORTFOLIO_JSBPage.html",
    "label": "JSB Analytics",
    "ids": [
-    "tini-bini-banners",
     "bionova-social-ads",
     "restaurant-menu-posts"
    ]

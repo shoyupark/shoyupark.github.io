@@ -24,45 +24,7 @@
     }
   });
 
-  // ---- custom cursor ----
-  const cursor = document.createElement('div');
-  cursor.id = 'cursor';
-  cursor.style.opacity = '0'; // hidden until the mouse actually moves — it
-  // used to default to dead-center of the viewport (see mx/my below) and sit
-  // there looking like a stray star until the user first moved their mouse
-  // simple circle cursor (drawn with CSS, no SVG or shadow filter)
-  document.body.appendChild(cursor);
-
-  let mx = window.innerWidth/2, my = window.innerHeight/2;
-  let cx = mx, cy = my;
-  let cursorSeen = false;
-  // querying + reading layout (getBoundingClientRect) on every raw mousemove
-  // event used to run this at mouse-poll rate (can be several hundred Hz),
-  // stalling the main thread and making the cursor itself feel laggy. The
-  // mousemove handler now only records the pointer position — cheap enough
-  // to never block — and the actual DOM query/reads/writes happen at most
-  // once per animation frame inside raf() below, in step with painting.
-  // Performance: the cursor-following grid spotlight was removed, and the
-  // cursor animation now only runs while the mouse is moving (it stops
-  // itself once the cursor catches up), instead of every frame forever.
-  let running = false;
-  window.addEventListener('mousemove', (e) => {
-    mx = e.clientX; my = e.clientY;
-    if (!cursorSeen){ cursorSeen = true; cx = mx; cy = my; cursor.style.opacity = '1'; }
-    if (!running){ running = true; requestAnimationFrame(raf); }
-  }, { passive:true });
-
-  function raf(){
-    cx += (mx-cx)*0.35; cy += (my-cy)*0.35;
-    cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%,-50%)`;
-    if (Math.abs(mx-cx) < 0.3 && Math.abs(my-cy) < 0.3){ running = false; return; }
-    requestAnimationFrame(raf);
-  }
-
-  document.addEventListener('mouseover', (e) => {
-    if (e.target.closest('.card')) cursor.classList.add('on-card');
-    else cursor.classList.remove('on-card');
-  });
+  // (custom cursor removed: the site uses the normal system cursor)
 
   // ---- build rulers with correct sequential numbers ----
   // startIndex lets a continuation ruler (.mat-extend) pick up numbering where
@@ -350,8 +312,14 @@
     ['PORTFOLIO_MidwayCrusadePage.html','Midway Crusade','assets/images/midway-crusade.webp'],
     ['PORTFOLIO_YoMochiPage.html','Yo! Mochi','assets/images/yo-mochi.jpg'],
     ['PORTFOLIO_HiddenHillsPage.html','Hidden Hills','assets/images/hidden-hills.webp'],
-    ['PORTFOLIO_JSBPage.html','JSB Analytics','assets/images/jsb/tini-bini-banner-boys.jpg']
+    ['PORTFOLIO_TiniBiniPage.html','Tini Bini','assets/images/jsb/tini-bini-banner-boys.jpg'],
+    ['PORTFOLIO_JSBPage.html','JSB Analytics','assets/images/jsb/jsb-cover.jpg']
   ];
+  const ANIM = {
+    'assets/images/hikari-ferramentas.webp':'assets/images/hikari-ferramentas-poster.jpg',
+    'assets/images/k-bapp.webp':'assets/images/k-bapp-poster.jpg',
+    'assets/images/midway-crusade.webp':'assets/images/midway-crusade-poster.jpg'
+  };
   function build(){
     const here = decodeURIComponent(location.pathname.split('/').pop());
     document.querySelectorAll('.browse-projects').forEach(sec => {
@@ -363,7 +331,7 @@
       const track = document.createElement('div');
       track.className = 'browse-track';
       track.innerHTML = list.map(([href, title, img]) =>
-        '<a class="browse-card" href="' + href + '"><div class="browse-thumb"><img loading="lazy" decoding="async" src="' + img + '" alt="' + title + '"/></div>' +
+        '<a class="browse-card" href="' + href + '"><div class="browse-thumb"><img loading="lazy" decoding="async" src="' + (ANIM[img] || img) + '"' + (ANIM[img] ? ' data-anim="' + img + '"' : '') + ' alt="' + title + '"/></div>' +
         '<span class="browse-title">' + title + '</span></a>').join('');
       grid.replaceWith(track);
       const head = sec.querySelector('.section-title');
@@ -387,4 +355,90 @@
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
+})();
+
+// ---- Performance: animations play only while on screen, shadows only on screen ----
+// Animated WebPs ship with a still poster as their src and the animation in
+// data-anim. When the image scrolls into view the animation is swapped in
+// (so it loads and plays on its own, no click), and when it leaves the
+// screen it goes back to the still, so off-screen animations stop decoding.
+// Videos marked data-vis-play play/pause the same way.
+(function(){
+  if (!('IntersectionObserver' in window)) return;
+  const SHADOW_SEL = '.proj-mat img, .proj-mat video, .proj-mat iframe, .proj-mat .yt-fallback, .illustration-grid img, .thumb, .browse-thumb, .headshot-frame';
+  const animIO = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const el = e.target;
+      if (el.tagName === 'VIDEO'){
+        if (e.isIntersecting){ el.muted = true; const p = el.play(); if (p && p.catch) p.catch(()=>{}); }
+        else el.pause();
+        return;
+      }
+      if (!el.dataset.poster) el.dataset.poster = el.getAttribute('src');
+      const want = e.isIntersecting ? el.dataset.anim : el.dataset.poster;
+      if (el.getAttribute('src') !== want) el.setAttribute('src', want);
+    });
+  }, { rootMargin: '150px 0px' });
+  const shadowIO = new IntersectionObserver(entries => {
+    entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
+  }, { rootMargin: '100px 0px' });
+  function scan(){
+    document.querySelectorAll('img[data-anim]:not([data-anim-on]), video[data-vis-play]:not([data-anim-on])').forEach(el => {
+      el.setAttribute('data-anim-on', ''); animIO.observe(el);
+    });
+    document.querySelectorAll(SHADOW_SEL).forEach(el => {
+      if (el.classList.contains('shadow-gated')) return;
+      el.classList.add('shadow-gated'); shadowIO.observe(el);
+    });
+  }
+  function start(){
+    scan();
+    // the Browse Projects slider is built after load, so pick up its images too
+    let q = false;
+    new MutationObserver(() => { if (q) return; q = true; requestAnimationFrame(() => { q = false; scan(); }); }).observe(document.body, { childList:true, subtree:true });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+})();
+
+// ---- Analytics (GoatCounter: no cookies, no personal data) ----
+// Dashboard: https://isabel.goatcounter.com
+// Counts page views, plus these click events:
+//   card: <project>      a project card on the landing page (for click-through rate)
+//   browse: <project>    a card in the Browse Projects slider
+//   tab: <category>     a category folder tab on the landing page
+//   link: about / linkedin / back
+//   read-to-end: <page>  visitor scrolled 90% of a page
+// Visits from links like shoyupark.github.io/?ref=coolidge show up under Referrers.
+(function(){
+  const q = new URLSearchParams(location.search);
+  if (q.get('embed')) return;                       // category feed iframes are part of the landing page, not separate visits
+  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) || location.protocol === 'file:') return; // ignore your own local previews
+  window.goatcounter = { no_onload: false };
+  const s = document.createElement('script');
+  s.async = true; s.src = 'https://gc.zgo.at/count.js';
+  s.setAttribute('data-goatcounter', 'https://isabel.goatcounter.com/count');
+  document.head.appendChild(s);
+
+  function ev(name){
+    if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: name, title: name, event: true });
+  }
+  const page = (location.pathname.split('/').pop() || 'index.html').replace(/\.html$/, '');
+  document.addEventListener('click', e => {
+    const t = e.target.closest('.tab');
+    if (t){ ev('tab: ' + t.textContent.trim().toLowerCase()); return; }
+    const a = e.target.closest('a'); if (!a) return;
+    const href = a.getAttribute('href') || '';
+    const proj = href.replace(/^PORTFOLIO_/, '').replace(/(Page|page)?\.html.*$/, '');
+    if (a.matches('.card')) ev('card: ' + proj);
+    else if (a.matches('.browse-card')) ev('browse: ' + proj + ' (from ' + page + ')');
+    else if (/linkedin\.com/.test(href)) ev('link: linkedin');
+    else if (/about\.html/.test(href)) ev('link: about (from ' + page + ')');
+    else if (a.matches('.nav-back')) ev('link: back (from ' + page + ')');
+  }, true);
+  let readSent = false;
+  window.addEventListener('scroll', () => {
+    if (readSent) return;
+    const d = document.documentElement;
+    if (window.scrollY + window.innerHeight >= d.scrollHeight * 0.9){ readSent = true; ev('read-to-end: ' + page); }
+  }, { passive:true });
 })();
