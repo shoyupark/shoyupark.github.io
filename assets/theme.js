@@ -299,21 +299,21 @@
 // ---- Browse Projects: horizontal slider with every other project ----
 (function(){
   const PROJECTS = [
-    ['PORTFOLIO_KbappPage.html','K_bapp','assets/images/k-bapp.webp'],
-    ['PORTFOLIO_MupyPage.html','Mupy','assets/images/mupy.jpg'],
-    ['PORTFOLIO_KoreanMagicDustPage.html','Korean Magic Dust','assets/images/korean-magic-dust.webp'],
-    ['PORTFOLIO_FilthyGorgeousPage.html','Filthy Gorgeous','assets/images/filthy-gorgeous-banner/01-full-banner-v1.jpg'],
-    ['PORTFOLIO_RogueDefensePage.html','Rogue Defense','assets/images/rogue-defense.jpg'],
     ['PORTFOLIO_CRApage.html','Cambridge Redevelopment Authority','assets/images/cra-hero.jpg'],
     ['PORTFOLIO_HikariPage.html','Hikari Ferramentas','assets/images/hikari-ferramentas.webp'],
     ['PORTFOLIO_HelenaJangPage.html','Chef Helena','assets/images/helena-jang-hero.jpg'],
     ['PORTFOLIO_TiniBiniPage.html','Tini Bini','assets/images/jsb/tini-bini-banner-boys.jpg'],
+    ['PORTFOLIO_KbappPage.html','K_bapp','assets/images/k-bapp.webp'],
     ['PORTFOLIO_JSBPage.html','JSB Analytics','assets/images/jsb/jsb-cover.jpg'],
     ['PORTFOLIO_BeyondBancardPage.html','Beyond Bancard','assets/images/beyond-bancard.jpg'],
+    ['PORTFOLIO_RogueDefensePage.html','Rogue Defense','assets/images/rogue-defense.jpg'],
     ['PORTFOLIO_DazeyShadesPage.html','Dazey Shades','assets/images/dazey-shades.jpg'],
+    ['PORTFOLIO_FilthyGorgeousPage.html','Filthy Gorgeous','assets/images/filthy-gorgeous-banner/01-full-banner-v1.jpg'],
     ['PORTFOLIO_HiddenHillsPage.html','Hidden Hills','assets/images/hidden-hills.webp'],
-    ['PORTFOLIO_YoMochiPage.html','Yo! Mochi','assets/images/yo-mochi.jpg'],
-    ['PORTFOLIO_MidwayCrusadePage.html','Midway Crusade','assets/images/midway-crusade.webp']
+    ['PORTFOLIO_KoreanMagicDustPage.html','Korean Magic Dust','assets/images/korean-magic-dust.webp'],
+    ['PORTFOLIO_MupyPage.html','Mupy','assets/images/mupy.jpg'],
+    ['PORTFOLIO_MidwayCrusadePage.html','Midway Crusade','assets/images/midway-crusade.webp'],
+    ['PORTFOLIO_YoMochiPage.html','Yo! Mochi','assets/images/yo-mochi.jpg']
   ];
   const ANIM = {
     'assets/images/hikari-ferramentas.webp':'assets/images/hikari-ferramentas-poster.jpg',
@@ -424,15 +424,16 @@
   }
   const page = (location.pathname.split('/').pop() || 'index.html').replace(/\.html$/, '');
   document.addEventListener('click', e => {
-    const t = e.target.closest('.tab');
-    if (t){ ev('tab: ' + t.textContent.trim().toLowerCase()); return; }
+    const t = e.target.closest('.menu-filter');
+    if (t){ ev('filter: ' + t.textContent.trim().toLowerCase()); return; }
     const a = e.target.closest('a'); if (!a) return;
     const href = a.getAttribute('href') || '';
     const proj = href.replace(/^PORTFOLIO_/, '').replace(/(Page|page)?\.html.*$/, '');
-    if (a.matches('.card')) ev('card: ' + proj);
+    if (a.matches('.card, .s-card')) ev('card: ' + proj);
     else if (a.matches('.browse-card')) ev('browse: ' + proj + ' (from ' + page + ')');
     else if (/linkedin\.com/.test(href)) ev('link: linkedin');
     else if (/about\.html/.test(href)) ev('link: about (from ' + page + ')');
+    else if (/contact\.html/.test(href)) ev('link: contact (from ' + page + ')');
     else if (a.matches('.nav-back')) ev('link: back (from ' + page + ')');
   }, true);
   let readSent = false;
@@ -441,4 +442,42 @@
     const d = document.documentElement;
     if (window.scrollY + window.innerHeight >= d.scrollHeight * 0.9){ readSent = true; ev('read-to-end: ' + page); }
   }, { passive:true });
+})();
+
+// ---- menu tape: on hover it rushes back so "All Work" is first; resumes scrolling when the mouse leaves ----
+(function(){
+  function init(){
+    document.querySelectorAll('.site-menu').forEach(menu => {
+      const track = menu.querySelector('.menu-track'); if (!track) return;
+      menu.addEventListener('mouseenter', () => {
+        const x = new DOMMatrix(getComputedStyle(track).transform).m41;
+        track.style.animation = 'none';
+        track.style.transform = 'translateX(' + x + 'px)';
+        track.offsetWidth;                                   // commit the frozen position
+        track.style.transition = 'transform .55s cubic-bezier(.2,.8,.2,1)';
+        track.style.transform = 'translateX(var(--menu-pad, 0px))';
+      });
+      menu.addEventListener('mouseleave', () => {
+        track.style.transition = ''; track.style.transform = ''; track.style.animation = '';
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
+// ---- back-to-top arrow on every page: appears after scrolling down ----
+(function(){
+  function init(){
+    let b = document.getElementById('scrollTop');
+    if (!b && !document.documentElement.classList.contains('embed')){
+      b = document.createElement('div'); b.className = 'scroll-top'; b.id = 'scrollTop';
+      b.innerHTML = '<svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 14.5V3.5M9 3.5L4.5 8M9 3.5L13.5 8" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      b.onclick = () => window.scrollTo({ top:0, behavior:'smooth' });
+      document.body.appendChild(b);
+    }
+    if (!b) return;
+    const upd = () => b.classList.toggle('visible', window.scrollY > 400);
+    window.addEventListener('scroll', upd, { passive:true }); upd();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

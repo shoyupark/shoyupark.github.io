@@ -1,0 +1,195 @@
+/* ---------- Site layout: centered logo, black menu bar, 3-column grid, black illustration section ---------- */
+
+/* black circle cursor (pure CSS, no script, so no lag) */
+html, body, a, button, select, label, .s-card, .menu-link, .scroll-top{
+  cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Ccircle cx='11' cy='11' r='9' fill='%230d0d0d' /%3E%3C/svg%3E") 11 11, auto !important;
+}
+input, textarea{ cursor:text !important; }
+
+/* sharp corners on images */
+img, video, .s-card, .thumb, .browse-thumb, .illustration-grid img{ border-radius:0 !important; }
+
+html, body.site, body.plain{ background:#ffffff !important; background-image:none !important; }
+
+/* header: big centered logo */
+.site-head{ display:flex; justify-content:center; align-items:center; padding:clamp(40px,6vw,88px) 20px clamp(28px,4vw,56px); background:#fff; }
+.site-logo{ display:block; line-height:0; }
+.site-logo img{ width:clamp(220px,30vw,440px); height:auto; display:block; box-shadow:none !important; }
+
+/* black menu bar, white uppercase links with dots between */
+.site-menu{ background:#0d0d0d; position:sticky !important; top:0; z-index:40; margin:0 !important; display:block !important; }
+.menu-inner{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:0 clamp(20px,3.2vw,48px); min-height:clamp(44px,3.6vw,56px);
+  overflow-x:auto; scrollbar-width:none;
+}
+.menu-inner::-webkit-scrollbar{ display:none; }
+.menu-link{
+  font-family:var(--font-sans); font-weight:500; letter-spacing:.3px; text-transform:uppercase;
+  font-size:clamp(14px,1.75vw,27px); color:#fff; text-decoration:none; white-space:nowrap;
+  padding:6px 0; border-bottom:2px solid transparent; transition:border-color .2s ease;
+}
+.menu-link:hover, .menu-link.on{ border-bottom-color:#fff; }
+.menu-dot{ width:7px; height:7px; background:#fff; border-radius:50% !important; flex-shrink:0; }
+
+/* project grid: 3 per row */
+.s-grid-wrap{ padding:clamp(20px,2.6vw,40px) clamp(20px,3.2vw,48px) clamp(48px,5vw,80px); }
+.s-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(12px,1.4vw,20px); }
+@media (max-width:900px){ .s-grid{ grid-template-columns:1fr 1fr; } }
+@media (max-width:560px){ .s-grid{ grid-template-columns:1fr; } }
+.s-card{ position:relative; display:block; aspect-ratio:16/9; overflow:hidden; background:#0d0d0d; text-decoration:none; color:#fff; }
+.s-card[hidden]{ display:none; }
+.s-card img{ width:100%; height:100%; object-fit:cover; display:block; box-shadow:none !important; transition:transform .5s ease; }
+.s-card:hover img{ transform:scale(1.03); }
+
+/* hover: light black overlay, title + description bottom-left in white */
+.s-over{
+  position:absolute; inset:0; display:flex; flex-direction:column; justify-content:flex-end; align-items:flex-start;
+  padding:clamp(12px,1.2vw,20px); background:rgba(0,0,0,.4); opacity:0; transition:opacity .3s ease;
+}
+.s-card:hover .s-over, .s-card:focus-visible .s-over{ opacity:1; }
+.s-title{ font-family:var(--font-sans); font-weight:700; letter-spacing:0; text-transform:uppercase;
+  font-size:19px; line-height:1.15; color:#fff; margin:0 0 4px; }
+.s-desc{ font-family:var(--font-sans); font-weight:400; font-size:13.5px; line-height:1.4; color:rgba(255,255,255,.92); margin:0; }
+@media (hover:none){ .s-over{ opacity:1; background:linear-gradient(to top, rgba(0,0,0,.6), rgba(0,0,0,0) 60%); } }
+
+/* illustration section: black background, white title, same justified rows */
+.s-illus{ background:#0d0d0d; padding:clamp(28px,3vw,48px) clamp(20px,2.6vw,40px) clamp(48px,5vw,80px); }
+.s-illus[hidden]{ display:none; }
+.s-illus-title{ font-family:var(--font-sans); font-weight:700; text-transform:uppercase; color:#fff;
+  font-size:clamp(28px,3vw,48px); margin-bottom:clamp(16px,1.6vw,24px); }
+.s-illus .illustration-grid img{ box-shadow:none !important; }
+
+footer{ background:#fff; }
+footer p{ font-family:var(--font-sans); font-size:12px; letter-spacing:.3px; }
+
+/* project, about and contact pages: header sits above the page content */
+body.plain .proj-hero{ min-height:auto; padding-top:24px; }
+body.plain .proj-head{ min-height:calc(100vh - 260px); }
+
+/* contact page */
+.c-wrap{ max-width:760px; margin:0 auto; padding:clamp(40px,5vw,72px) clamp(20px,3.2vw,48px) 96px; }
+.c-title{ font-family:var(--font-serif); font-style:italic; font-weight:600; font-size:clamp(48px,8vw,104px); line-height:1.02; margin-bottom:36px; }
+.s-form{ display:flex; flex-direction:column; gap:20px; }
+.s-form label{ display:flex; flex-direction:column; gap:8px; font-family:var(--font-sans); font-size:13px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:rgba(13,13,13,.6); }
+.s-form input, .s-form textarea{ font-family:var(--font-sans); font-size:17px; color:#0d0d0d; border:1.5px solid rgba(13,13,13,.25); background:#fff; padding:14px; width:100%; resize:vertical; border-radius:0; }
+.s-form input:focus, .s-form textarea:focus{ outline:none; border-color:#0d0d0d; }
+.s-honey{ position:absolute !important; left:-9999px; width:1px; height:1px; opacity:0; }
+.s-send{ align-self:flex-start; font-family:var(--font-sans); font-size:15px; font-weight:600; letter-spacing:1px; text-transform:uppercase; background:#0d0d0d; color:#fff; border:none; padding:16px 30px; border-radius:0; }
+.s-send:hover{ opacity:.85; }
+.s-send:disabled{ opacity:.5; }
+.s-status{ font-family:var(--font-sans); font-size:15px; color:rgba(13,13,13,.75); min-height:1.5em; }
+
+/* project info: plain black and white table (no sticky note) */
+.spec-note{ transform:none !important; filter:none !important; margin-top:0; }
+.spec-note::before{ display:none !important; }
+.spec-note .spec-table{ background:none !important; clip-path:none !important; padding:0 !important; border-top:1.5px solid #0d0d0d; }
+.spec-note .spec-row{ border-bottom:1px solid #0d0d0d !important; padding:14px 0; }
+.spec-note .spec-row:last-child{ border-bottom:1.5px solid #0d0d0d !important; }
+.spec-note .spec-label, .spec-note .spec-val{ color:#0d0d0d !important; }
+
+/* Archivo only: no serif anywhere. Former serif titles use Archivo, upright. */
+:root{ --font-serif:'Archivo', Helvetica, Arial, sans-serif; }
+.proj-title, .c-title, .hello, h2.section, .job-role{ font-family:var(--font-sans) !important; font-style:normal !important; }
+.proj-title, .c-title{ font-weight:700 !important; letter-spacing:-1px; }
+
+/* menu bar: full width, items repeat and scroll slowly like a moving tape; pauses on hover so links are easy to click */
+.site-menu{ width:100%; overflow:hidden; }
+.menu-inner{ display:none; }
+.menu-track{ display:flex; width:max-content; animation:menu-tape 100s linear infinite; }
+.site-menu:hover .menu-track, .site-menu:focus-within .menu-track{ animation-play-state:paused; }
+.menu-set{ display:flex; align-items:center; flex-shrink:0; gap:clamp(22px,2.6vw,44px); padding-right:clamp(22px,2.6vw,44px); min-height:clamp(44px,3.6vw,56px); }
+@keyframes menu-tape{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+@media (prefers-reduced-motion:reduce){ .menu-track{ animation:none; } }
+
+/* tighter header: less space around the logo, menu sits higher */
+.site-head{ padding:clamp(22px,2.8vw,40px) 20px clamp(16px,2vw,28px) !important; }
+/* hover handled in theme.js (rush back to start), so don't just pause */
+.site-menu:hover .menu-track, .site-menu:focus-within .menu-track{ animation-play-state:running; }
+/* underline sits close to the word */
+.menu-link{ padding:0 !important; border-bottom:none !important; line-height:1.1;
+  text-decoration:underline; text-decoration-color:transparent; text-decoration-thickness:2px; text-underline-offset:5px;
+  transition:text-decoration-color .2s ease; }
+.menu-link:hover, .menu-link.on{ text-decoration-color:#fff; }
+
+/* illustration section: the original markup and rules from the previous landing page,
+   copied as-is. Only changes: black background, white title, square corners. */
+.s-illus{ background:#0d0d0d !important; padding:0 56px 100px !important; overflow:hidden; }
+.s-illus .illustration-tab{ position:relative; z-index:1; margin-top:0; padding-top:96px; }
+.s-illus .illustration-title{ font-family:var(--font-sans); font-weight:700; font-size:56px; text-transform:uppercase; color:#ffffff !important; margin-bottom:36px; }
+.s-illus .illustration-grid{ column-count:auto !important; display:flex; flex-wrap:wrap; gap:20px; }
+.s-illus .illustration-grid img{
+  display:block; width:0; min-width:0; margin:0 !important; break-inside:avoid;
+  flex:var(--ar) 1 calc(var(--ar) * 300px); height:auto; aspect-ratio:var(--ar); object-fit:cover;
+  border-radius:0 !important; box-shadow:0 18px 40px -22px rgba(0,0,0,.35);
+}
+@media (max-width:640px){ .s-illus .illustration-grid img{ flex-basis:calc(var(--ar) * 180px); } }
+
+/* header spacing: tighter */
+.site-head{ padding:16px 20px 14px !important; }
+.site-logo img{ width:clamp(200px,24vw,360px) !important; }
+.menu-link{ text-underline-offset:4px !important; }
+
+/* header: logo a bit bigger, more breathing room; taller menu bar */
+.site-head{ padding:28px 20px 24px !important; }
+.site-logo img{ width:clamp(240px,30vw,460px) !important; }
+.menu-set{ min-height:clamp(52px,4.4vw,68px) !important; }
+/* contact page: just the form */
+.c-wrap{ padding-top:clamp(48px,6vw,88px) !important; }
+
+/* buttons: black and white everywhere */
+.scroll-top{ background:#0d0d0d !important; }
+.scroll-top svg path{ stroke:#ffffff !important; }
+.browse-arrow{ background:#0d0d0d !important; }
+.browse-arrow:hover:not(:disabled){ background:#333333 !important; }
+.browse-arrow svg path{ stroke:#ffffff !important; }
+.pill, .pill.dark, .cta-row .pill{ background:#0d0d0d !important; color:#ffffff !important; }
+.pill:hover, .cta-row .pill:hover{ background:#333333 !important; }
+/* about page: no tape on the portrait */
+.tape{ display:none !important; }
+
+/* ---------- About page: natural spacing (no notebook-grid snapping) ---------- */
+.about-mat .intro, .about-mat .info-grid{ text-shadow:none !important; }
+.about-mat h2.section{ margin:0 0 32px !important; line-height:1.15; text-underline-offset:8px !important; text-decoration-thickness:2px; }
+.about-mat h2.section.section-next{ margin-top:72px !important; }
+.about-mat .job{ margin:0 0 56px !important; }
+.about-mat .job:last-child{ margin-bottom:0 !important; }
+.about-mat .job::before{ top:9px !important; }
+.about-mat .job::after{ top:30px !important; bottom:-56px !important; }
+.about-mat .job-title{ line-height:1.25; margin:0 !important; }
+.about-mat .job-role{ line-height:1.35; margin:6px 0 0 !important; }
+.about-mat .job-loc{ line-height:1.4; margin:4px 0 14px !important; }
+.about-mat .job li{ line-height:1.6; margin-bottom:8px !important; }
+.about-mat .job li:last-child{ margin-bottom:0 !important; }
+.about-mat .edu-block{ margin:0 0 36px !important; }
+.about-mat .edu-school{ line-height:1.25; }
+.about-mat .edu-degree{ line-height:1.35; margin:6px 0 0 !important; }
+.about-mat .edu-year{ line-height:1.4; margin:4px 0 0 !important; }
+.about-mat .lang-row{ margin:0 0 12px !important; line-height:1.35; }
+.about-mat .hello{ margin:0 0 8px !important; }
+.about-mat .name{ margin:0 0 28px !important; }
+.about-mat .bio p{ line-height:1.65; margin:0 0 20px !important; }
+
+/* menu bar stays pinned to the top on every page: overflow-x "hidden" on body
+   can stop sticky from working in some browsers, "clip" doesn't */
+html, body{ overflow-x:clip !important; }
+.site-menu{ position:-webkit-sticky !important; position:sticky !important; top:0 !important; z-index:100 !important; }
+
+/* logo breathing room: +2px above and below */
+.site-head{ padding:30px 20px 26px !important; }
+
+/* menu tape starts (and snaps back on hover) with "All Work" at the page margin, not the edge */
+.site-menu{ --menu-pad:clamp(20px,3.2vw,48px); }
+.menu-track{ animation-name:menu-tape-pad !important; transform:translateX(var(--menu-pad)); }
+@keyframes menu-tape-pad{ from{ transform:translateX(var(--menu-pad)); } to{ transform:translateX(calc(var(--menu-pad) - 50%)); } }
+
+/* header: logo left, About Me · Contact right */
+.site-head{ justify-content:space-between !important; padding:30px clamp(20px,3.2vw,48px) 26px !important; }
+.site-logo img{ width:clamp(220px,26vw,420px) !important; }
+.head-links{ display:flex; align-items:center; gap:14px; font-family:var(--font-sans); font-weight:500; letter-spacing:.3px; text-transform:uppercase; font-size:clamp(13px,1.2vw,17px); }
+.head-links a{ color:#0d0d0d; text-decoration:underline; text-decoration-color:transparent; text-decoration-thickness:2px; text-underline-offset:4px; transition:text-decoration-color .2s ease; white-space:nowrap; }
+.head-links a:hover, .head-links a[aria-current="page"]{ text-decoration-color:#0d0d0d; }
+.head-dot{ width:5px; height:5px; background:#0d0d0d; border-radius:50% !important; }
+@media (max-width:560px){ .site-head{ flex-direction:column; gap:14px; } }
+
+.menu-track{ animation-duration:100s !important; }

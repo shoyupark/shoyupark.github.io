@@ -4,7 +4,14 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Yo! Mochi | Shoyu Park</title>
-<link rel="stylesheet" href="assets/theme.css?v=21"/>
+<link rel="icon" href="favicon.ico" sizes="any"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&display=swap"/>
+<link rel="stylesheet" href="assets/theme.css?v=23"/>
+<link rel="stylesheet" href="assets/site.css?v=15"/>
 <style>
   /* Project pages keep it simple: one continuous green mat, no white paper
      section. The grid texture just fades out gradually the further you
@@ -100,6 +107,13 @@
 </style>
 </head>
 <body class="plain">
+<header class="site-head">
+  <a class="site-logo" href="index.html" aria-label="Shoyu Park, home"><img src="assets/images/shoyu-park-logo.png" alt="Shoyu Park"/></a>
+  <div class="head-links"><a href="about.html">About Me</a><span class="head-dot" aria-hidden="true"></span><a href="contact.html">Contact</a></div>
+</header>
+<nav class="site-menu" aria-label="Main">
+  <div class="menu-track"><div class="menu-set"><a href="index.html" class="menu-link">All Work</a><span class="menu-dot" aria-hidden="true"></span><a href="index.html?type=illustrations" class="menu-link">Illustrations</a><span class="menu-dot" aria-hidden="true"></span><a href="index.html?type=branding-identity" class="menu-link">Branding &amp; Identity</a><span class="menu-dot" aria-hidden="true"></span></div><div class="menu-set" aria-hidden="true"><a tabindex="-1" href="index.html" class="menu-link">All Work</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=illustrations" class="menu-link">Illustrations</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=branding-identity" class="menu-link">Branding &amp; Identity</a><span class="menu-dot" aria-hidden="true"></span></div><div class="menu-set" aria-hidden="true"><a tabindex="-1" href="index.html" class="menu-link">All Work</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=illustrations" class="menu-link">Illustrations</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=branding-identity" class="menu-link">Branding &amp; Identity</a><span class="menu-dot" aria-hidden="true"></span></div><div class="menu-set" aria-hidden="true"><a tabindex="-1" href="index.html" class="menu-link">All Work</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=illustrations" class="menu-link">Illustrations</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=branding-identity" class="menu-link">Branding &amp; Identity</a><span class="menu-dot" aria-hidden="true"></span></div><div class="menu-set" aria-hidden="true"><a tabindex="-1" href="index.html" class="menu-link">All Work</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=illustrations" class="menu-link">Illustrations</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=branding-identity" class="menu-link">Branding &amp; Identity</a><span class="menu-dot" aria-hidden="true"></span></div><div class="menu-set" aria-hidden="true"><a tabindex="-1" href="index.html" class="menu-link">All Work</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=illustrations" class="menu-link">Illustrations</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=branding-identity" class="menu-link">Branding &amp; Identity</a><span class="menu-dot" aria-hidden="true"></span></div><div class="menu-set" aria-hidden="true"><a tabindex="-1" href="index.html" class="menu-link">All Work</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=illustrations" class="menu-link">Illustrations</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=branding-identity" class="menu-link">Branding &amp; Identity</a><span class="menu-dot" aria-hidden="true"></span></div><div class="menu-set" aria-hidden="true"><a tabindex="-1" href="index.html" class="menu-link">All Work</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=illustrations" class="menu-link">Illustrations</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=branding-identity" class="menu-link">Branding &amp; Identity</a><span class="menu-dot" aria-hidden="true"></span></div><div class="menu-set" aria-hidden="true"><a tabindex="-1" href="index.html" class="menu-link">All Work</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=illustrations" class="menu-link">Illustrations</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=branding-identity" class="menu-link">Branding &amp; Identity</a><span class="menu-dot" aria-hidden="true"></span></div><div class="menu-set" aria-hidden="true"><a tabindex="-1" href="index.html" class="menu-link">All Work</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=illustrations" class="menu-link">Illustrations</a><span class="menu-dot" aria-hidden="true"></span><a tabindex="-1" href="index.html?type=branding-identity" class="menu-link">Branding &amp; Identity</a><span class="menu-dot" aria-hidden="true"></span></div></div>
+</nav>
 
 <div class="mat proj-mat" id="projMat">
   <div class="mat-grid page-fade"></div>
@@ -109,12 +123,6 @@
   <div class="ruler-v right"></div>
 
   <div class="proj-hero">
-    <nav>
-      <a class="logo" href="index.html">
-        <span>SHOYU PARK</span>
-      </a>
-      <a class="pill" href="about.html">ABOUT ME</a>
-    </nav>
 
     <div class="proj-head reveal" id="rv1">
       <div>
@@ -179,7 +187,7 @@
   </svg>
 </div>
 
-<script src="assets/theme.js?v=27"></script>
+<script src="assets/theme.js?v=31"></script>
 <script>
 window.addEventListener('scroll', () => {
   const btn = document.getElementById('scrollTop');
