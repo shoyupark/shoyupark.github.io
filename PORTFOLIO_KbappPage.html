@@ -93,6 +93,11 @@
   .board-row img{ flex:var(--ar) 1 0; min-width:0; width:100%; height:auto; display:block; }
   @media (max-width:760px){ .board-row{ flex-direction:column; } .board-row img{ flex:none; } }
   .nav-back{ margin-top:56px; }
+  /* all boards stacked edge to edge: no gaps, no shadows */
+  .board-grid, .board-row{ gap:0 !important; }
+  .board-row{ flex-direction:column !important; }
+  .board-row img{ flex:none !important; width:100% !important; }
+  #brand-identity img, .scroll-strip{ box-shadow:none !important; }
 </style>
 </head>
 <body class="plain">

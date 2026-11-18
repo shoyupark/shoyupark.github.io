@@ -110,6 +110,15 @@
   .explore-label{ margin:0 0 18px; }
   .construction-plate{ background:#fff; border-radius:var(--radius); padding:clamp(16px,2vw,32px); box-shadow:0 18px 40px -22px rgba(0,0,0,.35); }
   .construction-plate img{ width:100%; height:auto; display:block; box-shadow:none !important; }
+  /* explorations: one column per concept (4 concepts, 5 variations each) */
+  .tb-explore{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  .tb-concept{ display:flex; flex-direction:column; gap:16px; }
+  .tb-concept img{ width:100%; display:block; }
+  @media (max-width:820px){
+    /* each concept becomes its own block of 2 columns x 3 rows, concepts stacked */
+    .tb-explore{ grid-template-columns:1fr; gap:28px; }
+    .tb-concept{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  }
 </style>
 </head>
 <body class="plain">
@@ -133,7 +142,7 @@
     <div class="proj-head reveal" id="rv1">
       <div>
         <h1 class="proj-title">Tini Bini</h1>
-        <p class="proj-desc">Tini Bini is a kids' sunglasses brand selling online. Through JSB Analytics, I designed the brand's wordmark, from early explorations to the final construction on a modular grid, along with web banners for the store.</p>
+        <p class="proj-desc">Tini Bini is a kids' sunglasses brand selling online. I designed the brand's wordmark along with web banners for the store.</p>
       </div>
       <div class="spec-note"><div class="spec-table">
         <div class="spec-row"><span class="spec-label">Year</span><span class="spec-val">2025</span></div>
@@ -147,7 +156,6 @@
   <div id="tini-bini-logo" class="section-block reveal">
     <div class="section-head">
       <h2 class="section-title">Logo Design</h2>
-      <p class="section-text">Explored wordmarks from clean geometric type to hand-drawn, sticker-style lettering, with and without a sunglasses mascot, then refined the blocky geometric direction on a modular grid. The client adopted it, added color accents, and now uses it on their live store.</p>
     </div>
     <figure class="final-logo">
       <div class="final-logo-plate"><img src="assets/images/jsb/tini-bini-final-logo.png" alt="Tini Bini final logo"/></div>
@@ -159,32 +167,35 @@
       <figcaption>Built on a modular unit grid: stroke widths, counters, and letter spacing are set in 1x and 0.5x units, with corner radii at 0.2x, so every letterform shares the same proportions.</figcaption>
     </figure>
     <p class="explore-label">Explorations</p>
-    <div class="jsb-grid jsb-5">
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-01.jpg" alt="Tini Bini logo exploration 1"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-02.jpg" alt="Tini Bini logo exploration 2"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-03.jpg" alt="Tini Bini logo exploration 3"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-04.jpg" alt="Tini Bini logo exploration 4"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-05.jpg" alt="Tini Bini logo exploration 5"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-06.jpg" alt="Tini Bini logo exploration 6"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-07.jpg" alt="Tini Bini logo exploration 7"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-08.jpg" alt="Tini Bini logo exploration 8"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-09.jpg" alt="Tini Bini logo exploration 9"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-10.jpg" alt="Tini Bini logo exploration 10"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-11.jpg" alt="Tini Bini logo exploration 11"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-12.jpg" alt="Tini Bini logo exploration 12"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-13.jpg" alt="Tini Bini logo exploration 13"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-14.jpg" alt="Tini Bini logo exploration 14"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-15.jpg" alt="Tini Bini logo exploration 15"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-16.jpg" alt="Tini Bini logo exploration 16"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-17.jpg" alt="Tini Bini logo exploration 17"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-18.jpg" alt="Tini Bini logo exploration 18"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-19.jpg" alt="Tini Bini logo exploration 19"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-20.jpg" alt="Tini Bini logo exploration 20"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-21.jpg" alt="Tini Bini logo exploration 21"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-22.jpg" alt="Tini Bini logo exploration 22"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-23.jpg" alt="Tini Bini logo exploration 23"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-24.jpg" alt="Tini Bini logo exploration 24"/>
-      <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-25.jpg" alt="Tini Bini logo exploration 25"/>
+    <div class="tb-explore">
+      <div class="tb-concept">
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-01.jpg" alt="Tini Bini logo exploration 1"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-06.jpg" alt="Tini Bini logo exploration 6"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-11.jpg" alt="Tini Bini logo exploration 11"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-16.jpg" alt="Tini Bini logo exploration 16"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-21.jpg" alt="Tini Bini logo exploration 21"/>
+      </div>
+      <div class="tb-concept">
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-02.jpg" alt="Tini Bini logo exploration 2"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-07.jpg" alt="Tini Bini logo exploration 7"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-12.jpg" alt="Tini Bini logo exploration 12"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-17.jpg" alt="Tini Bini logo exploration 17"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-22.jpg" alt="Tini Bini logo exploration 22"/>
+      </div>
+      <div class="tb-concept">
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-04.jpg" alt="Tini Bini logo exploration 4"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-09.jpg" alt="Tini Bini logo exploration 9"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-14.jpg" alt="Tini Bini logo exploration 14"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-19.jpg" alt="Tini Bini logo exploration 19"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-24.jpg" alt="Tini Bini logo exploration 24"/>
+      </div>
+      <div class="tb-concept">
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-05.jpg" alt="Tini Bini logo exploration 5"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-10.jpg" alt="Tini Bini logo exploration 10"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-15.jpg" alt="Tini Bini logo exploration 15"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-20.jpg" alt="Tini Bini logo exploration 20"/>
+        <img loading="lazy" decoding="async" src="assets/images/jsb/tini-bini-logo-25.jpg" alt="Tini Bini logo exploration 25"/>
+      </div>
     </div>
   </div>
 

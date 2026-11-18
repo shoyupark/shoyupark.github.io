@@ -121,6 +121,12 @@
   .frame-dots button{ width:11px; height:11px; border-radius:50%; border:0; padding:0; cursor:pointer; background:rgba(13,13,13,.25); transition:background .2s, transform .2s; }
   .frame-dots button.on{ background:#0d0d0d; transform:scale(1.25); }
   .nav-back{ margin-top:56px; }
+  @media (max-width:820px){
+    /* the 3 key style frames stacked instead of a slider */
+    #style-frames .frame-track{ flex-direction:column; overflow:visible; gap:8px; box-shadow:none; }
+    #style-frames .frame-slide{ flex:none; width:100%; }
+    #style-frames .frame-prev, #style-frames .frame-next, #style-frames .frame-dots{ display:none !important; }
+  }
 </style>
 </head>
 <body class="plain">
