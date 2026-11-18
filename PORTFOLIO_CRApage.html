@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&display=swap"/>
 <link rel="stylesheet" href="assets/theme.css?v=23"/>
-<link rel="stylesheet" href="assets/site.css?v=21"/>
+<link rel="stylesheet" href="assets/site.css?v=22"/>
 <style>
   /* Project pages keep it simple: one continuous green mat, no white paper
      section. The grid texture just fades out gradually the further you
@@ -353,6 +353,27 @@
   }
 
   .nav-back{ margin-top:56px; }
+  /* ---------- corrections ---------- */
+  .bishop-row .bishop-fig{ margin:0; min-width:0; }
+  .bishop-row .bishop-fig img{ width:100%; height:auto; display:block; }
+  .bishop-row .bishop-fig figcaption{ margin-top:10px; font-family:var(--font-sans); font-size:13px; letter-spacing:.3px; color:rgba(13,13,13,.7); }
+  /* tablecloths: no shadows (desktop + mobile) */
+  .tablecloth-grid img, .tablecloth-specs .spec-slot, .tablecloth-carousel{ box-shadow:none !important; }
+  @media (max-width:820px){
+    /* every image stacked full width, edges aligned on both sides */
+    .mockup-row, .scrim-row, .bishop-row, .rlf-row, .tablecloth-media-row{ flex-direction:column !important; }
+    .mockup-row > *, .scrim-row > *, .bishop-row > *, .rlf-row > *{ flex:none !important; width:100% !important; }
+    .gallery-grid, .tablecloth-grid, .rlf-header-grid, .galaxy-video-row{ grid-template-columns:1fr !important; }
+    .tablecloth-specs, .tablecloth-carousel{ flex:none !important; width:100%; }
+    .tablecloth-specs .spec-slot{ flex:none !important; }
+    /* cover report: mockup on top, the two covers side by side */
+    .cover-row{ flex-wrap:wrap; }
+    .cover-row .cover-mockup{ flex:1 1 100% !important; width:100% !important; }
+    .cover-row .cover-design{ flex:1 1 0 !important; min-width:0; }
+    /* flyers: both flyers in one row (widths = their ratios so heights match), mockup on its own row */
+    .flyer-grid{ grid-template-columns:0.773fr 0.8fr !important; }
+    .flyer-grid .fl-m{ grid-column:1 / span 2; }
+  }
 </style>
 </head>
 <body class="plain">
@@ -376,7 +397,7 @@
     <div class="proj-head reveal" id="rv1">
       <div>
         <h1 class="proj-title">Cambridge Redevelopment Authority</h1>
-        <p class="proj-desc">The Cambridge Redevelopment Authority is a nonprofit dedicated to neighborhood revitalization and equitable growth in Cambridge, MA, leading urban redevelopment, affordable housing, and public space initiatives. As Communications and Graphic Design Intern, I designed across print and digital media, balancing brand guidelines with clear, accessible design for diverse audiences.</p>
+        <p class="proj-desc">The Cambridge Redevelopment Authority is a nonprofit dedicated to neighborhood revitalization and equitable growth in Cambridge, MA. As Communications and Graphic Design Intern, I designed across print and digital media, balancing brand guidelines with clear, accessible design for diverse audiences.</p>
       </div>
       <div class="spec-note"><div class="spec-table">
         <div class="spec-row"><span class="spec-label">Year</span><span class="spec-val">2025–2026</span></div>
@@ -453,9 +474,9 @@
       <p class="section-text">Designed a logo for the Bishop Allen Drive building that balances historic reference with modern identity. Brick texture honors the building's history, while angular forms and a figure-based composition reflect its role as a community space for nonprofits and startups.</p>
     </div>
     <div class="bishop-row">
-      <img loading="lazy" decoding="async" class="bishop-wordmark" src="assets/images/bishop-allen/bishop-allen-wordmark.jpg" alt="99 Bishop Allen Drive logo"/>
-      <img loading="lazy" decoding="async" class="bishop-lockup" src="assets/images/bishop-allen/bishop-allen-logo-lockup.jpg" alt="99 Bishop Allen Drive logo lockup"/>
-      <img loading="lazy" decoding="async" class="bishop-colorgrid" src="assets/images/bishop-allen/bishop-allen-colorgrid.png" alt="99 Bishop Allen Drive logo color exploration grid"/>
+      <figure class="bishop-fig bishop-wordmark"><img loading="lazy" decoding="async" src="assets/images/bishop-allen/bishop-allen-wordmark.jpg" alt="99 Bishop Allen Drive vertical logo"/><figcaption>Vertical Logo</figcaption></figure>
+      <figure class="bishop-fig bishop-lockup"><img loading="lazy" decoding="async" src="assets/images/bishop-allen/bishop-allen-logo-lockup.jpg" alt="99 Bishop Allen Drive horizontal logo"/><figcaption>Horizontal Logo</figcaption></figure>
+      <figure class="bishop-fig bishop-colorgrid"><img loading="lazy" decoding="async" src="assets/images/bishop-allen/bishop-allen-colorgrid.png" alt="99 Bishop Allen Drive approved palette color combinations"/><figcaption>Palette Color: Approved Combinations / Variations</figcaption></figure>
     </div>
   </div>
 
@@ -502,12 +523,12 @@
       <p class="section-text">Designed flyers across CRA initiatives, covering community events, program announcements, and public outreach, each built for both digital distribution (social, email, web) and print within the CRA's brand guidelines.</p>
     </div>
     <div class="flyer-grid">
-      <img loading="lazy" decoding="async" src="assets/images/cra-flyers/forward-fund.jpg" alt="Forward Fund grant program flyer"/>
-      <img loading="lazy" decoding="async" src="assets/images/cra-flyers/final-reminder.jpg" alt="Forward Fund grant program flyer, final reminder version"/>
-      <img loading="lazy" decoding="async" src="assets/images/cra-flyers/flyer-mockup.jpg" alt="Forward Fund flyers displayed on easels, mockup"/>
-      <img loading="lazy" decoding="async" src="assets/images/cra-flyers/open-house-1.jpg" alt="Central Square Cultural District Open House flyer, version 1"/>
-      <img loading="lazy" decoding="async" src="assets/images/cra-flyers/open-house-2.jpg" alt="Central Square Cultural District Open House flyer, version 2"/>
-      <img loading="lazy" decoding="async" src="assets/images/cra-flyers/open-house-mockup.jpg" alt="Central Square Cultural District Open House flyers displayed on easels, mockup"/>
+      <img loading="lazy" decoding="async" class="fl-a" src="assets/images/cra-flyers/forward-fund.jpg" alt="Forward Fund grant program flyer"/>
+      <img loading="lazy" decoding="async" class="fl-b" src="assets/images/cra-flyers/final-reminder.jpg" alt="Forward Fund grant program flyer, final reminder version"/>
+      <img loading="lazy" decoding="async" class="fl-m" src="assets/images/cra-flyers/flyer-mockup.jpg" alt="Forward Fund flyers displayed on easels, mockup"/>
+      <img loading="lazy" decoding="async" class="fl-a" src="assets/images/cra-flyers/open-house-1.jpg" alt="Central Square Cultural District Open House flyer, version 1"/>
+      <img loading="lazy" decoding="async" class="fl-b" src="assets/images/cra-flyers/open-house-2.jpg" alt="Central Square Cultural District Open House flyer, version 2"/>
+      <img loading="lazy" decoding="async" class="fl-m" src="assets/images/cra-flyers/open-house-mockup.jpg" alt="Central Square Cultural District Open House flyers displayed on easels, mockup"/>
     </div>
   </div>
 
@@ -607,7 +628,7 @@
   </svg>
 </div>
 
-<script src="assets/theme.js?v=33"></script>
+<script src="assets/theme.js?v=34"></script>
 <script>
 window.addEventListener('scroll', () => {
   const btn = document.getElementById('scrollTop');
