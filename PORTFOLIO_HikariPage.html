@@ -172,6 +172,9 @@
   }
 
   .nav-back{ margin-top:56px; }
+  /* product image grid: black band from edge to edge of the page, no shadows */
+  .catalog-grid{ width:100vw; margin-left:calc(50% - 50vw); background:#0d0d0d; padding:clamp(16px,3.2vw,56px); box-sizing:border-box; }
+  .catalog-grid img{ box-shadow:none !important; }
 </style>
 </head>
 <body class="plain">
@@ -378,7 +381,7 @@
   </svg>
 </div>
 
-<script src="assets/theme.js?v=34"></script>
+<script src="assets/theme.js?v=35"></script>
 <script>
 window.addEventListener('scroll', () => {
   const btn = document.getElementById('scrollTop');

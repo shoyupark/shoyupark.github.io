@@ -364,6 +364,14 @@
       sec.addEventListener('mouseleave', () => resume(0));
       track.addEventListener('touchstart', pause, { passive:true });
       track.addEventListener('touchend', () => resume(2500), { passive:true });
+      // manual swipes loop too: jump by one full set when getting near either end
+      track.addEventListener('scroll', () => {
+        if (!paused) return;
+        const w = setW(); if (!w) return;
+        if (track.scrollLeft < w * 0.25){ track.scrollLeft += w; }
+        else if (track.scrollLeft > w * 2.25){ track.scrollLeft -= w; }
+        pos = track.scrollLeft;
+      }, { passive:true });
       const nudge = d => { pause(); track.scrollBy({ left: d * step(), behavior:'smooth' }); setTimeout(() => { pos = track.scrollLeft; wrap(); track.scrollLeft = pos; }, 600); };
       ctr.querySelector('.prev').onclick = () => nudge(-1);
       ctr.querySelector('.next').onclick = () => nudge(1);

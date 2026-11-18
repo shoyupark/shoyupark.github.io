@@ -377,6 +377,10 @@
   /* no shadows on any CRA image (desktop + mobile) */
   .proj-mat img, .proj-mat video, .proj-mat .video-cell, .proj-mat .spec-slot, .proj-mat .tablecloth-carousel,
   .proj-mat .page-frame, .proj-mat .sticker-frame img, .proj-mat .flipbook-container{ box-shadow:none !important; filter:none !important; }
+  .proj-mat .browse-thumb, .proj-mat .browse-thumb img{ box-shadow:none !important; }
+  @media (max-width:820px){
+    .proj-mat .gallery-grid, .proj-mat .tablecloth-grid{ grid-template-columns:1fr 1fr !important; }
+  }
 </style>
 </head>
 <body class="plain">
@@ -631,7 +635,7 @@
   </svg>
 </div>
 
-<script src="assets/theme.js?v=34"></script>
+<script src="assets/theme.js?v=35"></script>
 <script>
 window.addEventListener('scroll', () => {
   const btn = document.getElementById('scrollTop');
