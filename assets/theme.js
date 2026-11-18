@@ -296,7 +296,8 @@
   setInterval(send, 1500);   // catches late-loading images / embeds
 })();
 
-// ---- Browse Projects: horizontal slider with every other project ----
+// ---- Browse Projects: auto-scrolling strip (moves like the menu tape, pauses on hover/touch).
+// Starts at the project after this one; the previous projects sit to the left, reachable by swiping back.
 (function(){
   const PROJECTS = [
     ['PORTFOLIO_CRApage.html','Cambridge Redevelopment Authority','assets/images/cra-hero.jpg'],
@@ -320,19 +321,20 @@
     'assets/images/k-bapp.webp':'assets/images/k-bapp-poster.jpg',
     'assets/images/midway-crusade.webp':'assets/images/midway-crusade-poster.jpg'
   };
+  const card = ([href, title, img]) =>
+    '<a class="browse-card" href="' + href + '"><div class="browse-thumb"><img loading="lazy" decoding="async" src="' + (ANIM[img] || img) + '"' + (ANIM[img] ? ' data-anim="' + img + '"' : '') + ' alt="' + title + '"/></div>' +
+    '<span class="browse-title">' + title + '</span></a>';
   function build(){
     const here = decodeURIComponent(location.pathname.split('/').pop());
     document.querySelectorAll('.browse-projects').forEach(sec => {
       const grid = sec.querySelector('.browse-grid');
       if (!grid || sec.querySelector('.browse-track')) return;
-      // start with the projects after this one, wrap around, so each page shows different neighbours first
       const i = PROJECTS.findIndex(p => p[0] === here);
-      const list = i >= 0 ? PROJECTS.slice(i + 1).concat(PROJECTS.slice(0, i)) : PROJECTS;
+      const list = i >= 0 ? PROJECTS.slice(i + 1).concat(PROJECTS.slice(0, i)) : PROJECTS;   // next project first, previous project last
       const track = document.createElement('div');
-      track.className = 'browse-track';
-      track.innerHTML = list.map(([href, title, img]) =>
-        '<a class="browse-card" href="' + href + '"><div class="browse-thumb"><img loading="lazy" decoding="async" src="' + (ANIM[img] || img) + '"' + (ANIM[img] ? ' data-anim="' + img + '"' : '') + ' alt="' + title + '"/></div>' +
-        '<span class="browse-title">' + title + '</span></a>').join('');
+      track.className = 'browse-track auto';
+      const set = list.map(card).join('');
+      track.innerHTML = set + set + set;                       // [previous ones to the left][start here ->][buffer]
       grid.replaceWith(track);
       const head = sec.querySelector('.section-title');
       const ctr = document.createElement('div');
@@ -343,15 +345,30 @@
       const bar = document.createElement('div');
       bar.className = 'browse-head';
       head.replaceWith(bar); bar.appendChild(head); bar.appendChild(ctr);
+
+      const n = list.length;
+      const setW = () => { const c = track.children; return c[n].offsetLeft - c[0].offsetLeft; };
       const step = () => { const c = track.querySelector('.browse-card'); return c ? c.getBoundingClientRect().width + 28 : 300; };
-      const prev = ctr.querySelector('.prev'), next = ctr.querySelector('.next');
-      prev.onclick = () => track.scrollBy({ left: -step(), behavior: 'smooth' });
-      next.onclick = () => track.scrollBy({ left:  step(), behavior: 'smooth' });
-      const upd = () => {
-        prev.disabled = track.scrollLeft < 4;
-        next.disabled = track.scrollLeft + track.clientWidth > track.scrollWidth - 4;
-      };
-      track.addEventListener('scroll', upd, { passive:true }); window.addEventListener('resize', upd); upd();
+      let pos = 0, paused = false, resumeT = 0, last = 0;
+      function wrap(){ const w = setW(); if (!w) return; if (pos >= 2 * w) pos -= w; if (pos < w * 0.5) pos += w; }
+      // same speed as the menu tape (it moves half its track width every 100s)
+      function speed(){ const m = document.querySelector('.menu-track'); return m ? (m.scrollWidth / 2) / 100 : 35; }
+      function tick(t){
+        const dt = last ? Math.min(50, t - last) : 0; last = t;
+        if (!paused){ pos += speed() * dt / 1000; wrap(); track.scrollLeft = pos; }
+        requestAnimationFrame(tick);
+      }
+      const pause = () => { paused = true; clearTimeout(resumeT); };
+      const resume = ms => { clearTimeout(resumeT); resumeT = setTimeout(() => { pos = track.scrollLeft; wrap(); track.scrollLeft = pos; paused = false; }, ms || 0); };
+      sec.addEventListener('mouseenter', pause);
+      sec.addEventListener('mouseleave', () => resume(0));
+      track.addEventListener('touchstart', pause, { passive:true });
+      track.addEventListener('touchend', () => resume(2500), { passive:true });
+      const nudge = d => { pause(); track.scrollBy({ left: d * step(), behavior:'smooth' }); setTimeout(() => { pos = track.scrollLeft; wrap(); track.scrollLeft = pos; }, 600); };
+      ctr.querySelector('.prev').onclick = () => nudge(-1);
+      ctr.querySelector('.next').onclick = () => nudge(1);
+      const go = () => { pos = setW(); track.scrollLeft = pos; requestAnimationFrame(tick); };
+      if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
@@ -480,4 +497,22 @@
     window.addEventListener('scroll', upd, { passive:true }); upd();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
+// ---- mobile only: shrink long titles just enough that no word gets cut off ----
+(function(){
+  const SEL = '.proj-title, .section-title, .illustration-title';
+  function fit(){
+    const mobile = window.matchMedia('(max-width:820px)').matches;
+    document.querySelectorAll(SEL).forEach(el => {
+      el.style.fontSize = '';
+      if (!mobile) return;
+      let size = parseFloat(getComputedStyle(el).fontSize), guard = 80;
+      while (el.scrollWidth > el.clientWidth + 1 && size > 14 && guard--){ size -= 1; el.style.fontSize = size + 'px'; }
+    });
+  }
+  let t; const later = () => { clearTimeout(t); t = setTimeout(fit, 120); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fit); else fit();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  window.addEventListener('load', fit); window.addEventListener('resize', later);
 })();

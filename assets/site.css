@@ -193,3 +193,34 @@ html, body{ overflow-x:clip !important; }
 @media (max-width:560px){ .site-head{ flex-direction:column; gap:14px; } }
 
 .menu-track{ animation-duration:100s !important; }
+
+/* project grid: 2 per row, like the original portfolio */
+.s-grid{ grid-template-columns:1fr 1fr !important; gap:32px 28px !important; }
+@media (max-width:760px){ .s-grid{ grid-template-columns:1fr !important; } }
+
+/* ================= Portfolio corrections ================= */
+/* project page titles: ALL CAPS, same weight as the section titles */
+.proj-title{ text-transform:uppercase; font-weight:500 !important; letter-spacing:0 !important; }
+/* browse strip is moved by script, so no snapping */
+.browse-track.auto{ scroll-snap-type:none !important; scroll-behavior:auto !important; }
+
+/* ---------- mobile only (desktop untouched) ---------- */
+@media (max-width:820px){
+  .proj-title, .section-title, .illustration-title{ overflow-wrap:normal; word-break:normal; hyphens:none; }
+  /* margins closer to the screen edges, equal on both sides */
+  .proj-mat{ padding-left:16px !important; padding-right:16px !important; }
+  .proj-mat .section-block{ margin-left:0 !important; margin-right:0 !important; }
+  /* smaller space between images */
+  .proj-mat .img-grid, .proj-mat .mockup-row, .proj-mat .scrim-row, .proj-mat .bishop-row, .proj-mat .flyer-grid,
+  .proj-mat .galaxy-video-row, .proj-mat .gallery-grid, .proj-mat .cover-row, .proj-mat .tablecloth-grid,
+  .proj-mat .tablecloth-media-row, .proj-mat .tablecloth-specs, .proj-mat .rlf-header-grid, .proj-mat .rlf-row,
+  .proj-mat .plate-flow, .proj-mat .plate-pair, .proj-mat .plate-trio, .proj-mat .torn-row, .proj-mat .ratio-row,
+  .proj-mat .motion-grid, .proj-mat .video-grid, .proj-mat .reels-row, .proj-mat .catalog-grid, .proj-mat .jsb-grid,
+  .proj-mat .jsb-banners, .proj-mat .board-grid, .proj-mat .board-row, .proj-mat .ig-row, .proj-mat .deck-grid,
+  .proj-mat .content-grid, .proj-mat .env-grid, .proj-mat .banner-set{ gap:8px !important; }
+  .proj-mat .scrim-flats, .proj-mat .tablecloth-media-row{ margin-top:8px !important; }
+  .proj-mat .jsb-5 img, .proj-mat .jsb-4 img{ width:calc((100% - 8px) / 2) !important; }
+}
+
+/* mobile: breathing room between the project info table and the first section title */
+@media (max-width:820px){ body.plain .proj-hero{ margin-bottom:72px !important; } }
