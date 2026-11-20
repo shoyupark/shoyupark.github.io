@@ -4,7 +4,6 @@
    grid overlay with cursor-following spotlight, flower cursor.
 =================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&display=swap');
 
 :root{
   --mat-green:#4e9689;
@@ -15,8 +14,8 @@
   --ink-soft:#102723b3;
   --ruler-line:rgba(255,255,255,0.55);
   --ruler-line-soft:rgba(255,255,255,0.22);
-  --font-serif:'Archivo', Helvetica, Arial, sans-serif;
-  --font-sans:'Archivo', Helvetica, Arial, sans-serif;
+  --font-serif:"Helvetica Neue", Helvetica, sans-serif;
+  --font-sans:"Helvetica Neue", Helvetica, sans-serif;
   --radius:0;
 }
 

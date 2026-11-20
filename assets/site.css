@@ -88,8 +88,8 @@ body.plain .proj-head{ min-height:calc(100vh - 260px); }
 .spec-note .spec-row:last-child{ border-bottom:1.5px solid #0d0d0d !important; }
 .spec-note .spec-label, .spec-note .spec-val{ color:#0d0d0d !important; }
 
-/* Archivo only: no serif anywhere. Former serif titles use Archivo, upright. */
-:root{ --font-serif:'Archivo', Helvetica, Arial, sans-serif; }
+/* no serif anywhere: former serif titles are upright */
+:root{ --font-serif:var(--font-main); }
 .proj-title, .c-title, .hello, h2.section, .job-role{ font-family:var(--font-sans) !important; font-style:normal !important; }
 .proj-title, .c-title{ font-weight:700 !important; letter-spacing:-1px; }
 
@@ -232,3 +232,59 @@ html, body{ overflow-x:clip !important; }
   .proj-head, .section-head{ grid-template-columns:minmax(0,1fr) !important; }
   .proj-desc, .section-text, .spec-val{ overflow-wrap:anywhere; }
 }
+
+/* ================= Revisions ================= */
+
+/* menu bar: white background, black type, a 1pt line above and below; pauses on hover */
+.site-menu{ background:#ffffff !important; border-top:1pt solid #0d0d0d; border-bottom:1pt solid #0d0d0d; }
+.menu-link{ color:#0d0d0d !important; }
+.menu-link:hover, .menu-link.on{ text-decoration-color:#0d0d0d !important; }
+.menu-dot{ background:#0d0d0d !important; }
+.site-menu:hover .menu-track, .site-menu:focus-within .menu-track{ animation-play-state:paused !important; }
+
+/* landing page: 3 projects per row */
+.s-grid{ grid-template-columns:repeat(3,1fr) !important; }
+@media (max-width:1000px){ .s-grid{ grid-template-columns:1fr 1fr !important; } }
+@media (max-width:620px){ .s-grid{ grid-template-columns:1fr !important; } }
+
+/* ================= Typography: exactly two fonts =================
+   --font-main  Helvetica Neue  (name/logo, navigation, headings, bio text, footer links)
+   --font-type  IBM Plex Mono   (project titles, captions, tags/filters, dates, small labels) */
+:root{
+  --font-main:"Helvetica Neue", Helvetica, sans-serif;
+  --font-type:"IBM Plex Mono", monospace;
+  --font-sans:var(--font-main);
+  --font-serif:var(--font-main);
+}
+html, body, input, textarea, select, button{ font-family:var(--font-main); }
+
+/* name / logo */
+.name, .logo, .logo span{ font-family:var(--font-main) !important; font-weight:700 !important; text-transform:uppercase; letter-spacing:-0.04em !important; line-height:0.9 !important; }
+
+/* navigation + headings */
+.menu-link, .head-links a, .nav-links a, nav .pill, .site-nav a,
+h1, h2, h3, .section-title, .illustration-title, .s-illus-title, .c-title, .s-h1, .hello, h2.section, .browse-head .section-title{
+  font-family:var(--font-main) !important; font-weight:700 !important; text-transform:uppercase; letter-spacing:-0.02em !important;
+}
+
+/* bio text */
+.bio p, .bio{ font-family:var(--font-main) !important; font-weight:700 !important; letter-spacing:-0.03em !important; line-height:1.1 !important; }
+
+/* footer links */
+footer, footer p, footer a{ font-family:var(--font-main) !important; font-weight:400 !important; letter-spacing:-0.01em !important; }
+
+/* typewriter: project titles (all caps) */
+.proj-title, .s-title, .meta-title, .browse-title, .job-title, .edu-school{
+  font-family:var(--font-type) !important; font-weight:400 !important; text-transform:uppercase; letter-spacing:0 !important;
+}
+/* typewriter: role descriptions (italic) */
+.s-desc, .meta-desc, .job-role, .edu-degree{ font-family:var(--font-type) !important; font-style:italic !important; font-weight:400 !important; letter-spacing:0 !important; }
+/* typewriter: captions, tags/filters, dates, small labels */
+figcaption, .final-label, .explore-label, .reels-label, .eyebrow, .s-eyebrow, .s-filter-label, .s-select select,
+.spec-label, .spec-val, .job-loc, .edu-year, .lang-row span, .badge, .page-counter, .page-jump,
+.s-form label, .s-status, .s-send, .tab-label, .filter-pill{
+  font-family:var(--font-type) !important; font-weight:400 !important; letter-spacing:0 !important;
+}
+
+/* sub-section titles use the typewriter font */
+.section-title, .browse-head .section-title{ font-family:var(--font-type) !important; font-weight:400 !important; letter-spacing:0 !important; text-transform:uppercase; }

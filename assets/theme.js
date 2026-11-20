@@ -302,9 +302,9 @@
   const PROJECTS = [
     ['PORTFOLIO_CRApage.html','Cambridge Redevelopment Authority','assets/images/cra-hero.jpg'],
     ['PORTFOLIO_HikariPage.html','Hikari Ferramentas','assets/images/hikari-ferramentas.webp'],
-    ['PORTFOLIO_TiniBiniPage.html','Tini Bini','assets/images/jsb/tini-bini-banner-boys.jpg'],
-    ['PORTFOLIO_RogueDefensePage.html','Rogue Defense','assets/images/rogue-defense.jpg'],
     ['PORTFOLIO_FilthyGorgeousPage.html','Filthy Gorgeous','assets/images/filthy-gorgeous-banner/01-full-banner-v1.jpg'],
+    ['PORTFOLIO_RogueDefensePage.html','Rogue Defense','assets/images/rogue-defense.jpg'],
+    ['PORTFOLIO_TiniBiniPage.html','Tini Bini','assets/images/jsb/tini-bini-banner-boys.jpg'],
     ['PORTFOLIO_KbappPage.html','K_bapp','assets/images/k-bapp.webp'],
     ['PORTFOLIO_KoreanMagicDustPage.html','Korean Magic Dust','assets/images/korean-magic-dust.webp'],
     ['PORTFOLIO_MupyPage.html','Mupy','assets/images/mupy.jpg'],
@@ -469,26 +469,7 @@
   }, { passive:true });
 })();
 
-// ---- menu tape: on hover it rushes back so "All Work" is first; resumes scrolling when the mouse leaves ----
-(function(){
-  function init(){
-    document.querySelectorAll('.site-menu').forEach(menu => {
-      const track = menu.querySelector('.menu-track'); if (!track) return;
-      menu.addEventListener('mouseenter', () => {
-        const x = new DOMMatrix(getComputedStyle(track).transform).m41;
-        track.style.animation = 'none';
-        track.style.transform = 'translateX(' + x + 'px)';
-        track.offsetWidth;                                   // commit the frozen position
-        track.style.transition = 'transform .55s cubic-bezier(.2,.8,.2,1)';
-        track.style.transform = 'translateX(var(--menu-pad, 0px))';
-      });
-      menu.addEventListener('mouseleave', () => {
-        track.style.transition = ''; track.style.transform = ''; track.style.animation = '';
-      });
-    });
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
-})();
+// (menu tape simply pauses on hover; see site.css)
 
 // ---- back-to-top arrow on every page: appears after scrolling down ----
 (function(){
