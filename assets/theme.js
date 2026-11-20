@@ -280,7 +280,7 @@
       if (!keep){ sb.remove(); return; }          // drop unused sections so their images/videos never download
       sb.classList.add('embed-keep', 'in');
     });
-    document.querySelectorAll('.proj-hero, .browse-projects, .nav-back, footer, .site-head, .site-menu, .menu-drop, .scroll-top').forEach(el => el.remove());
+    document.querySelectorAll('.proj-hero, .browse-projects, .nav-back, footer, .site-head, .site-menu, .menu-drop, .scroll-top, .connect').forEach(el => el.remove());
     // links inside open in the full window, not inside the frame
     document.querySelectorAll('a[href]').forEach(a => { if (!a.target) a.target = '_top'; });
     send();
