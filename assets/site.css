@@ -422,3 +422,9 @@ body.rogue-dark :is(.browse-arrow.next, .frame-next, #nextBtn, .carousel-arrow.n
   body.plain .proj-head{ flex:1; align-content:center; min-height:0 !important; }
   body.plain .proj-hero + .section-block{ margin-top:72px !important; }
 }
+
+/* no shadows anywhere on the site */
+*, *::before, *::after{ box-shadow:none !important; text-shadow:none !important; }
+img, video, iframe, .page-frame, .spec-note, .thumb, .browse-thumb{ filter:none !important; }
+.site-logo img{ filter:none; }
+body.rogue-dark .site-logo img{ filter:invert(1) !important; }
