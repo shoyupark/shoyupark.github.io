@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;1,400&display=swap"/>
-<link rel="stylesheet" href="assets/theme.css?v=24"/>
-<link rel="stylesheet" href="assets/site.css?v=27"/>
+<link rel="stylesheet" href="assets/theme.css?v=26"/>
+<link rel="stylesheet" href="assets/site.css?v=31"/>
 <style>
   .about-mat{ padding-bottom:80px; }
   .intro{
@@ -49,7 +49,7 @@
   }
   .bio p{
     font-family:var(--font-sans); font-size:14.5px; line-height:1.7;
-    color:rgba(13,13,13,0.82); margin-bottom:14px; max-width:620px;
+    color:rgba(0,0,0,0.82); margin-bottom:14px; max-width:620px;
   }
   .cta-row{ display:flex; gap:12px; margin-top:24px; }
 
@@ -74,28 +74,28 @@
   }
   .job::after{
     content:''; position:absolute; left:6px; top:16px; bottom:-30px;
-    width:1.5px; background:rgba(13,13,13,.25);
+    width:1.5px; background:rgba(0,0,0,.25);
   }
   .job:last-child::after{ display:none; }
   .job-title{ font-family:var(--font-sans); font-weight:700; font-size:15.5px; color:var(--ink); }
-  .job-role{ font-family:var(--font-serif); font-style:italic; font-size:14px; color:rgba(13,13,13,0.80); margin-bottom:4px; }
-  .job-loc{ font-family:var(--font-sans); font-size:11px; color:rgba(13,13,13,0.55); letter-spacing:.3px; margin-bottom:8px; }
+  .job-role{ font-family:var(--font-serif); font-style:italic; font-size:14px; color:rgba(0,0,0,0.80); margin-bottom:4px; }
+  .job-loc{ font-family:var(--font-sans); font-size:11px; color:rgba(0,0,0,0.55); letter-spacing:.3px; margin-bottom:8px; }
   .job ul{ padding-left:32px; }
   .job li{
     font-family:var(--font-sans); font-size:13px; line-height:1.6;
-    color:rgba(13,13,13,0.80); list-style:disc; margin-bottom:6px;
+    color:rgba(0,0,0,0.80); list-style:disc; margin-bottom:6px;
     padding-left:4px;
   }
-  .job li::marker{ color:rgba(13,13,13,0.55); }
+  .job li::marker{ color:rgba(0,0,0,0.55); }
 
   .edu-block{ margin-bottom:24px; }
   .edu-school{ font-family:var(--font-sans); font-weight:700; font-size:15px; color:var(--ink); }
-  .edu-degree{ font-family:var(--font-sans); font-size:13px; color:rgba(13,13,13,0.75); }
-  .edu-year{ font-family:var(--font-sans); font-size:12px; color:rgba(13,13,13,0.55); }
+  .edu-degree{ font-family:var(--font-sans); font-size:13px; color:rgba(0,0,0,0.75); }
+  .edu-year{ font-family:var(--font-sans); font-size:12px; color:rgba(0,0,0,0.55); }
 
   .lang-row{ display:flex; justify-content:space-between; max-width:280px; margin-bottom:6px; }
   .lang-row span:first-child{ font-family:var(--font-sans); font-weight:600; font-size:13.5px; color:var(--ink); }
-  .lang-row span:last-child{ font-family:var(--font-sans); font-size:13px; color:rgba(13,13,13,0.65); }
+  .lang-row span:last-child{ font-family:var(--font-sans); font-size:13px; color:rgba(0,0,0,0.65); }
 
   .badges{ display:flex; gap:10px; flex-wrap:wrap; }
   .badge{
@@ -119,16 +119,16 @@
   .job::after{ left:7px; top:26px; bottom:-48px; width:2px; }
   .job-title{ font-size:clamp(22px,1.9vw,30px); }
   .job-role{ font-size:clamp(19px,1.6vw,25px); color:var(--ink); margin:4px 0 6px; }
-  .job-loc{ font-size:clamp(15px,1.2vw,18px); color:rgba(13,13,13,.75); margin-bottom:14px; }
+  .job-loc{ font-size:clamp(15px,1.2vw,18px); color:rgba(0,0,0,.75); margin-bottom:14px; }
   .job ul{ padding-left:24px; }
   .job li{ font-size:clamp(17px,1.4vw,22px); line-height:1.55; color:var(--ink); margin-bottom:10px; }
   .edu-block{ margin-bottom:36px; }
   .edu-school{ font-size:clamp(22px,1.9vw,30px); }
   .edu-degree{ font-size:clamp(18px,1.5vw,23px); color:var(--ink); margin-top:4px; }
-  .edu-year{ font-size:clamp(15px,1.2vw,18px); color:rgba(13,13,13,.75); margin-top:4px; }
+  .edu-year{ font-size:clamp(15px,1.2vw,18px); color:rgba(0,0,0,.75); margin-top:4px; }
   .lang-row{ max-width:440px; margin-bottom:12px; }
   .lang-row span:first-child{ font-size:clamp(18px,1.5vw,23px); }
-  .lang-row span:last-child{ font-size:clamp(17px,1.4vw,22px); color:rgba(13,13,13,.8); }
+  .lang-row span:last-child{ font-size:clamp(17px,1.4vw,22px); color:rgba(0,0,0,.8); }
   .badges{ gap:14px; }
   .badge{ width:72px; height:72px; border-radius:12px; font-size:22px; }
   /* soft white halo so letters stay crisp over the grid lines */
@@ -149,7 +149,7 @@
 
   /* LinkedIn / Contact buttons: palette color, no glow */
   .about-mat .pill{ text-shadow:none !important; }
-  .cta-row .pill{ background:#0d0d0d !important; color:#ffffff !important; }
+  .cta-row .pill{ background:#000000 !important; color:#ffffff !important; }
   .cta-row .pill:hover{ background:#333333 !important; }
 
   /* body text sized to write on every grid row (24px) without skipping one */
@@ -300,7 +300,7 @@
   </svg>
 </div>
 
-<script src="assets/theme.js?v=37"></script>
+<script src="assets/theme.js?v=39"></script>
 <script>
 window.addEventListener('scroll', () => {
   const btn = document.getElementById('scrollTop');

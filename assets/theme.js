@@ -505,3 +505,38 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
   window.addEventListener('load', fit); window.addEventListener('resize', later);
 })();
+
+// ---- menu dropdown: hovering All Work / Illustrations / Branding & Identity lists those projects, in landing-page order ----
+(function(){
+  const LIST = [["PORTFOLIO_CRApage.html", "Cambridge Redevelopment Authority", ["illustrations", "branding-identity", "print-marketing-collateral", "digital-web-design"]], ["PORTFOLIO_HikariPage.html", "Hikari Ferramentas", ["print-marketing-collateral", "digital-web-design"]], ["PORTFOLIO_FilthyGorgeousPage.html", "Filthy Gorgeous", ["digital-web-design"]], ["PORTFOLIO_RogueDefensePage.html", "Rogue Defense", ["print-marketing-collateral"]], ["PORTFOLIO_TiniBiniPage.html", "Tini Bini", ["branding-identity", "digital-web-design"]], ["PORTFOLIO_KbappPage.html", "K_bapp", ["branding-identity"]], ["PORTFOLIO_KoreanMagicDustPage.html", "Korean Magic Dust", ["digital-web-design"]], ["PORTFOLIO_MupyPage.html", "Mupy", ["illustrations"]], ["PORTFOLIO_HelenaJangPage.html", "Chef Helena", ["print-marketing-collateral", "branding-identity"]], ["PORTFOLIO_DazeyShadesPage.html", "Dazey Shades", ["print-marketing-collateral"]], ["PORTFOLIO_YoMochiPage.html", "Yo! Mochi", ["illustrations"]], ["PORTFOLIO_MidwayCrusadePage.html", "Midway Crusade", ["illustrations"]], ["PORTFOLIO_BeyondBancardPage.html", "Beyond Bancard", ["branding-identity"]], ["PORTFOLIO_JSBPage.html", "JSB Analytics", ["print-marketing-collateral", "digital-web-design"]], ["PORTFOLIO_HiddenHillsPage.html", "Hidden Hills", ["digital-web-design"]]];
+  function filterOf(a){
+    if (a.dataset.filter) return a.dataset.filter;
+    const m = (a.getAttribute('href') || '').match(/type=([\w-]+)/);
+    return m ? m[1] : (/index\.html$/.test(a.getAttribute('href') || '') ? 'all' : null);
+  }
+  function init(){
+    const menu = document.querySelector('.site-menu'); if (!menu) return;
+    const drop = document.createElement('div'); drop.className = 'menu-drop'; drop.hidden = true;
+    document.body.appendChild(drop);
+    let hideT = 0;
+    const hide = () => { hideT = setTimeout(() => { drop.hidden = true; }, 180); };
+    const keep = () => clearTimeout(hideT);
+    menu.querySelectorAll('.menu-link').forEach(a => {
+      const f = filterOf(a); if (!f) return;
+      a.addEventListener('mouseenter', () => {
+        keep();
+        const items = LIST.filter(p => f === 'all' || p[2].includes(f));
+        drop.innerHTML = items.map(p => '<a href="' + p[0] + '">' + p[1] + '</a>').join('');
+        const r = a.getBoundingClientRect(), m = menu.getBoundingClientRect();
+        drop.style.top = (m.bottom - 1) + 'px';
+        drop.style.left = Math.max(8, Math.min(r.left - 14, window.innerWidth - 300)) + 'px';
+        drop.hidden = false;
+      });
+      a.addEventListener('mouseleave', hide);
+    });
+    drop.addEventListener('mouseenter', keep);
+    drop.addEventListener('mouseleave', () => { hide(); });
+    window.addEventListener('scroll', () => { drop.hidden = true; }, { passive:true });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();

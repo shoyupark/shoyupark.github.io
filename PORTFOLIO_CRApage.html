@@ -10,8 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;1,400&display=swap"/>
-<link rel="stylesheet" href="assets/theme.css?v=24"/>
-<link rel="stylesheet" href="assets/site.css?v=27"/>
+<link rel="stylesheet" href="assets/theme.css?v=26"/>
+<link rel="stylesheet" href="assets/site.css?v=31"/>
 <style>
   /* Project pages keep it simple: one continuous green mat, no white paper
      section. The grid texture just fades out gradually the further you
@@ -34,12 +34,12 @@
     font-family:var(--font-serif); font-style:italic; font-weight:600;
     font-size:clamp(48px,8vw,104px); color:var(--ink); line-height:1.02; margin-bottom:24px;
   }
-  .proj-desc{ font-family:var(--font-sans); font-size:23px; line-height:1.7; color:rgba(13,13,13,0.82); }
+  .proj-desc{ font-family:var(--font-sans); font-size:23px; line-height:1.7; color:rgba(0,0,0,0.82); }
   /* each row is exactly one grid unit (80px) tall so its divider lands
      exactly on the mat's background grid line instead of drawing a second,
      slightly-off line right next to it */
-  .spec-row{ display:flex; align-items:center; justify-content:space-between; height:80px; border-bottom:2px solid rgba(13,13,13,.15); }
-  .spec-label{ font-family:var(--font-sans); font-size:24px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:rgba(13,13,13,0.55); }
+  .spec-row{ display:flex; align-items:center; justify-content:space-between; height:80px; border-bottom:2px solid rgba(0,0,0,.15); }
+  .spec-label{ font-family:var(--font-sans); font-size:24px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; color:rgba(0,0,0,0.55); }
   .spec-val{ font-family:var(--font-sans); font-size:18px; color:var(--ink); text-align:right; max-width:60%; }
 
   /* full mat width — no max-width/auto-margin — so this lines up with
@@ -52,7 +52,7 @@
   .section-head{ display:grid; grid-template-columns:1fr 2fr; gap:56px; align-items:start; margin-bottom:108px; }
   @media (max-width:820px){ .section-head{ grid-template-columns:1fr; } }
   .section-title{ font-family:var(--font-sans); font-weight:500; font-size:56px; color:var(--ink); text-transform:uppercase; }
-  .section-text{ font-family:var(--font-sans); font-size:22px; line-height:1.7; color:rgba(13,13,13,0.75); }
+  .section-text{ font-family:var(--font-sans); font-size:22px; line-height:1.7; color:rgba(0,0,0,0.75); }
   .section-text a{ color:var(--ink); }
   .img-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
   .img-grid.single{ grid-template-columns:1fr; }
@@ -198,11 +198,11 @@
     display:flex; align-items:center; justify-content:center;
     transition:background .18s ease;
   }
-  .carousel-arrow:hover{ background:#ffffff; }
+  .carousel-arrow:hover{ background-color:#333333; }
   .carousel-arrow.prev{ left:12px; }
   .carousel-arrow.next{ right:12px; }
   .carousel-arrow svg{ width:16px; height:16px; }
-  .carousel-arrow svg path{ stroke:#102723; }
+  .carousel-arrow svg path{ stroke:#000000; }
   .carousel-dots{
     position:absolute; bottom:14px; left:0; right:0; z-index:2;
     display:flex; justify-content:center; gap:8px;
@@ -246,11 +246,11 @@
   }
   .flip-arrow{
     width:52px; height:52px; border-radius:100px; flex-shrink:0;
-    background:rgba(16,39,35,.06); border:none; cursor:pointer;
+    background:rgba(0,0,0,.06); border:none; cursor:pointer;
     display:flex; align-items:center; justify-content:center;
     transition:background .18s ease, opacity .18s ease;
   }
-  .flip-arrow:hover:not(:disabled){ background:rgba(16,39,35,.12); }
+  .flip-arrow:hover:not(:disabled){ background-color:#333333; }
   .flip-arrow:disabled{ opacity:.25; }
   .flip-arrow svg path{ stroke:var(--ink); }
   .flip-arrow svg{ width:20px; height:20px; }
@@ -259,7 +259,7 @@
      scaled as large as will fit the available box, never approximated. */
   .page-frame{
     position:relative; display:flex; transform-style:preserve-3d;
-    box-shadow:0 20px 50px -18px rgba(16,39,35,.3);
+    box-shadow:0 20px 50px -18px rgba(0,0,0,.3);
   }
   .page-frame img{
     height:100%; width:50%; object-fit:contain; display:block;
@@ -326,8 +326,8 @@
     color:var(--ink); letter-spacing:.3px; min-width:70px; text-align:center;
   }
   .page-jump{
-    width:56px; padding:6px 8px; border-radius:8px; border:1px solid rgba(16,39,35,.2);
-    background:rgba(16,39,35,.04); color:var(--ink); font-family:var(--font-sans); font-size:13px;
+    width:56px; padding:6px 8px; border-radius:8px; border:1px solid rgba(0,0,0,.2);
+    background:rgba(0,0,0,.04); color:var(--ink); font-family:var(--font-sans); font-size:13px;
     text-align:center;
   }
 
@@ -356,7 +356,7 @@
   /* ---------- corrections ---------- */
   .bishop-row .bishop-fig{ margin:0; min-width:0; }
   .bishop-row .bishop-fig img{ width:100%; height:auto; display:block; }
-  .bishop-row .bishop-fig figcaption{ margin-top:10px; font-family:var(--font-sans); font-size:13px; letter-spacing:.3px; color:rgba(13,13,13,.7); }
+  .bishop-row .bishop-fig figcaption{ margin-top:10px; font-family:var(--font-sans); font-size:13px; letter-spacing:.3px; color:rgba(0,0,0,.7); }
   /* tablecloths: no shadows (desktop + mobile) */
   .tablecloth-grid img, .tablecloth-specs .spec-slot, .tablecloth-carousel{ box-shadow:none !important; }
   @media (max-width:820px){
@@ -428,7 +428,7 @@
     <div class="flipbook-container">
       <div class="flip-stage" id="flipStage">
         <button class="flip-arrow" id="prevBtn" aria-label="Previous page">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 5L8 12L15 19" stroke="#102723" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 5L8 12L15 19" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
 
         <div class="page-frame single" id="pageFrame">
@@ -436,7 +436,7 @@
         </div>
 
         <button class="flip-arrow" id="nextBtn" aria-label="Next page">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 5L16 12L9 19" stroke="#102723" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 5L16 12L9 19" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
       <div class="flip-footer">
@@ -635,7 +635,7 @@
   </svg>
 </div>
 
-<script src="assets/theme.js?v=37"></script>
+<script src="assets/theme.js?v=39"></script>
 <script>
 window.addEventListener('scroll', () => {
   const btn = document.getElementById('scrollTop');
