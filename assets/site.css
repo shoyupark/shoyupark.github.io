@@ -310,3 +310,9 @@ figcaption, .final-label, .explore-label, .reels-label, .eyebrow, .s-eyebrow, .s
 
 /* landing grid: half the previous space between projects (was 32px / 28px) */
 .s-grid{ gap:16px 14px !important; }
+
+/* cursor: five small dots in a plus shape. Black on white pages; white on the dark project pages */
+html, body, a, button, select, label, .s-card, .menu-link, .scroll-top, .browse-card, .browse-arrow{ cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12.0' cy='12.0' r='2.4' fill='%230d0d0d'/%3E%3Ccircle cx='12.0' cy='4.1' r='2.4' fill='%230d0d0d'/%3E%3Ccircle cx='12.0' cy='19.9' r='2.4' fill='%230d0d0d'/%3E%3Ccircle cx='4.1' cy='12.0' r='2.4' fill='%230d0d0d'/%3E%3Ccircle cx='19.9' cy='12.0' r='2.4' fill='%230d0d0d'/%3E%3C/svg%3E") 12 12, auto !important; }
+body.rogue-dark, body.rogue-dark a, body.rogue-dark button, body.rogue-dark .menu-link, body.rogue-dark .browse-card,
+body.rogue-dark .browse-arrow, body.rogue-dark .scroll-top{ cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12.0' cy='12.0' r='2.4' fill='%23ffffff'/%3E%3Ccircle cx='12.0' cy='4.1' r='2.4' fill='%23ffffff'/%3E%3Ccircle cx='12.0' cy='19.9' r='2.4' fill='%23ffffff'/%3E%3Ccircle cx='4.1' cy='12.0' r='2.4' fill='%23ffffff'/%3E%3Ccircle cx='19.9' cy='12.0' r='2.4' fill='%23ffffff'/%3E%3C/svg%3E") 12 12, auto !important; }
+input, textarea{ cursor:text !important; }
