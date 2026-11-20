@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;1,400&display=swap"/>
 <link rel="stylesheet" href="assets/theme.css?v=26"/>
-<link rel="stylesheet" href="assets/site.css?v=31"/>
+<link rel="stylesheet" href="assets/site.css?v=32"/>
 </head>
 <body class="plain site">
 <header class="site-head">
@@ -23,6 +23,7 @@
 </nav>
 
 <main class="s-grid-wrap">
+  <div class="category-feed" id="feed" hidden></div>
   <section class="s-grid" id="grid" aria-label="Projects">
     <a class="s-card" data-category="illustrations,branding-identity,print-marketing-collateral,digital-web-design" href="PORTFOLIO_CRApage.html">
       <img loading="lazy" decoding="async" src="assets/images/cra-hero.jpg" alt="Cambridge Redevelopment Authority"/>
@@ -123,21 +124,43 @@
   </svg>
 </div>
 
-<script src="assets/theme.js?v=39"></script>
+<script src="assets/theme.js?v=40"></script>
 <script>
 (function(){
+  /* Illustrations / Branding & Identity show only the matching sections of each project, in order */
+  const FEED = {"illustrations": [["PORTFOLIO_CRApage.html", "Cambridge Redevelopment Authority", ["galaxy-park-sticker"]], ["PORTFOLIO_MupyPage.html", "Mupy", ["style-frames"]], ["PORTFOLIO_YoMochiPage.html", "Yo! Mochi", ["pattern-design"]], ["PORTFOLIO_MidwayCrusadePage.html", "Midway Crusade", ["character-design", "environment-design"]]], "branding-identity": [["PORTFOLIO_CRApage.html", "Cambridge Redevelopment Authority", ["brandbook", "bishop-allen-drive-logo-design"]], ["PORTFOLIO_TiniBiniPage.html", "Tini Bini", ["tini-bini-logo"]], ["PORTFOLIO_KbappPage.html", "K_bapp", ["brand-identity"]], ["PORTFOLIO_HelenaJangPage.html", "Chef Helena", ["media-kit"]], ["PORTFOLIO_BeyondBancardPage.html", "Beyond Bancard", ["brand-book-update"]]]};
   const links = document.querySelectorAll('.menu-filter');
-  const cards = document.querySelectorAll('.s-card');
+  const grid = document.getElementById('grid');
+  const feed = document.getElementById('feed');
   const illus = document.getElementById('illus');
+  const frames = {};
+  window.addEventListener('message', e => {
+    const d = e.data; if (!d || d.type !== 'embedH' || !frames[d.key]) return;
+    frames[d.key].style.height = d.h + 'px';
+  });
+  function build(v){
+    feed.innerHTML = ''; Object.keys(frames).forEach(k => delete frames[k]);
+    (FEED[v] || []).forEach(([page, title, ids], i) => {
+      const key = v + i;
+      const wrap = document.createElement('section'); wrap.className = 'feed-item';
+      wrap.innerHTML = '<a class="feed-label" href="' + page + '">' + title + ' &rarr;</a>';
+      const f = document.createElement('iframe');
+      f.src = page + '?embed=1&only=' + ids.join(',') + '&key=' + key;
+      f.loading = i < 2 ? 'eager' : 'lazy'; f.title = title; f.scrolling = 'no';
+      frames[key] = f; wrap.appendChild(f); feed.appendChild(wrap);
+    });
+  }
   function apply(v, push){
     links.forEach(l => l.classList.toggle('on', l.dataset.filter === v));
-    cards.forEach(c => { c.hidden = v !== 'all' && !c.dataset.category.split(',').includes(v); });
-    illus.hidden = !(v === 'all' || v === 'illustrations');
-    if (push){ const u = new URL(location.href); if (v === 'all') u.searchParams.delete('type'); else u.searchParams.set('type', v); history.replaceState(null, '', u); }
+    const all = v === 'all';
+    grid.hidden = !all; feed.hidden = all;
+    if (!all) build(v); else feed.innerHTML = '';
+    illus.hidden = !(all || v === 'illustrations');
+    if (push){ const u = new URL(location.href); if (all) u.searchParams.delete('type'); else u.searchParams.set('type', v); history.replaceState(null, '', u); window.scrollTo({ top:0 }); }
   }
   links.forEach(l => l.addEventListener('click', e => { e.preventDefault(); apply(l.dataset.filter, true); }));
   const t = new URLSearchParams(location.search).get('type');
-  apply(t && document.querySelector('.menu-filter[data-filter="' + t + '"]') ? t : 'all', false);
+  apply(t && FEED[t] ? t : 'all', false);
   window.addEventListener('scroll', () => document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 400), { passive:true });
 })();
 </script>
