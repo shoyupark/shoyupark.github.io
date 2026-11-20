@@ -500,6 +500,11 @@
       while (el.scrollWidth > el.clientWidth + 1 && size > 14 && guard--){ size -= 1; el.style.fontSize = size + 'px'; }
     });
   }
+  function headH(){
+    const h = (document.querySelector('.site-head')?.offsetHeight || 0) + (document.querySelector('.site-menu')?.offsetHeight || 0);
+    document.documentElement.style.setProperty('--head-h', h + 'px');
+  }
+  headH(); window.addEventListener('load', headH); window.addEventListener('resize', headH);
   let t; const later = () => { clearTimeout(t); t = setTimeout(fit, 120); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fit); else fit();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
@@ -508,7 +513,7 @@
 
 // ---- menu dropdown: hovering All Work / Illustrations / Branding & Identity lists those projects, in landing-page order ----
 (function(){
-  const LIST = [["PORTFOLIO_CRApage.html", "Cambridge Redevelopment Authority", ["illustrations", "branding-identity", "print-marketing-collateral", "digital-web-design"]], ["PORTFOLIO_HikariPage.html", "Hikari Ferramentas", ["print-marketing-collateral", "digital-web-design"]], ["PORTFOLIO_FilthyGorgeousPage.html", "Filthy Gorgeous", ["digital-web-design"]], ["PORTFOLIO_RogueDefensePage.html", "Rogue Defense", ["print-marketing-collateral"]], ["PORTFOLIO_TiniBiniPage.html", "Tini Bini", ["branding-identity", "digital-web-design"]], ["PORTFOLIO_KbappPage.html", "K_bapp", ["branding-identity"]], ["PORTFOLIO_KoreanMagicDustPage.html", "Korean Magic Dust", ["digital-web-design"]], ["PORTFOLIO_MupyPage.html", "Mupy", ["illustrations"]], ["PORTFOLIO_HelenaJangPage.html", "Chef Helena", ["print-marketing-collateral", "branding-identity"]], ["PORTFOLIO_DazeyShadesPage.html", "Dazey Shades", ["print-marketing-collateral"]], ["PORTFOLIO_YoMochiPage.html", "Yo! Mochi", ["illustrations"]], ["PORTFOLIO_MidwayCrusadePage.html", "Midway Crusade", ["illustrations"]], ["PORTFOLIO_BeyondBancardPage.html", "Beyond Bancard", ["branding-identity"]], ["PORTFOLIO_JSBPage.html", "JSB Analytics", ["print-marketing-collateral", "digital-web-design"]], ["PORTFOLIO_HiddenHillsPage.html", "Hidden Hills", ["digital-web-design"]]];
+  const LIST = [["PORTFOLIO_CRApage.html", "Cambridge Redevelopment Authority", ["illustrations", "branding-identity", "print-marketing-collateral", "digital-web-design"]], ["PORTFOLIO_HikariPage.html", "Hikari Ferramentas", ["print-marketing-collateral", "digital-web-design", "packaging"]], ["PORTFOLIO_FilthyGorgeousPage.html", "Filthy Gorgeous", ["digital-web-design"]], ["PORTFOLIO_RogueDefensePage.html", "Rogue Defense", ["print-marketing-collateral"]], ["PORTFOLIO_TiniBiniPage.html", "Tini Bini", ["branding-identity", "digital-web-design"]], ["PORTFOLIO_KbappPage.html", "K_bapp", ["branding-identity", "packaging"]], ["PORTFOLIO_KoreanMagicDustPage.html", "Korean Magic Dust", ["digital-web-design"]], ["PORTFOLIO_MupyPage.html", "Mupy", ["illustrations"]], ["PORTFOLIO_HelenaJangPage.html", "Chef Helena", ["print-marketing-collateral", "branding-identity"]], ["PORTFOLIO_DazeyShadesPage.html", "Dazey Shades", ["print-marketing-collateral", "packaging"]], ["PORTFOLIO_YoMochiPage.html", "Yo! Mochi", ["illustrations", "packaging"]], ["PORTFOLIO_MidwayCrusadePage.html", "Midway Crusade", ["illustrations"]], ["PORTFOLIO_BeyondBancardPage.html", "Beyond Bancard", ["branding-identity"]], ["PORTFOLIO_JSBPage.html", "JSB Analytics", ["print-marketing-collateral", "digital-web-design"]], ["PORTFOLIO_HiddenHillsPage.html", "Hidden Hills", ["digital-web-design"]]];
   function filterOf(a){
     if (a.dataset.filter) return a.dataset.filter;
     const m = (a.getAttribute('href') || '').match(/type=([\w-]+)/);
