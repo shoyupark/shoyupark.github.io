@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;1,400&display=swap"/>
 <link rel="stylesheet" href="assets/theme.css?v=24"/>
-<link rel="stylesheet" href="assets/site.css?v=24"/>
+<link rel="stylesheet" href="assets/site.css?v=26"/>
 <style>
   /* Project pages keep it simple: one continuous green mat, no white paper
      section. The grid texture just fades out gradually the further you
@@ -114,6 +114,13 @@
   body.rogue-dark img, body.rogue-dark video, body.rogue-dark .browse-thumb, body.rogue-dark [class*="plate"], body.rogue-dark .thumb{ box-shadow:none !important; }
   body.rogue-dark .scroll-top, body.rogue-dark .browse-arrow{ background:#ffffff !important; }
   body.rogue-dark .scroll-top svg path, body.rogue-dark .browse-arrow svg path{ stroke:#0d0d0d !important; }
+  /* mobile only: every image stacked with no space between */
+  @media (max-width:820px){
+    body.rogue-dark .proj-mat{ --img-gap:0px; }
+    body.rogue-dark .plate-row{ flex-direction:column !important; height:auto !important; gap:0 !important; }
+    body.rogue-dark .plate-row img{ width:100% !important; height:auto !important; display:block; }
+    body.rogue-dark .plate-flow, body.rogue-dark .plate-flow + .plate-flow{ gap:0 !important; margin-top:0 !important; }
+  }
 </style>
 </head>
 <body class="plain rogue-dark">

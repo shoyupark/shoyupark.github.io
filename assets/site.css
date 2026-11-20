@@ -288,3 +288,25 @@ figcaption, .final-label, .explore-label, .reels-label, .eyebrow, .s-eyebrow, .s
 
 /* sub-section titles use the typewriter font */
 .section-title, .browse-head .section-title{ font-family:var(--font-type) !important; font-weight:400 !important; letter-spacing:0 !important; text-transform:uppercase; }
+
+/* ================= One even spacing between ALL project images =================
+   The gap is the same whether images sit side by side or stacked above each other:
+   20px on desktop, 8px on mobile. (K_bapp keeps 0, set on its own page.) */
+.proj-mat{ --img-gap:20px; }
+@media (max-width:820px){ .proj-mat{ --img-gap:8px; } }
+.proj-mat :is(.img-grid, .mockup-row, .scrim-row, .bishop-row, .flyer-grid, .galaxy-video-row, .gallery-grid, .cover-row,
+  .tablecloth-grid, .tablecloth-media-row, .tablecloth-specs, .rlf-header-grid, .rlf-row, .plate-flow, .plate-pair,
+  .plate-trio, .plate-row, .torn-row, .ratio-row, .motion-grid, .video-grid, .reels-row, .catalog-grid, .jsb-grid,
+  .jsb-banners, .board-grid, .board-row, .ig-row, .deck-grid, .content-grid, .env-grid, .banner-set, .tb-explore,
+  .tb-concept, .frame-track){ gap:var(--img-gap) !important; }
+/* stacked blocks that follow each other get the same gap, never more */
+.proj-mat :is(.plate-flow + .plate-flow, .scrim-flats, .tablecloth-media-row, .flipbook-container,
+  .mockup-row + *, .plate-flow > .catalog-grid){ margin-top:var(--img-gap) !important; }
+.proj-mat .plate-flow > *{ margin-bottom:0 !important; }
+.proj-mat .jsb-5 img{ width:calc((100% - 4 * var(--img-gap)) / 5); }
+.proj-mat .jsb-4 img{ width:calc((100% - 3 * var(--img-gap)) / 4); }
+.proj-mat .jsb-3 img{ width:calc((100% - 2 * var(--img-gap)) / 3); }
+@media (max-width:820px){ .proj-mat .jsb-5 img, .proj-mat .jsb-4 img{ width:calc((100% - var(--img-gap)) / 2) !important; } }
+
+/* landing grid: half the previous space between projects (was 32px / 28px) */
+.s-grid{ gap:16px 14px !important; }
