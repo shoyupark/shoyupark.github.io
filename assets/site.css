@@ -479,3 +479,38 @@ body.rogue-dark .site-head{ background:#000000 !important; }
 
 /* slimmer lines around the MY PORTFOLIO bar */
 .site-menu{ border-top-width:0.5px !important; border-bottom-width:0.5px !important; }
+
+/* MY PORTFOLIO bar: black with white type, on every page */
+.site-menu{ background:#000000 !important; border-color:#000000 !important; }
+.site-menu .menu-link, .site-menu .menu-word{ color:#ffffff !important; }
+.site-menu .menu-dot{ background:#ffffff !important; }
+/* no dots between Services / About Me / Contact */
+.head-dot{ display:none !important; }
+.head-links{ gap:clamp(18px,2vw,32px) !important; }
+
+/* ================= Every dot on the site is 3px; cursor is 1/3 smaller ================= */
+html, body, a, button, select, label, .s-card, .menu-link, .scroll-top, .browse-card, .browse-arrow, .menu-drop a{ cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 15 15'%3E%3Ccircle cx='7.5' cy='7.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='7.5' cy='2.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='7.5' cy='12.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='2.5' cy='7.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='12.5' cy='7.5' r='1.5' fill='%23000000'/%3E%3C/svg%3E") 7 7, auto !important; }
+body.rogue-dark, body.rogue-dark a, body.rogue-dark button, body.rogue-dark .menu-link, body.rogue-dark .browse-card, body.rogue-dark .browse-arrow, body.rogue-dark .scroll-top, body.rogue-dark .menu-drop a{ cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 15 15'%3E%3Ccircle cx='7.5' cy='7.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='7.5' cy='2.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='7.5' cy='12.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='2.5' cy='7.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='12.5' cy='7.5' r='1.5' fill='%23ffffff'/%3E%3C/svg%3E") 7 7, auto !important; }
+input, textarea{ cursor:text !important; }
+.menu-dot, .head-dot{ width:3px !important; height:3px !important; }
+.carousel-dots .dot, .frame-dots button{ width:3px !important; height:3px !important; transform:none !important; }
+.about-mat .job::before{ width:3px !important; height:3px !important; left:-1px !important; top:12px !important; border-radius:50% !important; }
+.scroll-top{ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12.5' cy='8.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='8.5' cy='12.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='16.5' cy='12.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='4.5' cy='16.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='20.5' cy='16.5' r='1.5' fill='%23ffffff'/%3E%3C/svg%3E") !important; }
+.browse-arrow.prev, .frame-prev, #prevBtn, .carousel-arrow.prev{ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='8.5' cy='12.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='12.5' cy='16.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='12.5' cy='8.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='16.5' cy='20.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='16.5' cy='4.5' r='1.5' fill='%23ffffff'/%3E%3C/svg%3E") !important; }
+.browse-arrow.next, .frame-next, #nextBtn, .carousel-arrow.next{ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='16.5' cy='12.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='12.5' cy='8.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='12.5' cy='16.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='8.5' cy='4.5' r='1.5' fill='%23ffffff'/%3E%3Ccircle cx='8.5' cy='20.5' r='1.5' fill='%23ffffff'/%3E%3C/svg%3E") !important; }
+body.rogue-dark .scroll-top{ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12.5' cy='8.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='8.5' cy='12.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='16.5' cy='12.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='4.5' cy='16.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='20.5' cy='16.5' r='1.5' fill='%23000000'/%3E%3C/svg%3E") !important; }
+body.rogue-dark :is(.browse-arrow.prev, .frame-prev, #prevBtn, .carousel-arrow.prev){ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='8.5' cy='12.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='12.5' cy='16.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='12.5' cy='8.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='16.5' cy='20.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='16.5' cy='4.5' r='1.5' fill='%23000000'/%3E%3C/svg%3E") !important; }
+body.rogue-dark :is(.browse-arrow.next, .frame-next, #nextBtn, .carousel-arrow.next){ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='16.5' cy='12.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='12.5' cy='8.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='12.5' cy='16.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='8.5' cy='4.5' r='1.5' fill='%23000000'/%3E%3Ccircle cx='8.5' cy='20.5' r='1.5' fill='%23000000'/%3E%3C/svg%3E") !important; }
+
+/* dot cursor overlay: inverts against the background, so it reads black on light areas and white on dark ones */
+#dotcursor{ position:fixed; left:0; top:0; width:15px; height:15px; pointer-events:none; z-index:2147483647;
+  mix-blend-mode:difference; opacity:0; will-change:transform; }
+#dotcursor.on{ opacity:1; }
+#dotcursor.typing{ opacity:0; }
+#dotcursor svg{ display:block; }
+html.has-dotcursor, html.has-dotcursor body, html.has-dotcursor a, html.has-dotcursor button, html.has-dotcursor select,
+html.has-dotcursor label, html.has-dotcursor .s-card, html.has-dotcursor .menu-link, html.has-dotcursor .scroll-top,
+html.has-dotcursor .browse-card, html.has-dotcursor .browse-arrow, html.has-dotcursor .menu-drop a,
+html.has-dotcursor body.rogue-dark, html.has-dotcursor body.rogue-dark a, html.has-dotcursor body.rogue-dark button,
+html.has-dotcursor iframe, html.has-dotcursor img, html.has-dotcursor *{ cursor:none !important; }
+html.has-dotcursor input, html.has-dotcursor textarea{ cursor:text !important; }

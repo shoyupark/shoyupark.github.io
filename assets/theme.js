@@ -545,3 +545,26 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
+
+// ---- dot cursor that flips to white on dark backgrounds (and stays black on light ones) ----
+// A tiny overlay drawn with mix-blend-mode:difference, so it always contrasts with whatever is under it.
+(function(){
+  if (!window.matchMedia('(hover:hover) and (pointer:fine)').matches) return;
+  if (new URLSearchParams(location.search).get('embed')) return;
+  function init(){
+    const c = document.createElement('div'); c.id = 'dotcursor';
+    c.innerHTML = '<svg width="15" height="15" viewBox="0 0 15 15"><g fill="#fff"><circle cx="7.5" cy="7.5" r="1.5"/><circle cx="7.5" cy="2.5" r="1.5"/><circle cx="7.5" cy="12.5" r="1.5"/><circle cx="2.5" cy="7.5" r="1.5"/><circle cx="12.5" cy="7.5" r="1.5"/></g></svg>';
+    document.body.appendChild(c);
+    document.documentElement.classList.add('has-dotcursor');
+    window.addEventListener('mousemove', e => {
+      c.style.transform = 'translate(' + (e.clientX - 7) + 'px,' + (e.clientY - 7) + 'px)';
+      if (!c.classList.contains('on')) c.classList.add('on');
+      const t = e.target;
+      c.classList.toggle('typing', !!(t && t.closest && t.closest('input, textarea')));
+    }, { passive:true });
+    document.addEventListener('mouseleave', () => c.classList.remove('on'));
+    // over embedded frames (videos, category feeds) the page can't track the mouse, so hide the overlay there
+    document.addEventListener('mouseover', e => { if (e.target.tagName === 'IFRAME') c.classList.remove('on'); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
