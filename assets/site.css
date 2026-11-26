@@ -461,3 +461,21 @@ html.embed .proj-mat .jsb-4 img{ width:25% !important; }
 .spec-tools{ align-items:center; gap:10px !important; }
 .tool-logo{ height:28px; width:auto; max-width:40px; display:block; object-fit:contain; }
 body.rogue-dark .tool-logo{ filter:invert(1) !important; }
+
+/* ================= Simplified header =================
+   Logo + Services / About Me / Contact stay pinned at the top (the logo is the "all work" link).
+   The "MY PORTFOLIO" tape below it just scrolls away with the page. */
+.site-head{ position:-webkit-sticky !important; position:sticky !important; top:0 !important; z-index:100 !important; background:#ffffff; }
+body.rogue-dark .site-head{ background:#000000 !important; }
+.site-menu{ position:relative !important; top:auto !important; z-index:1 !important; }
+.menu-word{ cursor:inherit; text-decoration:none !important; }
+.site-menu:hover .menu-track, .site-menu:focus-within .menu-track{ animation-play-state:running !important; }
+.menu-drop{ display:none !important; }
+
+/* "MY PORTFOLIO" tape: same type size as the Services / About Me / Contact buttons */
+.site-menu .menu-link, .site-menu .menu-word{ font-size:clamp(13px,1.2vw,17px) !important; font-family:var(--font-main) !important;
+  font-weight:700 !important; letter-spacing:-0.02em !important; text-transform:uppercase; }
+.menu-set{ min-height:44px !important; gap:16px !important; padding-right:16px !important; }
+
+/* slimmer lines around the MY PORTFOLIO bar */
+.site-menu{ border-top-width:0.5px !important; border-bottom-width:0.5px !important; }
