@@ -438,3 +438,26 @@ body.rogue-dark .site-logo img{ filter:invert(1) !important; }
 body.rogue-dark .connect{ background:#000; border-color:#fff; }
 body.rogue-dark .connect-mail{ color:#fff !important; }
 html.embed .connect{ display:none !important; }
+
+/* Tools row: black & white program badges */
+.spec-tools{ display:flex !important; flex-wrap:wrap; justify-content:flex-end; gap:6px; max-width:70% !important; }
+.tool{ display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border:1pt solid #000;
+  font-family:var(--font-type); font-size:13px; font-weight:400; letter-spacing:0; color:#000; background:#fff; }
+body.rogue-dark .tool{ border-color:#fff; background:#000; color:#fff !important; }
+
+/* category views from the menu (Illustrations / Branding & Identity / Packaging, shown in frames):
+   images touch, no space between rows or columns. Normal project pages keep their spacing. */
+html.embed .proj-mat{ --img-gap:0px !important; }
+html.embed .proj-mat :is(.img-grid, .mockup-row, .scrim-row, .bishop-row, .flyer-grid, .galaxy-video-row, .gallery-grid, .cover-row,
+  .tablecloth-grid, .tablecloth-media-row, .tablecloth-specs, .rlf-header-grid, .rlf-row, .plate-flow, .plate-pair,
+  .plate-trio, .plate-row, .torn-row, .ratio-row, .motion-grid, .video-grid, .reels-row, .catalog-grid, .jsb-grid,
+  .jsb-banners, .board-grid, .board-row, .ig-row, .deck-grid, .content-grid, .env-grid, .banner-set, .tb-explore,
+  .tb-concept, .frame-track){ gap:0 !important; row-gap:0 !important; column-gap:0 !important; }
+html.embed .proj-mat .jsb-5 img{ width:20% !important; }
+html.embed .proj-mat .jsb-4 img{ width:25% !important; }
+@media (min-width:821px){ html.embed .motion-grid{ grid-template-columns:calc(3 * 100% / 5) 1fr 1fr !important; } }
+
+/* Tools row: real program logos in black on white */
+.spec-tools{ align-items:center; gap:10px !important; }
+.tool-logo{ height:28px; width:auto; max-width:40px; display:block; object-fit:contain; }
+body.rogue-dark .tool-logo{ filter:invert(1) !important; }

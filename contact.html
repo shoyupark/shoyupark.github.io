@@ -4,14 +4,14 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Contact | Shoyu Park</title>
-<link rel="icon" href="favicon.ico" sizes="any"/>
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
-<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link rel="icon" href="favicon.ico?v=2" sizes="any"/>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=2"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;1,400&display=swap"/>
 <link rel="stylesheet" href="assets/theme.css?v=26"/>
-<link rel="stylesheet" href="assets/site.css?v=37"/>
+<link rel="stylesheet" href="assets/site.css?v=40"/>
 </head>
 <body class="plain site">
 <header class="site-head">
@@ -24,7 +24,7 @@
 
 <main class="c-wrap">
   <h1 class="c-title" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Contact</h1>
-  <form class="s-form" id="contactForm" action="https://formsubmit.co/sohyunp243@gmail.com" method="POST">
+  <form class="s-form" id="contactForm" action="https://formsubmit.co/shoyuparkdesign@gmail.com" method="POST">
     <label>Name<input type="text" name="name" required autocomplete="name"/></label>
     <label>Email<input type="email" name="email" required autocomplete="email"/></label>
     <label>Message<textarea name="message" rows="7" required placeholder="Tell me about your project or role: scope, timeline, budget, anything that helps."></textarea></label>
@@ -50,13 +50,13 @@
     if (f._honey.value) return;
     const btn = f.querySelector('button'); btn.disabled = true; st.textContent = 'Sending…';
     try {
-      const r = await fetch('https://formsubmit.co/ajax/sohyunp243@gmail.com', { method:'POST', headers:{'Content-Type':'application/json', Accept:'application/json'}, body: JSON.stringify(Object.fromEntries(new FormData(f))) });
+      const r = await fetch('https://formsubmit.co/ajax/shoyuparkdesign@gmail.com', { method:'POST', headers:{'Content-Type':'application/json', Accept:'application/json'}, body: JSON.stringify(Object.fromEntries(new FormData(f))) });
       const j = await r.json().catch(()=>({}));
       if (r.ok && String(j.success) !== 'false'){
         f.reset(); st.textContent = "Thanks! Your message was sent. I'll get back to you soon.";
         if (window.goatcounter && goatcounter.count) goatcounter.count({path:'contact: form sent', title:'contact: form sent', event:true});
       } else throw 0;
-    } catch(_){ st.textContent = 'Something went wrong. Please email me directly at sohyunp243@gmail.com.'; }
+    } catch(_){ st.textContent = 'Something went wrong. Please email me directly at shoyuparkdesign@gmail.com.'; }
     btn.disabled = false;
   });
 })();
